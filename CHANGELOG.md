@@ -1,5 +1,18 @@
 # Changelog
 
+## 04.04.2026 6f6d583
+
+- Added `Dockerfile.sandbox` — locked-down container for autonomous self-development with `claude --super`
+- Added `docker-compose.yml` reading `.env` for credentials (z.ai auth, GitHub PAT, workspace mount)
+- Security hardening: read-only rootfs, `--cap-drop=ALL`, `no-new-privileges`, 8GB memory cap, 4 CPU cap, 256 PID limit
+- GitHub access scoped via fine-grained PAT to only `coffeegrind123/openclaude` + `coffeegrind123/changelog`
+- Container auto-clones openclaude on first run, pulls updates on subsequent runs
+- Startup registers browser + ghidra MCP servers, launches Xvfb, runs `claude --super`
+- Fixed Dockerfile issues: added missing Claude Code install, fixed bashrc overwrite loop, moved workspace seeding to startup script (bind mount shadows image layers)
+- Added `CLAUDE.md` project guide with changelog rules, architecture decisions, and custom command reference
+- Added release notes system pointing to public `coffeegrind123/changelog` repo with date-based version support (`DD.MM.YYYY SHA`)
+- Exempted changelog fetch from essential-traffic block (fetches from our own GitHub, not Anthropic)
+
 ## 04.04.2026 9371826
 
 - Added auto-updater rewritten to use GitHub Releases instead of npm/GCS — no Node.js needed on target machine, downloads compiled binary directly
