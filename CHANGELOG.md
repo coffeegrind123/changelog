@@ -2,6 +2,8 @@
 
 ## 04.04.2026
 
+- `4215d78` Fixed Bun 1.3.11 rejecting TypeScript syntax in `.js` stubs — stripped type annotations from 4 ant-package stubs. Added `ANTHROPIC_API_KEY` passthrough in docker-compose.yml (confirmed `--bare` mode works with z.ai proxy)
+- `182e4e8` Fixed color-diff-napi broken re-export path — self-contained stub replacing native-ts import that broke in node_modules copy. Reordered Dockerfile: COPY after JDK/Ghidra/zendriver downloads so source changes don't re-download 486MB+
 - `0b6f32f` Fixed rendering hang — ported `stdinKeepAlive` from oboard/claude-code-rev to `ink/components/App.tsx` (stdin.ref on mount, guards raw mode ref/unref), added `ReplRuntimeBoundary` error boundary in REPL.tsx, `BootstrapBoundary` in App.tsx, try/catch in onInit(). Prevents blank screen when stubs throw during render.
 - `0b6f32f` Upgraded 5 ant-package stubs from empty exports to full typed implementations — `@ant/computer-use-input` (93 lines), `@ant/computer-use-mcp` (195 lines, 22 tool defs), `@ant/computer-use-swift` (297 lines), `@ant/claude-for-chrome-mcp` (113 lines, 17 tool defs), `color-diff-napi` (rewired to native-ts reimplementation)
 - `0b6f32f` Added `.dockerignore` — excludes node_modules/dist/.git, reduces build context from 70MB to 16MB
