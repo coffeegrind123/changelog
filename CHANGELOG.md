@@ -2,6 +2,9 @@
 
 ## 04.04.2026
 
+- `5e90ef4` Reverted 194 import rewrites — use `node_modules/bundle/` polyfill instead (matching beita6969/claude-code approach). Bun resolves `from 'bun:bundle'` via `node_modules/bundle/index.js` created by `scripts/postinstall.sh`. Zero source modifications for feature flags.
+- `bc0aff2` Added `CLAUDE_AUTO_TRUST=1` env var — auto-accepts workspace trust dialog and auto-approves all API keys. Set at entrypoint. Eliminates the two interactive prompts blocking headless/container execution.
+- `de873e9` Fixed `MACRO is not defined` crash — added runtime MACRO global definition at entrypoint (VERSION, BUILD_TIME, PACKAGE_URL etc. normally inlined at compile time). Fixed 8 missing ant-only imports: getAntModelOverrideConfig (3 files), resolveAntModel (5 files), getAntModels (1 file).
 - `1ddf503` Fixed 8 module stubs crashing at runtime when all feature flags enabled — added no-op exports to assistant/index.ts, assistant/gate.ts, proactive/index.ts, proactive/useProactive.ts, dream.ts, hunter.ts, runSkillGenerator.ts, WorkflowTool/bundled/index.ts
 - `042cf5e` Fixed root privilege check blocking `--dangerously-skip-permissions` in container — added `IS_SANDBOX=1` env var
 - `042cf5e` Changed sandbox from `-p` (headless) to `--append-system-prompt` (interactive, proactive tick loop keeps agent working)
