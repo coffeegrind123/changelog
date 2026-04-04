@@ -1,5 +1,16 @@
 # Changelog
 
+## 04.04.2026 1ddf503
+
+- Fixed 8 module stubs crashing at runtime when feature flags enabled: assistant/index.ts (6 functions), assistant/gate.ts (isKairosEnabled), proactive/index.ts (6 functions), proactive/useProactive.ts, dream.ts, hunter.ts, runSkillGenerator.ts, WorkflowTool/bundled/index.ts (initBundledWorkflows)
+- Fixed root privilege check blocking `--dangerously-skip-permissions` in container — added `IS_SANDBOX=1` env var
+- Fixed sandbox Dockerfile: build OpenClaude from source via `bun run` wrapper (not compiled binary — `bun build --compile` can't use runtime feature polyfill), install Bun to `/usr/local` (survives /root mount)
+- Fixed sandbox startup: clone repo at runtime (not build time — private repo needs token), seed workspace dirs on first run (bind mount shadows image layers)
+- Changed sandbox from `-p` (headless, exits after one response) to `--append-system-prompt` (interactive, proactive tick loop keeps agent working)
+- Added 6 stub modules for `bun build --compile`: cli/bg.ts, cli/handlers/templateJobs.ts, daemon/main.ts, daemon/workerRegistry.ts, environment-runner/main.ts, self-hosted-runner/main.ts
+- Added comprehensive debugging guide to CLAUDE.md: stub diagnosis workflow, trace pattern, all fixed stubs table, common issues and fixes, sandbox testing workflow
+- Added `CLAUDE_PROMPT` env var passed via `--append-system-prompt` for autonomous task injection
+
 ## 04.04.2026 6f6d583
 
 - Added `Dockerfile.sandbox` — locked-down container for autonomous self-development with `claude --super`
