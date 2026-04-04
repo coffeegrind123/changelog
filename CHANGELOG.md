@@ -2,6 +2,7 @@
 
 ## 04.04.2026
 
+- `0396781` Fixed REPL fallback mode crash — guard `getCommandName()` in useTypeahead.tsx against null/nameless commands from MCP stubs
 - `968d071` Added DeepSeek API support — pass `ANTHROPIC_MODEL` and `ANTHROPIC_DEFAULT_HAIKU_MODEL` through docker-compose.yml
 - `961b400` Fixed interactive mode REPL hang — bypassed `showSetupScreens()` which deadlocks in Bun's async function entry; fixed 8 command stubs (buddy, fork, peers, torch, workflows, etc.) exporting `{}` instead of `null` which crashed `getCommandName()`
 - `511a47a` Fixed container hang root cause — 16 tool stubs exported `{}` instead of `null`, crashing `getTools()` when `.isEnabled()` was called on empty objects; switched Ghidra MCP `await import()` to `require()` to avoid Bun ESM dynamic import deadlock inside Commander action handler; removed `CLAUDE_CODE_SIMPLE=1` workaround from docker-compose.yml
