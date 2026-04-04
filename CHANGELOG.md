@@ -2,7 +2,7 @@
 
 ## 04.04.2026
 
-- `c5ca9af` Fixed interactive mode in containers — `--super` now forces interactive path even without TTY (`stdout.isTTY=undefined` in Docker caused silent headless fallback). `CLAUDE_AUTO_TRUST=1` skips all blocking setup screens (onboarding, trust, API key approval)
+- `0bedc76` Fixed interactive mode in containers — root cause: `stdout.isTTY=undefined` in Docker causes Claude to silently enter headless path. Fix: `claude` wrapper allocates PTY via `script -qefc` when stdout is not a TTY. `CLAUDE_AUTO_TRUST=1` skips blocking setup screens (onboarding, trust, API key approval)
 - `4215d78` Fixed Bun 1.3.11 rejecting TypeScript syntax in `.js` stubs — stripped type annotations from 4 ant-package stubs. Added `ANTHROPIC_API_KEY` passthrough in docker-compose.yml (confirmed `--bare` mode works with z.ai proxy)
 - `182e4e8` Fixed color-diff-napi broken re-export path — self-contained stub replacing native-ts import that broke in node_modules copy. Reordered Dockerfile: COPY after JDK/Ghidra/zendriver downloads so source changes don't re-download 486MB+
 - `0b6f32f` Fixed rendering hang — ported `stdinKeepAlive` from oboard/claude-code-rev to `ink/components/App.tsx` (stdin.ref on mount, guards raw mode ref/unref), added `ReplRuntimeBoundary` error boundary in REPL.tsx, `BootstrapBoundary` in App.tsx, try/catch in onInit(). Prevents blank screen when stubs throw during render.
