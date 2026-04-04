@@ -2,6 +2,9 @@
 
 ## 04.04.2026
 
+- `968d071` Added DeepSeek API support — pass `ANTHROPIC_MODEL` and `ANTHROPIC_DEFAULT_HAIKU_MODEL` through docker-compose.yml
+- `961b400` Fixed interactive mode REPL hang — bypassed `showSetupScreens()` which deadlocks in Bun's async function entry; fixed 8 command stubs (buddy, fork, peers, torch, workflows, etc.) exporting `{}` instead of `null` which crashed `getCommandName()`
+- `511a47a` Fixed container hang root cause — 16 tool stubs exported `{}` instead of `null`, crashing `getTools()` when `.isEnabled()` was called on empty objects; switched Ghidra MCP `await import()` to `require()` to avoid Bun ESM dynamic import deadlock inside Commander action handler; removed `CLAUDE_CODE_SIMPLE=1` workaround from docker-compose.yml
 - `ead3133` Fixed container hang — root cause: non-bare startup hangs on hooks/LSP/plugin sync without TTY. Fix: `CLAUDE_CODE_SIMPLE=1` in docker-compose.yml skips these while keeping MCP/skills/core available. `CLAUDE_AUTO_TRUST=1` skips blocking setup screens. `-p` mode now works, interactive REPL needs `docker exec -it` with TTY
 - `4215d78` Fixed Bun 1.3.11 rejecting TypeScript syntax in `.js` stubs — stripped type annotations from 4 ant-package stubs. Added `ANTHROPIC_API_KEY` passthrough in docker-compose.yml (confirmed `--bare` mode works with z.ai proxy)
 - `182e4e8` Fixed color-diff-napi broken re-export path — self-contained stub replacing native-ts import that broke in node_modules copy. Reordered Dockerfile: COPY after JDK/Ghidra/zendriver downloads so source changes don't re-download 486MB+
