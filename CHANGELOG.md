@@ -2,6 +2,7 @@
 
 ## 05.04.2026
 
+- `1decbda` Fixed image paste inserting trailing space — disabled `pendingSpaceAfterPillRef` arming after image pill insertion (backport from 2.1.89)
 - `8743d66` Added feature notice system — individual startup notices for major features (Ghidra MCP, Browser MCP, /super, multi-provider API, backports) in `src/components/LogoV2/`. Auto-dismiss after N sessions. Convention added to CLAUDE.md
 - `9558634` Improved version display — dynamically fetches latest date + commit SHA from coffeegrind123/changelog at startup (e.g. "05.04.2026 (9de31ec)"). Disabled Opus 1M merge notice and npm deprecation notice
 - `9de31ec` Backported 13 upstream features from 2.1.89–2.1.91 (via fazxes/Claude-code diff): `disableSkillShellExecution` setting, MCP `maxResultSizeChars` 500K override, multi-line deep links, plugin `bin/` executables on PATH, `Bun.stripANSI` optimization (new `stripAnsi.ts` + 12 import rewrites), `.husky` protected directory, DNS commands removed from PowerShell auto-allow, `KEEP_MARKETPLACE_ON_FAILURE` env var, `defer` permission in hooks, autocompact actionable error, MCP tool errors all content blocks, Edit works on Bash-viewed files (`cat`/`sed`/`head`/`tail`), hook output >50K saved to disk

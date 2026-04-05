@@ -119,6 +119,6 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `PowerShell argument-splitting hardening` — SKIP (Windows)
 - [ ] `/env now applies to PowerShell tool` — TODO
 - [ ] `/usage hides redundant Sonnet bar for Pro/Enterprise` — TODO
-- [ ] `Image paste no longer inserts trailing space` — TODO
-- [ ] `Pasting !command enters bash mode` — TODO
+- [x] `Image paste no longer inserts trailing space` — DONE in 1decbda
+- [x] `Pasting !command enters bash mode` — DONE (already in codebase, PromptInput.tsx:1206)
 - [x] `/buddy April 1st creature` — DONE (already in our fork via BUDDY flag)
