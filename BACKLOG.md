@@ -9,9 +9,9 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 ## 2.1.92
 
 - [-] `Added forceRemoteSettingsRefresh policy setting` — SKIP (Anthropic managed infra)
-- [ ] `Added interactive Bedrock setup wizard` — TODO
+- [-] `Added interactive Bedrock setup wizard` — SKIP (Anthropic cloud infra, needs AWS SDK integration)
 - [x] `Added per-model and cache-hit breakdown to /cost` — DONE in bb4fad9
-- [ ] `/release-notes is now an interactive version picker` — TODO
+- [x] `/release-notes is now an interactive version picker` — DONE in 64c457b
 - [-] `Remote Control session names use hostname prefix` — SKIP (bridge/remote feature)
 - [ ] `Pro users see footer hint for prompt cache expiry` — TODO
 - [x] `Fixed subagent spawning failing after tmux windows killed` — DONE in 7b8f28c
@@ -42,17 +42,17 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed JSON schema validation for permissions.defaultMode auto` — DONE (already in codebase, all 87 flags on so TRANSCRIPT_CLASSIFIER includes 'auto' in PERMISSION_MODES)
 - [-] `Fixed Windows version cleanup` — SKIP (Windows-specific)
 - [x] `Fixed /feedback explains why unavailable` — DONE in 653d2b6
-- [ ] `Improved /claude-api skill guidance` — TODO
+- [x] `Improved /claude-api skill guidance` — DONE in 64c457b
 - [x] `Improved stripAnsi performance via Bun.stripANSI` — DONE in 9de31ec
 - [x] `Edit tool uses shorter old_string anchors` — DONE in 0673875
 
 ## 2.1.90
 
-- [ ] `Added /powerup interactive lessons` — TODO
+- [-] `Added /powerup interactive lessons` — SKIP (content-heavy Anthropic marketing feature with animated demos)
 - [x] `Added CLAUDE_CODE_PLUGIN_KEEP_MARKETPLACE_ON_FAILURE` — DONE in 9de31ec
 - [x] `Added .husky to protected directories` — DONE in 9de31ec
 - [x] `Fixed infinite loop rate-limit options dialog` — DONE in 24c7f5b
-- [ ] `Fixed --resume prompt-cache miss with deferred tools` — TODO
+- [x] `Fixed --resume prompt-cache miss with deferred tools` — DONE (already in codebase, USER_TYPE=ant enables isDeferredToolsDeltaEnabled → delta mode persists deferred tool announcements across resume)
 - [x] `Fixed Edit/Write failing with format-on-save hooks` — DONE in 24c7f5b
 - [x] `Fixed PreToolUse hooks with JSON stdout exit code 2` — DONE in 1d66372
 - [ ] `Fixed collapsed search/read badge duplication in fullscreen` — TODO
@@ -60,11 +60,11 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed click-to-expand hover text on light themes` — TODO
 - [x] `Fixed UI crash on malformed tool input in permission dialog` — DONE in 2d14581
 - [ ] `Fixed headers disappearing in selection screens` — TODO
-- [ ] `Hardened PowerShell tool permission checks` — TODO
+- [-] `Hardened PowerShell tool permission checks` — SKIP (PowerShell-specific)
 - [x] `Improved MCP tool schema cache-key performance` — DONE in 7b8f28c
 - [x] `Improved SSE transport large frame handling (quadratic → linear)` — DONE in 1839702
 - [x] `Improved SDK transcript write performance` — DONE in 79b1753
-- [ ] `Improved /resume parallel project loading` — TODO
+- [x] `Improved /resume parallel project loading` — DONE in 64c457b
 - [x] `Changed --resume to hide -p/SDK sessions` — DONE in 653d2b6
 - [x] `Removed DNS cache commands from auto-allow` — DONE in 9de31ec
 
@@ -78,7 +78,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Auto mode denied commands show notification + retry in /permissions` — TODO
 - [x] `Fixed Edit/Read allow rules to check symlink targets` — DONE in 24c7f5b
 - [-] `Fixed voice push-to-talk modifier bindings` — SKIP (voice not priority)
-- [ ] `Fixed Edit/Write CRLF doubling on Windows` — TODO
+- [-] `Fixed Edit/Write CRLF doubling on Windows` — SKIP (Windows-specific)
 - [x] `Fixed StructuredOutput schema cache 50% failure rate` — DONE (already in codebase, api.ts:142-146 cache key includes inputJSONSchema)
 - [x] `Fixed memory leak in LRU cache keys` — DONE in 24c7f5b
 - [x] `Fixed crash removing message from 50MB+ sessions` — DONE (already in codebase, sessionStorage.ts MAX_TOMBSTONE_REWRITE_BYTES guard)
@@ -93,7 +93,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed autocompact thrash loop (3x detection)` — DONE in 9de31ec
 - [x] `Fixed prompt cache misses from tool schema changes mid-session` — DONE (already in codebase, toolSchemaCache.ts + api.ts:151)
 - [x] `Fixed nested CLAUDE.md re-injection in long sessions` — DONE (already in codebase, attachments.ts:1719-1723 loadedNestedMemoryPaths Set)
-- [ ] `Fixed --resume crash on older transcript format` — TODO
+- [x] `Fixed --resume crash on older transcript format` — DONE in 64c457b
 - [x] `Fixed misleading rate limit message for entitlement errors` — DONE in 2d14581
 - [x] `Fixed hooks if condition not matching compound commands` — DONE (already in codebase, BashTool.tsx:487-510 preparePermissionMatcher splits compound commands)
 - [ ] `Fixed collapsed group badge duplication in parallel tool use` — TODO
@@ -102,13 +102,13 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed Devanagari/combining-mark text truncation` — DONE (already in codebase, intl.ts grapheme segmenter + useTypeahead.tsx:36 \p{M} combining marks + fsOperations.ts:731 UTF-8 byte boundary)
 - [ ] `Fixed rendering artifacts on main-screen terminals` — TODO
 - [-] `Fixed voice mode macOS Apple Silicon permission` — SKIP (voice)
-- [ ] `Fixed Shift+Enter on Windows Terminal Preview 1.25` — TODO
+- [-] `Fixed Shift+Enter on Windows Terminal Preview 1.25` — SKIP (Windows-specific)
 - [ ] `Fixed UI jitter in iTerm2 inside tmux` — TODO
 - [-] `Fixed PowerShell stderr on Windows 5.1` — SKIP (Windows)
 - [x] `Fixed OOM crash on Edit for >1GiB files` — DONE (already in codebase, FileEditTool.ts:80-195 MAX_EDIT_FILE_SIZE guard)
 - [x] `Improved collapsed tool summary for ls/tree/du` — DONE (already in codebase, BashTool.tsx BASH_LIST_COMMANDS + CollapsedReadSearchContent.tsx listCount)
 - [x] `Improved Bash tool warn on formatter modifying read files` — DONE in 24fffc1
-- [ ] `Improved @ typeahead ranking source files above MCP resources` — TODO
+- [x] `Improved @ typeahead ranking source files above MCP resources` — DONE in 64c457b
 - [-] `Improved PowerShell prompt for 5.1 vs 7+` — SKIP (Windows)
 - [x] `Changed Edit to work on files viewed via Bash sed/cat` — DONE in 9de31ec
 - [x] `Changed hook output >50K saved to disk with preview` — DONE in 9de31ec
@@ -117,8 +117,8 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Documented TaskCreated hook event` — DONE (already in codebase, coreSchemas.ts:601-607)
 - [ ] `Preserved task notifications on Ctrl+B background` — TODO
 - [-] `PowerShell argument-splitting hardening` — SKIP (Windows)
-- [ ] `/env now applies to PowerShell tool` — TODO
-- [ ] `/usage hides redundant Sonnet bar for Pro/Enterprise` — TODO
+- [-] `/env now applies to PowerShell tool` — SKIP (PowerShell-specific)
+- [x] `/usage hides redundant Sonnet bar for Pro/Enterprise` — DONE (already in codebase, Usage.tsx:236 showSonnetBar only for max/team/null)
 - [x] `Image paste no longer inserts trailing space` — DONE in 1decbda
 - [x] `Pasting !command enters bash mode` — DONE (already in codebase, PromptInput.tsx:1206)
 - [x] `/buddy April 1st creature` — DONE (already in our fork via BUDDY flag)

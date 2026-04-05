@@ -2,6 +2,7 @@
 
 ## 05.04.2026
 
+- `64c457b` Backported 7 upstream features/fixes: /release-notes interactive version picker (2.1.92), @ typeahead ranks source files above MCP resources (2.1.89), /resume parallel project loading (2.1.90), --resume crash on older transcript format — filter orphaned tool_results (2.1.89), /claude-api skill guidance for agent design patterns (2.1.91), confirmed /usage Sonnet bar + deferred tools delta already in codebase
 - `653d2b6` Backported 4 more upstream fixes: transcript writes re-queue on failure instead of silently losing entries on --resume (2.1.91), system-reminder text block prepended for image-only SDK messages so skill reminders aren't dropped (2.1.89), /feedback explains why unavailable instead of hiding (2.1.91), --resume picker filters -p/SDK sessions by entrypoint (2.1.90)
 - `bb4fad9` Backported 4 upstream fixes: cmd+delete (super+backspace) deletes to line start on iTerm2/kitty/WezTerm/Ghostty/Windows Terminal (2.1.91), /cost shows per-model + cache-hit breakdown for subscription users (2.1.92), LSP server auto-restarts on next request after crash instead of staying dead (2.1.89), /stats counts subagent sidechain token usage from main session file (2.1.89)
 - `24fffc1` Backported 2 upstream fixes: misleading esc hints suppressed in fullscreen when text selection exists (2.1.92), Bash tool warns when formatter/linter commands (`prettier --write`, `eslint --fix`, `black`, etc.) modify previously-read files and auto-refreshes readFileState (2.1.89)
