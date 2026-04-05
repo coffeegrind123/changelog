@@ -2,6 +2,8 @@
 
 ## 05.04.2026
 
+- `a9bd302` Fixed startup notices showing all 6 at once — now shows only the most recent eligible notice, auto-rotates as each expires after N sessions
+- `8b6da6e` Removed settings seeding and MCP auto-registration from both Dockerfiles — users configure their own
 - `7c9f9c9` Added Dockerfile.interactive + docker-compose.interactive.yml for manual use/testing — full-featured container with bash shell, writable rootfs, Docker socket, no autonomous mode
 - `41a99e0` Restored MCP official registry fetch (previously stubbed), removed CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC guard, added open modelcontextprotocol.io registry — both fetched in parallel on startup via Promise.allSettled
 - `69867f3` Added centralized fingerprinting config mirroring CLIProxyAPI (`src/config/claudeFingerprint.ts`), implemented CCH body signing via xxHash64 (`src/services/api/cchSigning.ts`), added reference doc (`context/fingerprinting.md`) with update procedure and cross-reference table
