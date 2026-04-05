@@ -2,6 +2,7 @@
 
 ## 05.04.2026
 
+- `b812c7e` Added auto-updater GitHub Releases integration — compiled binaries now route to `AutoUpdater` → `installGlobalPackage()` → GitHub Releases instead of broken Anthropic native installer (GCS). Includes: compile-time version injection via `--define`, native installer GitHub fallback with SHA256 verification, push-to-main CI builds, manifest.json in releases, GITHUB_TOKEN auth header for rate limit hardening
 - `1839702` Improved SSE transport large frame handling — quadratic → linear string accumulation via array chunks (backport from 2.1.90)
 - `79b1753` Improved SDK transcript write performance — array accumulation in `drainWriteQueue` reduces GC pressure (backport from 2.1.90)
 - `861dbd0` Fixed tool input validation for streaming JSON strings — coerce stringified arrays/objects before Zod validation (backport from 2.1.92)
