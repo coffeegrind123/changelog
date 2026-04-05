@@ -15,15 +15,15 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Remote Control session names use hostname prefix` — SKIP (bridge/remote feature)
 - [ ] `Pro users see footer hint for prompt cache expiry` — TODO
 - [ ] `Fixed subagent spawning failing after tmux windows killed` — TODO
-- [ ] `Fixed prompt-type Stop hooks failing on ok:false` — TODO
+- [x] `Fixed prompt-type Stop hooks failing on ok:false` — DONE in 2d14581
 - [x] `Fixed tool input validation for streaming JSON strings` — DONE in 861dbd0
 - [x] `Fixed API 400 on whitespace-only thinking text block` — DONE (already in codebase, messages.ts:2313-2324 filterWhitespaceOnlyAssistantMessages)
 - [-] `Fixed feedback survey auto-submissions` — SKIP (feedback disabled)
 - [ ] `Fixed misleading esc hints in fullscreen mode` — TODO
 - [-] `Fixed Homebrew install update prompts` — SKIP (we use GitHub Releases)
-- [ ] `Fixed ctrl+e jumping in multiline prompts` — TODO
+- [x] `Fixed ctrl+e jumping in multiline prompts` — DONE in 2d14581
 - [ ] `Fixed duplicate message in fullscreen scrollback` — TODO
-- [ ] `Fixed idle-return token hint showing cumulative tokens` — TODO
+- [x] `Fixed idle-return token hint showing cumulative tokens` — DONE in 2d14581
 - [ ] `Fixed plugin MCP servers stuck connecting` — TODO
 - [x] `Improved Write tool diff speed 60% faster` — DONE in 24c7f5b
 - [-] `Removed /tag command` — SKIP (we keep /tag)
@@ -58,7 +58,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed collapsed search/read badge duplication in fullscreen` — TODO
 - [ ] `Fixed auto mode not respecting explicit user boundaries` — TODO
 - [ ] `Fixed click-to-expand hover text on light themes` — TODO
-- [ ] `Fixed UI crash on malformed tool input in permission dialog` — TODO
+- [x] `Fixed UI crash on malformed tool input in permission dialog` — DONE in 2d14581
 - [ ] `Fixed headers disappearing in selection screens` — TODO
 - [ ] `Hardened PowerShell tool permission checks` — TODO
 - [ ] `Improved MCP tool schema cache-key performance` — TODO
@@ -94,7 +94,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed prompt cache misses from tool schema changes mid-session` — DONE (already in codebase, toolSchemaCache.ts + api.ts:151)
 - [x] `Fixed nested CLAUDE.md re-injection in long sessions` — DONE (already in codebase, attachments.ts:1719-1723 loadedNestedMemoryPaths Set)
 - [ ] `Fixed --resume crash on older transcript format` — TODO
-- [ ] `Fixed misleading rate limit message for entitlement errors` — TODO
+- [x] `Fixed misleading rate limit message for entitlement errors` — DONE in 2d14581
 - [x] `Fixed hooks if condition not matching compound commands` — DONE (already in codebase, BashTool.tsx:487-510 preparePermissionMatcher splits compound commands)
 - [ ] `Fixed collapsed group badge duplication in parallel tool use` — TODO
 - [ ] `Fixed notification invalidates not clearing immediately` — TODO
@@ -106,7 +106,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed UI jitter in iTerm2 inside tmux` — TODO
 - [-] `Fixed PowerShell stderr on Windows 5.1` — SKIP (Windows)
 - [x] `Fixed OOM crash on Edit for >1GiB files` — DONE (already in codebase, FileEditTool.ts:80-195 MAX_EDIT_FILE_SIZE guard)
-- [ ] `Improved collapsed tool summary for ls/tree/du` — TODO
+- [x] `Improved collapsed tool summary for ls/tree/du` — DONE (already in codebase, BashTool.tsx BASH_LIST_COMMANDS + CollapsedReadSearchContent.tsx listCount)
 - [ ] `Improved Bash tool warn on formatter modifying read files` — TODO
 - [ ] `Improved @ typeahead ranking source files above MCP resources` — TODO
 - [-] `Improved PowerShell prompt for 5.1 vs 7+` — SKIP (Windows)
