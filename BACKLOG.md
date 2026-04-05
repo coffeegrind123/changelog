@@ -62,8 +62,8 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed headers disappearing in selection screens` — TODO
 - [ ] `Hardened PowerShell tool permission checks` — TODO
 - [ ] `Improved MCP tool schema cache-key performance` — TODO
-- [ ] `Improved SSE transport large frame handling (quadratic → linear)` — TODO
-- [ ] `Improved SDK transcript write performance` — TODO
+- [x] `Improved SSE transport large frame handling (quadratic → linear)` — DONE in 1839702
+- [x] `Improved SDK transcript write performance` — DONE in 79b1753
 - [ ] `Improved /resume parallel project loading` — TODO
 - [ ] `Changed --resume to hide -p/SDK sessions` — TODO
 - [x] `Removed DNS cache commands from auto-allow` — DONE in 9de31ec
