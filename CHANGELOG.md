@@ -2,6 +2,7 @@
 
 ## 05.04.2026
 
+- `4f7570f` Updated internal ghidra-re skill to v1.2 for GhidraMCP v5.0.0 — V6 protocol, 158 tools, set_variables, breaking changes documented
 - `4a50b60` Fixed GhidraMCP bridge race condition — launcher waits for Java server to be ready before exec'ing bridge (was showing 7 tools, now 158+)
 - `0155b57` Fixed GhidraMCP extension extraction path (double-nesting), use Python unzip instead of bash
 - `fcbccae` Upgraded GhidraMCP from v4.2.0 to v5.0.0 — downloads pre-built release (no Maven), Python launcher (no bash), naming convention enforcement, completeness scoring redesign, 3 new tools
