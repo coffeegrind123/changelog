@@ -44,7 +44,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed /feedback explains why unavailable` — TODO
 - [ ] `Improved /claude-api skill guidance` — TODO
 - [x] `Improved stripAnsi performance via Bun.stripANSI` — DONE in 9de31ec
-- [ ] `Edit tool uses shorter old_string anchors` — TODO
+- [x] `Edit tool uses shorter old_string anchors` — DONE in 0673875
 
 ## 2.1.90
 
@@ -54,7 +54,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed infinite loop rate-limit options dialog` — TODO
 - [ ] `Fixed --resume prompt-cache miss with deferred tools` — TODO
 - [ ] `Fixed Edit/Write failing with format-on-save hooks` — TODO
-- [ ] `Fixed PreToolUse hooks with JSON stdout exit code 2` — TODO
+- [x] `Fixed PreToolUse hooks with JSON stdout exit code 2` — DONE in 1d66372
 - [ ] `Fixed collapsed search/read badge duplication in fullscreen` — TODO
 - [ ] `Fixed auto mode not respecting explicit user boundaries` — TODO
 - [ ] `Fixed click-to-expand hover text on light themes` — TODO

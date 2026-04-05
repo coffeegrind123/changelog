@@ -2,6 +2,8 @@
 
 ## 05.04.2026
 
+- `0673875` Improved Edit tool — shorter `old_string` anchors hint now shown to all users, not just ant (backport from 2.1.91)
+- `1d66372` Fixed PreToolUse hooks with JSON stdout exit code 2 — use stdout when hook outputs JSON and exits with code 2 instead of falling back to stderr (backport from 2.1.90)
 - `40965ea` Fixed hook `file_path` not absolute for Write/Edit/Read — normalize `tool_input.file_path` to absolute path in PreToolUse/PostToolUse/PostToolUseFailure hooks (backport from 2.1.89)
 - `ec02901` Fixed `cleanupPeriodDays: 0` now rejected with validation error — changed schema from `.nonnegative()` to `.positive()`, directs users to `--no-session-persistence` (backport from 2.1.89)
 - `1decbda` Fixed image paste inserting trailing space — disabled `pendingSpaceAfterPillRef` arming after image pill insertion (backport from 2.1.89)
