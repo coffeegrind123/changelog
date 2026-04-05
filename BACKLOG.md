@@ -105,16 +105,16 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed Shift+Enter on Windows Terminal Preview 1.25` — TODO
 - [ ] `Fixed UI jitter in iTerm2 inside tmux` — TODO
 - [-] `Fixed PowerShell stderr on Windows 5.1` — SKIP (Windows)
-- [ ] `Fixed OOM crash on Edit for >1GiB files` — TODO
+- [x] `Fixed OOM crash on Edit for >1GiB files` — DONE (already in codebase, FileEditTool.ts:80-195 MAX_EDIT_FILE_SIZE guard)
 - [ ] `Improved collapsed tool summary for ls/tree/du` — TODO
 - [ ] `Improved Bash tool warn on formatter modifying read files` — TODO
 - [ ] `Improved @ typeahead ranking source files above MCP resources` — TODO
 - [-] `Improved PowerShell prompt for 5.1 vs 7+` — SKIP (Windows)
 - [x] `Changed Edit to work on files viewed via Bash sed/cat` — DONE in 9de31ec
 - [x] `Changed hook output >50K saved to disk with preview` — DONE in 9de31ec
-- [ ] `Changed cleanupPeriodDays: 0 rejected with validation error` — TODO
-- [ ] `Changed thinking summaries off by default` — TODO
-- [ ] `Documented TaskCreated hook event` — TODO
+- [x] `Changed cleanupPeriodDays: 0 rejected with validation error` — DONE in ec02901
+- [x] `Changed thinking summaries off by default` — DONE (already in codebase, betas.ts:274 defaults to redacted thinking)
+- [x] `Documented TaskCreated hook event` — DONE (already in codebase, coreSchemas.ts:601-607)
 - [ ] `Preserved task notifications on Ctrl+B background` — TODO
 - [-] `PowerShell argument-splitting hardening` — SKIP (Windows)
 - [ ] `/env now applies to PowerShell tool` — TODO
