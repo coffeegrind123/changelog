@@ -2,6 +2,7 @@
 
 ## 05.04.2026
 
+- `0625930` Replaced CHICAGO_MCP (Anthropic internal, macOS-only, disabled) with open-source domdomegg/computer-use-mcp — cross-platform, runs via `npx -y computer-use-mcp`, MIT licensed. Transparent replacement: server name `computer-use` and tool `mcp__computer-use__computer` unchanged. Removed in-process server intercept from client.ts
 - `c1784ad` Disabled anti-distillation fake tool injection (`anti_distillation=['fake_tools']` removed from API requests). Converted connector text summarization from hardcoded ant+GrowthBook to user setting `connectorTextSummarization` in settings.json (off by default)
 - `850256f` Backported 2 upstream UI fixes: click-to-expand hover text uses themed `color="inactive"` instead of `dimColor` for light theme visibility (2.1.90), tab headers in /model /config use `flexShrink=0` unconditionally so they don't disappear on scroll (2.1.90). Also confirmed 3 items already in codebase: auto mode denied commands notification + /permissions retry, task notifications on Ctrl+B, named subagents in @ typeahead
 - `c77f13e` Fixed /release-notes version picker for our changelog format — terminal-height-aware scrolling, note truncation, j/k scroll within versions, bullet count in sidebar
