@@ -32,10 +32,10 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 ## 2.1.91
 
-- [ ] `Added MCP tool result persistence override via _meta annotation (500K)` — TODO
-- [ ] `Added disableSkillShellExecution setting` — TODO
-- [ ] `Added multi-line prompts in deep links` — TODO
-- [ ] `Plugins can ship executables under bin/` — TODO
+- [x] `Added MCP tool result persistence override via _meta annotation (500K)` — DONE in 9de31ec
+- [x] `Added disableSkillShellExecution setting` — DONE in 9de31ec
+- [x] `Added multi-line prompts in deep links` — DONE in 9de31ec
+- [x] `Plugins can ship executables under bin/` — DONE in 9de31ec
 - [ ] `Fixed transcript chain breaks on --resume` — TODO
 - [ ] `Fixed cmd+delete on iTerm2/kitty/WezTerm/Ghostty/Windows Terminal` — TODO
 - [ ] `Fixed plan mode losing plan file after container restart` — TODO
@@ -43,14 +43,14 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Fixed Windows version cleanup` — SKIP (Windows-specific)
 - [ ] `Fixed /feedback explains why unavailable` — TODO
 - [ ] `Improved /claude-api skill guidance` — TODO
-- [ ] `Improved stripAnsi performance via Bun.stripANSI` — TODO
+- [x] `Improved stripAnsi performance via Bun.stripANSI` — DONE in 9de31ec
 - [ ] `Edit tool uses shorter old_string anchors` — TODO
 
 ## 2.1.90
 
 - [ ] `Added /powerup interactive lessons` — TODO
-- [ ] `Added CLAUDE_CODE_PLUGIN_KEEP_MARKETPLACE_ON_FAILURE` — TODO
-- [ ] `Added .husky to protected directories` — TODO
+- [x] `Added CLAUDE_CODE_PLUGIN_KEEP_MARKETPLACE_ON_FAILURE` — DONE in 9de31ec
+- [x] `Added .husky to protected directories` — DONE in 9de31ec
 - [ ] `Fixed infinite loop rate-limit options dialog` — TODO
 - [ ] `Fixed --resume prompt-cache miss with deferred tools` — TODO
 - [ ] `Fixed Edit/Write failing with format-on-save hooks` — TODO
@@ -66,11 +66,11 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Improved SDK transcript write performance` — TODO
 - [ ] `Improved /resume parallel project loading` — TODO
 - [ ] `Changed --resume to hide -p/SDK sessions` — TODO
-- [-] `Removed DNS cache commands from auto-allow` — SKIP (security hardening we don't need)
+- [x] `Removed DNS cache commands from auto-allow` — DONE in 9de31ec
 
 ## 2.1.89
 
-- [ ] `Added defer permission decision to PreToolUse hooks` — TODO
+- [x] `Added defer permission decision to PreToolUse hooks` — DONE in 9de31ec
 - [ ] `Added CLAUDE_CODE_NO_FLICKER=1 alt-screen rendering` — TODO
 - [ ] `Added PermissionDenied hook with retry` — TODO
 - [ ] `Added named subagents to @ mention typeahead` — TODO
@@ -87,10 +87,10 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed /stats undercounting subagent tokens` — TODO
 - [ ] `Fixed -p --resume hangs on 64KB+ deferred input` — TODO
 - [-] `Fixed claude-cli:// deep links on macOS` — SKIP (desktop app)
-- [ ] `Fixed MCP tool errors truncating to first content block` — TODO
+- [x] `Fixed MCP tool errors truncating to first content block` — DONE in 9de31ec
 - [ ] `Fixed skill reminders dropped with SDK image messages` — TODO
 - [ ] `Fixed hook file_path not absolute for Write/Edit/Read` — TODO
-- [ ] `Fixed autocompact thrash loop (3x detection)` — TODO
+- [x] `Fixed autocompact thrash loop (3x detection)` — DONE in 9de31ec
 - [ ] `Fixed prompt cache misses from tool schema changes mid-session` — TODO
 - [ ] `Fixed nested CLAUDE.md re-injection in long sessions` — TODO
 - [ ] `Fixed --resume crash on older transcript format` — TODO
@@ -110,8 +110,8 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Improved Bash tool warn on formatter modifying read files` — TODO
 - [ ] `Improved @ typeahead ranking source files above MCP resources` — TODO
 - [-] `Improved PowerShell prompt for 5.1 vs 7+` — SKIP (Windows)
-- [ ] `Changed Edit to work on files viewed via Bash sed/cat` — TODO
-- [ ] `Changed hook output >50K saved to disk with preview` — TODO
+- [x] `Changed Edit to work on files viewed via Bash sed/cat` — DONE in 9de31ec
+- [x] `Changed hook output >50K saved to disk with preview` — DONE in 9de31ec
 - [ ] `Changed cleanupPeriodDays: 0 rejected with validation error` — TODO
 - [ ] `Changed thinking summaries off by default` — TODO
 - [ ] `Documented TaskCreated hook event` — TODO
