@@ -2,6 +2,7 @@
 
 ## 05.04.2026
 
+- `c211c21` Ghidra MCP bridge now runs in-process via InProcessTransport (same pattern as Chrome MCP) — no Bun/Python subprocess needed, works in compiled binary
 - `3ac1576` Replaced Python Ghidra bridge with TypeScript — 1:1 port of bridge_mcp_ghidra.py (1425 lines), uses @modelcontextprotocol/sdk, starts Java server itself. Ghidra MCP no longer requires Python
 - `5119670` Unified MCP install helpers — shared downloadFile/extractZip/extractTarGz/downloadGitHubRepo. Browser MCP now uses GitHub API tarball (no git dependency). All pip calls use python3 -m pip
 - `c0e85f3` Replaced all bash/python calls in Ghidra MCP setup with native JS — axios for downloads, fflate for zip/tar.gz extraction. Zero shell dependencies for install
