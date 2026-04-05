@@ -89,10 +89,10 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Fixed claude-cli:// deep links on macOS` — SKIP (desktop app)
 - [x] `Fixed MCP tool errors truncating to first content block` — DONE in 9de31ec
 - [ ] `Fixed skill reminders dropped with SDK image messages` — TODO
-- [ ] `Fixed hook file_path not absolute for Write/Edit/Read` — TODO
+- [x] `Fixed hook file_path not absolute for Write/Edit/Read` — DONE in 40965ea
 - [x] `Fixed autocompact thrash loop (3x detection)` — DONE in 9de31ec
 - [ ] `Fixed prompt cache misses from tool schema changes mid-session` — TODO
-- [ ] `Fixed nested CLAUDE.md re-injection in long sessions` — TODO
+- [x] `Fixed nested CLAUDE.md re-injection in long sessions` — DONE (already in codebase, attachments.ts:1719-1723 loadedNestedMemoryPaths Set)
 - [ ] `Fixed --resume crash on older transcript format` — TODO
 - [ ] `Fixed misleading rate limit message for entitlement errors` — TODO
 - [ ] `Fixed hooks if condition not matching compound commands` — TODO

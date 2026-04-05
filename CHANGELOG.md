@@ -2,6 +2,8 @@
 
 ## 05.04.2026
 
+- `40965ea` Fixed hook `file_path` not absolute for Write/Edit/Read — normalize `tool_input.file_path` to absolute path in PreToolUse/PostToolUse/PostToolUseFailure hooks (backport from 2.1.89)
+- `ec02901` Fixed `cleanupPeriodDays: 0` now rejected with validation error — changed schema from `.nonnegative()` to `.positive()`, directs users to `--no-session-persistence` (backport from 2.1.89)
 - `1decbda` Fixed image paste inserting trailing space — disabled `pendingSpaceAfterPillRef` arming after image pill insertion (backport from 2.1.89)
 - `8743d66` Added feature notice system — individual startup notices for major features (Ghidra MCP, Browser MCP, /super, multi-provider API, backports) in `src/components/LogoV2/`. Auto-dismiss after N sessions. Convention added to CLAUDE.md
 - `9558634` Improved version display — dynamically fetches latest date + commit SHA from coffeegrind123/changelog at startup (e.g. "05.04.2026 (9de31ec)"). Disabled Opus 1M merge notice and npm deprecation notice
