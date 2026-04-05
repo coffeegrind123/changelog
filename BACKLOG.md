@@ -19,7 +19,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed tool input validation for streaming JSON strings` — DONE in 861dbd0
 - [x] `Fixed API 400 on whitespace-only thinking text block` — DONE (already in codebase, messages.ts:2313-2324 filterWhitespaceOnlyAssistantMessages)
 - [-] `Fixed feedback survey auto-submissions` — SKIP (feedback disabled)
-- [ ] `Fixed misleading esc hints in fullscreen mode` — TODO
+- [x] `Fixed misleading esc hints in fullscreen mode` — DONE in 24fffc1
 - [-] `Fixed Homebrew install update prompts` — SKIP (we use GitHub Releases)
 - [x] `Fixed ctrl+e jumping in multiline prompts` — DONE in 2d14581
 - [ ] `Fixed duplicate message in fullscreen scrollback` — TODO
@@ -107,7 +107,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Fixed PowerShell stderr on Windows 5.1` — SKIP (Windows)
 - [x] `Fixed OOM crash on Edit for >1GiB files` — DONE (already in codebase, FileEditTool.ts:80-195 MAX_EDIT_FILE_SIZE guard)
 - [x] `Improved collapsed tool summary for ls/tree/du` — DONE (already in codebase, BashTool.tsx BASH_LIST_COMMANDS + CollapsedReadSearchContent.tsx listCount)
-- [ ] `Improved Bash tool warn on formatter modifying read files` — TODO
+- [x] `Improved Bash tool warn on formatter modifying read files` — DONE in 24fffc1
 - [ ] `Improved @ typeahead ranking source files above MCP resources` — TODO
 - [-] `Improved PowerShell prompt for 5.1 vs 7+` — SKIP (Windows)
 - [x] `Changed Edit to work on files viewed via Bash sed/cat` — DONE in 9de31ec
