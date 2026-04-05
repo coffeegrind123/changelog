@@ -2,6 +2,7 @@
 
 ## 05.04.2026
 
+- `728a072` Fixed shift+tab mode cycling stuck on default — ant-specific carousel only had bypassPermissions/auto (both gated), removed ant branch so full carousel works: default → acceptEdits → plan → bypassPermissions → default. Also made bypass permissions always available for USER_TYPE=ant
 - `a9bd302` Fixed startup notices showing all 6 at once — now shows only the most recent eligible notice, auto-rotates as each expires after N sessions
 - `8b6da6e` Removed settings seeding and MCP auto-registration from both Dockerfiles — users configure their own
 - `7c9f9c9` Added Dockerfile.interactive + docker-compose.interactive.yml for manual use/testing — full-featured container with bash shell, writable rootfs, Docker socket, no autonomous mode
