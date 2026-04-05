@@ -2,6 +2,7 @@
 
 ## 05.04.2026
 
+- `850256f` Backported 2 upstream UI fixes: click-to-expand hover text uses themed `color="inactive"` instead of `dimColor` for light theme visibility (2.1.90), tab headers in /model /config use `flexShrink=0` unconditionally so they don't disappear on scroll (2.1.90). Also confirmed 3 items already in codebase: auto mode denied commands notification + /permissions retry, task notifications on Ctrl+B, named subagents in @ typeahead
 - `c77f13e` Fixed /release-notes version picker for our changelog format — terminal-height-aware scrolling, note truncation, j/k scroll within versions, bullet count in sidebar
 - `64c457b` Backported 7 upstream features/fixes: /release-notes interactive version picker (2.1.92), @ typeahead ranks source files above MCP resources (2.1.89), /resume parallel project loading (2.1.90), --resume crash on older transcript format — filter orphaned tool_results (2.1.89), /claude-api skill guidance for agent design patterns (2.1.91), confirmed /usage Sonnet bar + deferred tools delta already in codebase
 - `653d2b6` Backported 4 more upstream fixes: transcript writes re-queue on failure instead of silently losing entries on --resume (2.1.91), system-reminder text block prepended for image-only SDK messages so skill reminders aren't dropped (2.1.89), /feedback explains why unavailable instead of hiding (2.1.91), --resume picker filters -p/SDK sessions by entrypoint (2.1.90)

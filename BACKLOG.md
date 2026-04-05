@@ -57,9 +57,9 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed PreToolUse hooks with JSON stdout exit code 2` — DONE in 1d66372
 - [ ] `Fixed collapsed search/read badge duplication in fullscreen` — TODO
 - [x] `Fixed auto mode not respecting explicit user boundaries` — DONE in 7b8f28c (populated empty classifier prompt files)
-- [ ] `Fixed click-to-expand hover text on light themes` — TODO
+- [x] `Fixed click-to-expand hover text on light themes` — DONE in 850256f
 - [x] `Fixed UI crash on malformed tool input in permission dialog` — DONE in 2d14581
-- [ ] `Fixed headers disappearing in selection screens` — TODO
+- [x] `Fixed headers disappearing in selection screens` — DONE in 850256f
 - [-] `Hardened PowerShell tool permission checks` — SKIP (PowerShell-specific)
 - [x] `Improved MCP tool schema cache-key performance` — DONE in 7b8f28c
 - [x] `Improved SSE transport large frame handling (quadratic → linear)` — DONE in 1839702
@@ -73,9 +73,9 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Added defer permission decision to PreToolUse hooks` — DONE in 9de31ec
 - [x] `Added CLAUDE_CODE_NO_FLICKER=1 alt-screen rendering` — DONE (already in codebase, fullscreen.ts:112-116)
 - [x] `Added PermissionDenied hook with retry` — DONE (already in codebase, hooks.ts:2934, toolExecution.ts:1096)
-- [ ] `Added named subagents to @ mention typeahead` — TODO
+- [x] `Added named subagents to @ mention typeahead` — DONE (already in codebase, useTypeahead.tsx:616 reads agentNameRegistry from AppState, shows named agents with status)
 - [x] `Added MCP_CONNECTION_NONBLOCKING for -p mode` — DONE (already in codebase, cli.tsx:38)
-- [ ] `Auto mode denied commands show notification + retry in /permissions` — TODO
+- [x] `Auto mode denied commands show notification + retry in /permissions` — DONE (already in codebase, useCanUseTool.tsx recordAutoModeDenial + notification, RecentDenialsTab.tsx retry with 'r' key)
 - [x] `Fixed Edit/Read allow rules to check symlink targets` — DONE in 24c7f5b
 - [-] `Fixed voice push-to-talk modifier bindings` — SKIP (voice not priority)
 - [-] `Fixed Edit/Write CRLF doubling on Windows` — SKIP (Windows-specific)
@@ -115,7 +115,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Changed cleanupPeriodDays: 0 rejected with validation error` — DONE in ec02901
 - [x] `Changed thinking summaries off by default` — DONE (already in codebase, betas.ts:274 defaults to redacted thinking)
 - [x] `Documented TaskCreated hook event` — DONE (already in codebase, coreSchemas.ts:601-607)
-- [ ] `Preserved task notifications on Ctrl+B background` — TODO
+- [x] `Preserved task notifications on Ctrl+B background` — DONE (already in codebase, REPL.tsx:2558 handleBackgroundQuery removes task-notification from queue, forwards as attachments to background session)
 - [-] `PowerShell argument-splitting hardening` — SKIP (Windows)
 - [-] `/env now applies to PowerShell tool` — SKIP (PowerShell-specific)
 - [x] `/usage hides redundant Sonnet bar for Pro/Enterprise` — DONE (already in codebase, Usage.tsx:236 showSonnetBar only for max/team/null)
