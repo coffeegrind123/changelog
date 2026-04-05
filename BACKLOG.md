@@ -25,7 +25,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed duplicate message in fullscreen scrollback` — TODO
 - [ ] `Fixed idle-return token hint showing cumulative tokens` — TODO
 - [ ] `Fixed plugin MCP servers stuck connecting` — TODO
-- [ ] `Improved Write tool diff speed 60% faster` — TODO
+- [x] `Improved Write tool diff speed 60% faster` — DONE in 24c7f5b
 - [-] `Removed /tag command` — SKIP (we keep /tag)
 - [-] `Removed /vim command` — SKIP (we keep /vim)
 - [-] `Linux sandbox apply-seccomp helper` — SKIP (sandbox infra)
@@ -51,9 +51,9 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Added /powerup interactive lessons` — TODO
 - [x] `Added CLAUDE_CODE_PLUGIN_KEEP_MARKETPLACE_ON_FAILURE` — DONE in 9de31ec
 - [x] `Added .husky to protected directories` — DONE in 9de31ec
-- [ ] `Fixed infinite loop rate-limit options dialog` — TODO
+- [x] `Fixed infinite loop rate-limit options dialog` — DONE in 24c7f5b
 - [ ] `Fixed --resume prompt-cache miss with deferred tools` — TODO
-- [ ] `Fixed Edit/Write failing with format-on-save hooks` — TODO
+- [x] `Fixed Edit/Write failing with format-on-save hooks` — DONE in 24c7f5b
 - [x] `Fixed PreToolUse hooks with JSON stdout exit code 2` — DONE in 1d66372
 - [ ] `Fixed collapsed search/read badge duplication in fullscreen` — TODO
 - [ ] `Fixed auto mode not respecting explicit user boundaries` — TODO
@@ -76,11 +76,11 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Added named subagents to @ mention typeahead` — TODO
 - [x] `Added MCP_CONNECTION_NONBLOCKING for -p mode` — DONE (already in codebase, cli.tsx:38)
 - [ ] `Auto mode denied commands show notification + retry in /permissions` — TODO
-- [ ] `Fixed Edit/Read allow rules to check symlink targets` — TODO
+- [x] `Fixed Edit/Read allow rules to check symlink targets` — DONE in 24c7f5b
 - [-] `Fixed voice push-to-talk modifier bindings` — SKIP (voice not priority)
 - [ ] `Fixed Edit/Write CRLF doubling on Windows` — TODO
 - [x] `Fixed StructuredOutput schema cache 50% failure rate` — DONE (already in codebase, api.ts:142-146 cache key includes inputJSONSchema)
-- [ ] `Fixed memory leak in LRU cache keys` — TODO
+- [x] `Fixed memory leak in LRU cache keys` — DONE in 24c7f5b
 - [ ] `Fixed crash removing message from 50MB+ sessions` — TODO
 - [ ] `Fixed LSP server zombie state after crash` — TODO
 - [x] `Fixed prompt history CJK/emoji truncation at 4KB boundary` — DONE (already in codebase, fsOperations.ts:730-733 raw byte carry across chunk boundaries)
@@ -95,7 +95,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed nested CLAUDE.md re-injection in long sessions` — DONE (already in codebase, attachments.ts:1719-1723 loadedNestedMemoryPaths Set)
 - [ ] `Fixed --resume crash on older transcript format` — TODO
 - [ ] `Fixed misleading rate limit message for entitlement errors` — TODO
-- [ ] `Fixed hooks if condition not matching compound commands` — TODO
+- [x] `Fixed hooks if condition not matching compound commands` — DONE (already in codebase, BashTool.tsx:487-510 preparePermissionMatcher splits compound commands)
 - [ ] `Fixed collapsed group badge duplication in parallel tool use` — TODO
 - [ ] `Fixed notification invalidates not clearing immediately` — TODO
 - [ ] `Fixed prompt disappearing after submit with background messages` — TODO

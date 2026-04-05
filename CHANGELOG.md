@@ -6,6 +6,7 @@
 - `79b1753` Improved SDK transcript write performance — array accumulation in `drainWriteQueue` reduces GC pressure (backport from 2.1.90)
 - `861dbd0` Fixed tool input validation for streaming JSON strings — coerce stringified arrays/objects before Zod validation (backport from 2.1.92)
 - `0673875` Improved Edit tool — shorter `old_string` anchors hint now shown to all users, not just ant (backport from 2.1.91)
+- `24c7f5b` Backported 5 upstream fixes: LRU cache memory leak (hash-based keys in `parseJSONCached`), Edit/Read allow rules check symlink targets, Edit/Write format-on-save hooks (refresh `readFileState` mtime after PostToolUse hooks), infinite loop rate-limit options dialog (module-level guard), Write tool diff speed ~60% faster (`getPatchFromContents` direct path)
 - `1d66372` Fixed PreToolUse hooks with JSON stdout exit code 2 — use stdout when hook outputs JSON and exits with code 2 instead of falling back to stderr (backport from 2.1.90)
 - `40965ea` Fixed hook `file_path` not absolute for Write/Edit/Read — normalize `tool_input.file_path` to absolute path in PreToolUse/PostToolUse/PostToolUseFailure hooks (backport from 2.1.89)
 - `ec02901` Fixed `cleanupPeriodDays: 0` now rejected with validation error — changed schema from `.nonnegative()` to `.positive()`, directs users to `--no-session-persistence` (backport from 2.1.89)
