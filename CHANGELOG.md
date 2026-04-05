@@ -2,6 +2,7 @@
 
 ## 05.04.2026
 
+- `fcbccae` Upgraded GhidraMCP from v4.2.0 to v5.0.0 — downloads pre-built release (no Maven), Python launcher (no bash), naming convention enforcement, completeness scoring redesign, 3 new tools
 - `77e6ec7` Added MCPB fallback for computer-use MCP — downloads .mcpb from GitHub releases via existing plugin pipeline when npm unavailable
 - `f735d48` Removed npx fallback from computer-use MCP — local install only
 - `f741364` Moved all built-in MCP server installs from hardcoded /opt/ to ~/.claude/mcp-servers/ — browser, ghidra, computer-use. JDK detection checks JAVA_HOME → PATH (any 21+) → portable Temurin download (x64/arm64, linux/mac). Computer Use now npm-installs locally instead of npx-y every run. Added OPENCLAUDE_SKIP_MCP_INSTALL=1 env var to disable
