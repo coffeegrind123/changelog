@@ -2,6 +2,7 @@
 
 ## 05.04.2026
 
+- `9558634` Improved version display — dynamically fetches latest date + commit SHA from coffeegrind123/changelog at startup (e.g. "05.04.2026 (9de31ec)"). Disabled Opus 1M merge notice and npm deprecation notice
 - `9de31ec` Backported 13 upstream features from 2.1.89–2.1.91 (via fazxes/Claude-code diff): `disableSkillShellExecution` setting, MCP `maxResultSizeChars` 500K override, multi-line deep links, plugin `bin/` executables on PATH, `Bun.stripANSI` optimization (new `stripAnsi.ts` + 12 import rewrites), `.husky` protected directory, DNS commands removed from PowerShell auto-allow, `KEEP_MARKETPLACE_ON_FAILURE` env var, `defer` permission in hooks, autocompact actionable error, MCP tool errors all content blocks, Edit works on Bash-viewed files (`cat`/`sed`/`head`/`tail`), hook output >50K saved to disk
 - `b4ef4b3` Fixed copy/paste broken in container REPL — `USER_TYPE=ant` enables fullscreen (alt-screen + mouse tracking) by default, capturing all mouse events. Set `CLAUDE_CODE_NO_FLICKER=0` to opt out
 - `0396781` Fixed REPL fallback mode crash — guard `getCommandName()` in useTypeahead.tsx against null/nameless commands from MCP stubs
