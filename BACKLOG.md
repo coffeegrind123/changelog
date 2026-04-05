@@ -83,7 +83,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed memory leak in LRU cache keys` — TODO
 - [ ] `Fixed crash removing message from 50MB+ sessions` — TODO
 - [ ] `Fixed LSP server zombie state after crash` — TODO
-- [ ] `Fixed prompt history CJK/emoji truncation at 4KB boundary` — TODO
+- [x] `Fixed prompt history CJK/emoji truncation at 4KB boundary` — DONE (already in codebase, fsOperations.ts:730-733 raw byte carry across chunk boundaries)
 - [ ] `Fixed /stats undercounting subagent tokens` — TODO
 - [ ] `Fixed -p --resume hangs on 64KB+ deferred input` — TODO
 - [-] `Fixed claude-cli:// deep links on macOS` — SKIP (desktop app)
@@ -99,7 +99,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed collapsed group badge duplication in parallel tool use` — TODO
 - [ ] `Fixed notification invalidates not clearing immediately` — TODO
 - [ ] `Fixed prompt disappearing after submit with background messages` — TODO
-- [ ] `Fixed Devanagari/combining-mark text truncation` — TODO
+- [x] `Fixed Devanagari/combining-mark text truncation` — DONE (already in codebase, intl.ts grapheme segmenter + useTypeahead.tsx:36 \p{M} combining marks + fsOperations.ts:731 UTF-8 byte boundary)
 - [ ] `Fixed rendering artifacts on main-screen terminals` — TODO
 - [-] `Fixed voice mode macOS Apple Silicon permission` — SKIP (voice)
 - [ ] `Fixed Shift+Enter on Windows Terminal Preview 1.25` — TODO
