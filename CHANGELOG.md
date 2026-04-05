@@ -2,6 +2,7 @@
 
 ## 05.04.2026
 
+- `5119670` Unified MCP install helpers — shared downloadFile/extractZip/extractTarGz/downloadGitHubRepo. Browser MCP now uses GitHub API tarball (no git dependency). All pip calls use python3 -m pip
 - `c0e85f3` Replaced all bash/python calls in Ghidra MCP setup with native JS — axios for downloads, fflate for zip/tar.gz extraction. Zero shell dependencies for install
 - `4f7570f` Updated internal ghidra-re skill to v1.2 for GhidraMCP v5.0.0 — V6 protocol, 158 tools, set_variables, breaking changes documented
 - `4a50b60` Fixed GhidraMCP bridge race condition — launcher waits for Java server to be ready before exec'ing bridge (was showing 7 tools, now 158+)
