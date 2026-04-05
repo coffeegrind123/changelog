@@ -2,6 +2,7 @@
 
 ## 05.04.2026
 
+- `69867f3` Added centralized fingerprinting config mirroring CLIProxyAPI (`src/config/claudeFingerprint.ts`), implemented CCH body signing via xxHash64 (`src/services/api/cchSigning.ts`), added reference doc (`context/fingerprinting.md`) with update procedure and cross-reference table
 - `d406425` Added Computer Use MCP feature notice (4 sessions), updated CLAUDE.md convention: notices must be in same commit as feature
 - `0625930` Replaced CHICAGO_MCP (Anthropic internal, macOS-only, disabled) with open-source domdomegg/computer-use-mcp — cross-platform, runs via `npx -y computer-use-mcp`, MIT licensed. Transparent replacement: server name `computer-use` and tool `mcp__computer-use__computer` unchanged. Removed in-process server intercept from client.ts
 - `c1784ad` Disabled anti-distillation fake tool injection (`anti_distillation=['fake_tools']` removed from API requests). Converted connector text summarization from hardcoded ant+GrowthBook to user setting `connectorTextSummarization` in settings.json (off by default)
