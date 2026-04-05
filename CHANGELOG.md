@@ -2,6 +2,8 @@
 
 ## 05.04.2026
 
+- `4a50b60` Fixed GhidraMCP bridge race condition — launcher waits for Java server to be ready before exec'ing bridge (was showing 7 tools, now 158+)
+- `0155b57` Fixed GhidraMCP extension extraction path (double-nesting), use Python unzip instead of bash
 - `fcbccae` Upgraded GhidraMCP from v4.2.0 to v5.0.0 — downloads pre-built release (no Maven), Python launcher (no bash), naming convention enforcement, completeness scoring redesign, 3 new tools
 - `77e6ec7` Added MCPB fallback for computer-use MCP — downloads .mcpb from GitHub releases via existing plugin pipeline when npm unavailable
 - `f735d48` Removed npx fallback from computer-use MCP — local install only
