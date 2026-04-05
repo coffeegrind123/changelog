@@ -2,6 +2,7 @@
 
 ## 05.04.2026
 
+- `653d2b6` Backported 4 more upstream fixes: transcript writes re-queue on failure instead of silently losing entries on --resume (2.1.91), system-reminder text block prepended for image-only SDK messages so skill reminders aren't dropped (2.1.89), /feedback explains why unavailable instead of hiding (2.1.91), --resume picker filters -p/SDK sessions by entrypoint (2.1.90)
 - `bb4fad9` Backported 4 upstream fixes: cmd+delete (super+backspace) deletes to line start on iTerm2/kitty/WezTerm/Ghostty/Windows Terminal (2.1.91), /cost shows per-model + cache-hit breakdown for subscription users (2.1.92), LSP server auto-restarts on next request after crash instead of staying dead (2.1.89), /stats counts subagent sidechain token usage from main session file (2.1.89)
 - `24fffc1` Backported 2 upstream fixes: misleading esc hints suppressed in fullscreen when text selection exists (2.1.92), Bash tool warns when formatter/linter commands (`prettier --write`, `eslint --fix`, `black`, etc.) modify previously-read files and auto-refreshes readFileState (2.1.89)
 - `7b8f28c` Backported 4 upstream fixes + populated auto mode classifier prompts: tmux subagent spawning permanent failure after windows killed (stable `#{window_id}` + cache invalidation), plugin MCP servers stuck "connecting" on duplicate claude.ai connectors (dedup handles pending state), MCP tool schema cache-key performance (memoize `jsonStringify` on tool object), auto mode classifier `.txt` prompts populated with upstream content (were empty — classifier ran without system prompt)

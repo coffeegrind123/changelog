@@ -36,12 +36,12 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Added disableSkillShellExecution setting` — DONE in 9de31ec
 - [x] `Added multi-line prompts in deep links` — DONE in 9de31ec
 - [x] `Plugins can ship executables under bin/` — DONE in 9de31ec
-- [ ] `Fixed transcript chain breaks on --resume` — TODO
+- [x] `Fixed transcript chain breaks on --resume` — DONE in 653d2b6
 - [x] `Fixed cmd+delete on iTerm2/kitty/WezTerm/Ghostty/Windows Terminal` — DONE in bb4fad9
 - [x] `Fixed plan mode losing plan file after container restart` — DONE (already in codebase, plans.ts copyPlanForResume + persistFileSnapshotIfRemote)
 - [x] `Fixed JSON schema validation for permissions.defaultMode auto` — DONE (already in codebase, all 87 flags on so TRANSCRIPT_CLASSIFIER includes 'auto' in PERMISSION_MODES)
 - [-] `Fixed Windows version cleanup` — SKIP (Windows-specific)
-- [ ] `Fixed /feedback explains why unavailable` — TODO
+- [x] `Fixed /feedback explains why unavailable` — DONE in 653d2b6
 - [ ] `Improved /claude-api skill guidance` — TODO
 - [x] `Improved stripAnsi performance via Bun.stripANSI` — DONE in 9de31ec
 - [x] `Edit tool uses shorter old_string anchors` — DONE in 0673875
@@ -65,7 +65,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Improved SSE transport large frame handling (quadratic → linear)` — DONE in 1839702
 - [x] `Improved SDK transcript write performance` — DONE in 79b1753
 - [ ] `Improved /resume parallel project loading` — TODO
-- [ ] `Changed --resume to hide -p/SDK sessions` — TODO
+- [x] `Changed --resume to hide -p/SDK sessions` — DONE in 653d2b6
 - [x] `Removed DNS cache commands from auto-allow` — DONE in 9de31ec
 
 ## 2.1.89
@@ -88,7 +88,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed -p --resume hangs on 64KB+ deferred input` — TODO
 - [-] `Fixed claude-cli:// deep links on macOS` — SKIP (desktop app)
 - [x] `Fixed MCP tool errors truncating to first content block` — DONE in 9de31ec
-- [ ] `Fixed skill reminders dropped with SDK image messages` — TODO
+- [x] `Fixed skill reminders dropped with SDK image messages` — DONE in 653d2b6
 - [x] `Fixed hook file_path not absolute for Write/Edit/Read` — DONE in 40965ea
 - [x] `Fixed autocompact thrash loop (3x detection)` — DONE in 9de31ec
 - [x] `Fixed prompt cache misses from tool schema changes mid-session` — DONE (already in codebase, toolSchemaCache.ts + api.ts:151)
