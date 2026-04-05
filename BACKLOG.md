@@ -16,7 +16,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Pro users see footer hint for prompt cache expiry` — TODO
 - [ ] `Fixed subagent spawning failing after tmux windows killed` — TODO
 - [ ] `Fixed prompt-type Stop hooks failing on ok:false` — TODO
-- [ ] `Fixed tool input validation for streaming JSON strings` — TODO
+- [x] `Fixed tool input validation for streaming JSON strings` — DONE in 861dbd0
 - [x] `Fixed API 400 on whitespace-only thinking text block` — DONE (already in codebase, messages.ts:2313-2324 filterWhitespaceOnlyAssistantMessages)
 - [-] `Fixed feedback survey auto-submissions` — SKIP (feedback disabled)
 - [ ] `Fixed misleading esc hints in fullscreen mode` — TODO
