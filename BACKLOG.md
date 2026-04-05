@@ -79,7 +79,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed Edit/Read allow rules to check symlink targets` — TODO
 - [-] `Fixed voice push-to-talk modifier bindings` — SKIP (voice not priority)
 - [ ] `Fixed Edit/Write CRLF doubling on Windows` — TODO
-- [ ] `Fixed StructuredOutput schema cache 50% failure rate` — TODO
+- [x] `Fixed StructuredOutput schema cache 50% failure rate` — DONE (already in codebase, api.ts:142-146 cache key includes inputJSONSchema)
 - [ ] `Fixed memory leak in LRU cache keys` — TODO
 - [ ] `Fixed crash removing message from 50MB+ sessions` — TODO
 - [ ] `Fixed LSP server zombie state after crash` — TODO
@@ -91,7 +91,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed skill reminders dropped with SDK image messages` — TODO
 - [x] `Fixed hook file_path not absolute for Write/Edit/Read` — DONE in 40965ea
 - [x] `Fixed autocompact thrash loop (3x detection)` — DONE in 9de31ec
-- [ ] `Fixed prompt cache misses from tool schema changes mid-session` — TODO
+- [x] `Fixed prompt cache misses from tool schema changes mid-session` — DONE (already in codebase, toolSchemaCache.ts + api.ts:151)
 - [x] `Fixed nested CLAUDE.md re-injection in long sessions` — DONE (already in codebase, attachments.ts:1719-1723 loadedNestedMemoryPaths Set)
 - [ ] `Fixed --resume crash on older transcript format` — TODO
 - [ ] `Fixed misleading rate limit message for entitlement errors` — TODO
