@@ -2,6 +2,7 @@
 
 ## 05.04.2026
 
+- `7b8f28c` Backported 4 upstream fixes + populated auto mode classifier prompts: tmux subagent spawning permanent failure after windows killed (stable `#{window_id}` + cache invalidation), plugin MCP servers stuck "connecting" on duplicate claude.ai connectors (dedup handles pending state), MCP tool schema cache-key performance (memoize `jsonStringify` on tool object), auto mode classifier `.txt` prompts populated with upstream content (were empty — classifier ran without system prompt)
 - `2d14581` Backported 5 upstream fixes: prompt-type Stop hooks only set preventContinuation for Stop events (2.1.92), ctrl+e no longer jumps to next line at wrapped-line boundary (2.1.92), permission dialog crash on malformed tool input caught by try/catch (2.1.90), idle-return hint shows last request's input tokens instead of cumulative total (2.1.92), entitlement 429s now show actual error for all users not just subscribers (2.1.89)
 - `b812c7e` Added auto-updater GitHub Releases integration — compiled binaries now route to `AutoUpdater` → `installGlobalPackage()` → GitHub Releases instead of broken Anthropic native installer (GCS). Includes: compile-time version injection via `--define`, native installer GitHub fallback with SHA256 verification, push-to-main CI builds, manifest.json in releases, GITHUB_TOKEN auth header for rate limit hardening
 - `1839702` Improved SSE transport large frame handling — quadratic → linear string accumulation via array chunks (backport from 2.1.90)

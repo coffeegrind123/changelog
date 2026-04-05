@@ -14,7 +14,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `/release-notes is now an interactive version picker` — TODO
 - [-] `Remote Control session names use hostname prefix` — SKIP (bridge/remote feature)
 - [ ] `Pro users see footer hint for prompt cache expiry` — TODO
-- [ ] `Fixed subagent spawning failing after tmux windows killed` — TODO
+- [x] `Fixed subagent spawning failing after tmux windows killed` — DONE in 7b8f28c
 - [x] `Fixed prompt-type Stop hooks failing on ok:false` — DONE in 2d14581
 - [x] `Fixed tool input validation for streaming JSON strings` — DONE in 861dbd0
 - [x] `Fixed API 400 on whitespace-only thinking text block` — DONE (already in codebase, messages.ts:2313-2324 filterWhitespaceOnlyAssistantMessages)
@@ -24,7 +24,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed ctrl+e jumping in multiline prompts` — DONE in 2d14581
 - [ ] `Fixed duplicate message in fullscreen scrollback` — TODO
 - [x] `Fixed idle-return token hint showing cumulative tokens` — DONE in 2d14581
-- [ ] `Fixed plugin MCP servers stuck connecting` — TODO
+- [x] `Fixed plugin MCP servers stuck connecting` — DONE in 7b8f28c
 - [x] `Improved Write tool diff speed 60% faster` — DONE in 24c7f5b
 - [-] `Removed /tag command` — SKIP (we keep /tag)
 - [-] `Removed /vim command` — SKIP (we keep /vim)
@@ -56,12 +56,12 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed Edit/Write failing with format-on-save hooks` — DONE in 24c7f5b
 - [x] `Fixed PreToolUse hooks with JSON stdout exit code 2` — DONE in 1d66372
 - [ ] `Fixed collapsed search/read badge duplication in fullscreen` — TODO
-- [ ] `Fixed auto mode not respecting explicit user boundaries` — TODO
+- [x] `Fixed auto mode not respecting explicit user boundaries` — DONE in 7b8f28c (populated empty classifier prompt files)
 - [ ] `Fixed click-to-expand hover text on light themes` — TODO
 - [x] `Fixed UI crash on malformed tool input in permission dialog` — DONE in 2d14581
 - [ ] `Fixed headers disappearing in selection screens` — TODO
 - [ ] `Hardened PowerShell tool permission checks` — TODO
-- [ ] `Improved MCP tool schema cache-key performance` — TODO
+- [x] `Improved MCP tool schema cache-key performance` — DONE in 7b8f28c
 - [x] `Improved SSE transport large frame handling (quadratic → linear)` — DONE in 1839702
 - [x] `Improved SDK transcript write performance` — DONE in 79b1753
 - [ ] `Improved /resume parallel project loading` — TODO
@@ -81,7 +81,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed Edit/Write CRLF doubling on Windows` — TODO
 - [x] `Fixed StructuredOutput schema cache 50% failure rate` — DONE (already in codebase, api.ts:142-146 cache key includes inputJSONSchema)
 - [x] `Fixed memory leak in LRU cache keys` — DONE in 24c7f5b
-- [ ] `Fixed crash removing message from 50MB+ sessions` — TODO
+- [x] `Fixed crash removing message from 50MB+ sessions` — DONE (already in codebase, sessionStorage.ts MAX_TOMBSTONE_REWRITE_BYTES guard)
 - [ ] `Fixed LSP server zombie state after crash` — TODO
 - [x] `Fixed prompt history CJK/emoji truncation at 4KB boundary` — DONE (already in codebase, fsOperations.ts:730-733 raw byte carry across chunk boundaries)
 - [ ] `Fixed /stats undercounting subagent tokens` — TODO
@@ -97,8 +97,8 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed misleading rate limit message for entitlement errors` — DONE in 2d14581
 - [x] `Fixed hooks if condition not matching compound commands` — DONE (already in codebase, BashTool.tsx:487-510 preparePermissionMatcher splits compound commands)
 - [ ] `Fixed collapsed group badge duplication in parallel tool use` — TODO
-- [ ] `Fixed notification invalidates not clearing immediately` — TODO
-- [ ] `Fixed prompt disappearing after submit with background messages` — TODO
+- [x] `Fixed notification invalidates not clearing immediately` — DONE (already in codebase, notifications.tsx invalidatesCurrent clears current + filters queue)
+- [x] `Fixed prompt disappearing after submit with background messages` — DONE (already in codebase, REPL.tsx userInputBaselineRef bump on background messages)
 - [x] `Fixed Devanagari/combining-mark text truncation` — DONE (already in codebase, intl.ts grapheme segmenter + useTypeahead.tsx:36 \p{M} combining marks + fsOperations.ts:731 UTF-8 byte boundary)
 - [ ] `Fixed rendering artifacts on main-screen terminals` — TODO
 - [-] `Fixed voice mode macOS Apple Silicon permission` — SKIP (voice)
