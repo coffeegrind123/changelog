@@ -10,7 +10,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 - [-] `Added forceRemoteSettingsRefresh policy setting` — SKIP (Anthropic managed infra)
 - [ ] `Added interactive Bedrock setup wizard` — TODO
-- [ ] `Added per-model and cache-hit breakdown to /cost` — TODO
+- [x] `Added per-model and cache-hit breakdown to /cost` — DONE in bb4fad9
 - [ ] `/release-notes is now an interactive version picker` — TODO
 - [-] `Remote Control session names use hostname prefix` — SKIP (bridge/remote feature)
 - [ ] `Pro users see footer hint for prompt cache expiry` — TODO
@@ -37,7 +37,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Added multi-line prompts in deep links` — DONE in 9de31ec
 - [x] `Plugins can ship executables under bin/` — DONE in 9de31ec
 - [ ] `Fixed transcript chain breaks on --resume` — TODO
-- [ ] `Fixed cmd+delete on iTerm2/kitty/WezTerm/Ghostty/Windows Terminal` — TODO
+- [x] `Fixed cmd+delete on iTerm2/kitty/WezTerm/Ghostty/Windows Terminal` — DONE in bb4fad9
 - [x] `Fixed plan mode losing plan file after container restart` — DONE (already in codebase, plans.ts copyPlanForResume + persistFileSnapshotIfRemote)
 - [x] `Fixed JSON schema validation for permissions.defaultMode auto` — DONE (already in codebase, all 87 flags on so TRANSCRIPT_CLASSIFIER includes 'auto' in PERMISSION_MODES)
 - [-] `Fixed Windows version cleanup` — SKIP (Windows-specific)
@@ -82,9 +82,9 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed StructuredOutput schema cache 50% failure rate` — DONE (already in codebase, api.ts:142-146 cache key includes inputJSONSchema)
 - [x] `Fixed memory leak in LRU cache keys` — DONE in 24c7f5b
 - [x] `Fixed crash removing message from 50MB+ sessions` — DONE (already in codebase, sessionStorage.ts MAX_TOMBSTONE_REWRITE_BYTES guard)
-- [ ] `Fixed LSP server zombie state after crash` — TODO
+- [x] `Fixed LSP server zombie state after crash` — DONE in bb4fad9
 - [x] `Fixed prompt history CJK/emoji truncation at 4KB boundary` — DONE (already in codebase, fsOperations.ts:730-733 raw byte carry across chunk boundaries)
-- [ ] `Fixed /stats undercounting subagent tokens` — TODO
+- [x] `Fixed /stats undercounting subagent tokens` — DONE in bb4fad9
 - [ ] `Fixed -p --resume hangs on 64KB+ deferred input` — TODO
 - [-] `Fixed claude-cli:// deep links on macOS` — SKIP (desktop app)
 - [x] `Fixed MCP tool errors truncating to first content block` — DONE in 9de31ec
