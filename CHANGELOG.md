@@ -2,6 +2,8 @@
 
 ## 05.04.2026
 
+- `77e6ec7` Added MCPB fallback for computer-use MCP — downloads .mcpb from GitHub releases via existing plugin pipeline when npm unavailable
+- `f735d48` Removed npx fallback from computer-use MCP — local install only
 - `f741364` Moved all built-in MCP server installs from hardcoded /opt/ to ~/.claude/mcp-servers/ — browser, ghidra, computer-use. JDK detection checks JAVA_HOME → PATH (any 21+) → portable Temurin download (x64/arm64, linux/mac). Computer Use now npm-installs locally instead of npx-y every run. Added OPENCLAUDE_SKIP_MCP_INSTALL=1 env var to disable
 - `feebccd` Replaced sharp and turndown stubs with real packages — sharp 0.34.5 (native image resizing works), turndown 7.2.4 (WebFetch HTML→markdown works)
 - `e6bdd4e` Populated 3 empty .txt prompt files from upstream bundle — permissions_anthropic.txt (14K ant-only YOLO classifier rules), ultraplan/prompt.txt (multi-agent planning prompt). Previously 0-byte files that only worked in compiled builds
