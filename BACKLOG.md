@@ -22,7 +22,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed misleading esc hints in fullscreen mode` — DONE in 24fffc1
 - [-] `Fixed Homebrew install update prompts` — SKIP (we use GitHub Releases)
 - [x] `Fixed ctrl+e jumping in multiline prompts` — DONE in 2d14581
-- [ ] `Fixed duplicate message in fullscreen scrollback` — TODO
+- [x] `Fixed duplicate message in fullscreen scrollback` — DONE (already in codebase, ink.tsx:586-591 BSU/ESU atomicity for DECSTBM scroll)
 - [x] `Fixed idle-return token hint showing cumulative tokens` — DONE in 2d14581
 - [x] `Fixed plugin MCP servers stuck connecting` — DONE in 7b8f28c
 - [x] `Improved Write tool diff speed 60% faster` — DONE in 24c7f5b
@@ -38,7 +38,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Plugins can ship executables under bin/` — DONE in 9de31ec
 - [ ] `Fixed transcript chain breaks on --resume` — TODO
 - [ ] `Fixed cmd+delete on iTerm2/kitty/WezTerm/Ghostty/Windows Terminal` — TODO
-- [ ] `Fixed plan mode losing plan file after container restart` — TODO
+- [x] `Fixed plan mode losing plan file after container restart` — DONE (already in codebase, plans.ts copyPlanForResume + persistFileSnapshotIfRemote)
 - [x] `Fixed JSON schema validation for permissions.defaultMode auto` — DONE (already in codebase, all 87 flags on so TRANSCRIPT_CLASSIFIER includes 'auto' in PERMISSION_MODES)
 - [-] `Fixed Windows version cleanup` — SKIP (Windows-specific)
 - [ ] `Fixed /feedback explains why unavailable` — TODO
