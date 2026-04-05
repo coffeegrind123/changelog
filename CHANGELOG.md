@@ -2,6 +2,7 @@
 
 ## 05.04.2026
 
+- `41a99e0` Restored MCP official registry fetch (previously stubbed), removed CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC guard, added open modelcontextprotocol.io registry — both fetched in parallel on startup via Promise.allSettled
 - `69867f3` Added centralized fingerprinting config mirroring CLIProxyAPI (`src/config/claudeFingerprint.ts`), implemented CCH body signing via xxHash64 (`src/services/api/cchSigning.ts`), added reference doc (`context/fingerprinting.md`) with update procedure and cross-reference table
 - `d406425` Added Computer Use MCP feature notice (4 sessions), updated CLAUDE.md convention: notices must be in same commit as feature
 - `0625930` Replaced CHICAGO_MCP (Anthropic internal, macOS-only, disabled) with open-source domdomegg/computer-use-mcp — cross-platform, runs via `npx -y computer-use-mcp`, MIT licensed. Transparent replacement: server name `computer-use` and tool `mcp__computer-use__computer` unchanged. Removed in-process server intercept from client.ts
