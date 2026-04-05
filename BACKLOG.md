@@ -17,7 +17,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed subagent spawning failing after tmux windows killed` — TODO
 - [ ] `Fixed prompt-type Stop hooks failing on ok:false` — TODO
 - [ ] `Fixed tool input validation for streaming JSON strings` — TODO
-- [ ] `Fixed API 400 on whitespace-only thinking text block` — TODO
+- [x] `Fixed API 400 on whitespace-only thinking text block` — DONE (already in codebase, messages.ts:2313-2324 filterWhitespaceOnlyAssistantMessages)
 - [-] `Fixed feedback survey auto-submissions` — SKIP (feedback disabled)
 - [ ] `Fixed misleading esc hints in fullscreen mode` — TODO
 - [-] `Fixed Homebrew install update prompts` — SKIP (we use GitHub Releases)
@@ -39,7 +39,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed transcript chain breaks on --resume` — TODO
 - [ ] `Fixed cmd+delete on iTerm2/kitty/WezTerm/Ghostty/Windows Terminal` — TODO
 - [ ] `Fixed plan mode losing plan file after container restart` — TODO
-- [ ] `Fixed JSON schema validation for permissions.defaultMode auto` — TODO
+- [x] `Fixed JSON schema validation for permissions.defaultMode auto` — DONE (already in codebase, all 87 flags on so TRANSCRIPT_CLASSIFIER includes 'auto' in PERMISSION_MODES)
 - [-] `Fixed Windows version cleanup` — SKIP (Windows-specific)
 - [ ] `Fixed /feedback explains why unavailable` — TODO
 - [ ] `Improved /claude-api skill guidance` — TODO
@@ -71,10 +71,10 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 ## 2.1.89
 
 - [x] `Added defer permission decision to PreToolUse hooks` — DONE in 9de31ec
-- [ ] `Added CLAUDE_CODE_NO_FLICKER=1 alt-screen rendering` — TODO
-- [ ] `Added PermissionDenied hook with retry` — TODO
+- [x] `Added CLAUDE_CODE_NO_FLICKER=1 alt-screen rendering` — DONE (already in codebase, fullscreen.ts:112-116)
+- [x] `Added PermissionDenied hook with retry` — DONE (already in codebase, hooks.ts:2934, toolExecution.ts:1096)
 - [ ] `Added named subagents to @ mention typeahead` — TODO
-- [ ] `Added MCP_CONNECTION_NONBLOCKING for -p mode` — TODO
+- [x] `Added MCP_CONNECTION_NONBLOCKING for -p mode` — DONE (already in codebase, cli.tsx:38)
 - [ ] `Auto mode denied commands show notification + retry in /permissions` — TODO
 - [ ] `Fixed Edit/Read allow rules to check symlink targets` — TODO
 - [-] `Fixed voice push-to-talk modifier bindings` — SKIP (voice not priority)
