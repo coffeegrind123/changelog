@@ -2,6 +2,7 @@
 
 ## 05.04.2026
 
+- `ec77e4a` Fixed color-diff-napi stub missing render() causing "REPL entered fallback mode" crash — stub now re-exports from native TS port at src/native-ts/color-diff/ instead of broken no-op classes
 - `24b057e` Updated ghidra-re skill to v1.1 and browser-automation skill to v1.2 from external repos — 7-phase Ghidra workflow, expanded error handling/pitfalls, 9 bundled reference files, self-refinement protocols, authenticated proxy docs
 - `728a072` Fixed shift+tab mode cycling stuck on default — ant-specific carousel only had bypassPermissions/auto (both gated), removed ant branch so full carousel works: default → acceptEdits → plan → bypassPermissions → default. Also made bypass permissions always available for USER_TYPE=ant
 - `a9bd302` Fixed startup notices showing all 6 at once — now shows only the most recent eligible notice, auto-rotates as each expires after N sessions
