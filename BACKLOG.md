@@ -12,7 +12,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Added interactive Bedrock setup wizard` — SKIP (Anthropic cloud infra, needs AWS SDK integration)
 - [x] `Added per-model and cache-hit breakdown to /cost` — DONE in bb4fad9
 - [x] `/release-notes is now an interactive version picker` — DONE in 64c457b
-- [-] `Remote Control session names use hostname prefix` — SKIP (bridge/remote feature)
+- [x] `Remote Control session names use hostname prefix` — DONE in 90d72cc (CLAUDE_REMOTE_CONTROL_SESSION_NAME_PREFIX env var)
 - [ ] `Pro users see footer hint for prompt cache expiry` — TODO
 - [x] `Fixed subagent spawning failing after tmux windows killed` — DONE in 7b8f28c
 - [x] `Fixed prompt-type Stop hooks failing on ok:false` — DONE in 2d14581
