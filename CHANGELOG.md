@@ -2,6 +2,7 @@
 
 ## 06.04.2026
 
+- `01ee9f4` Added live API model display — logo/status line shows actual model from API response + provider domain (e.g. `glm-4.7 (api.z.ai)`), updates reactively on every response. Replaces hardcoded pretty names
 - `cae8e84` Resilient MCP installs — verify deps on every startup (import check), retry pip if missing. Fixes ghidra pip silently failing
 - `4a5f246` Fixed startup hang — COMMANDS() array missing .filter(Boolean), null pr_comments command crashed meetsAvailabilityRequirement
 - `c57f843` Pinned lru-cache to 11.2.7 (newer versions use top-level await, breaks bun --compile)
