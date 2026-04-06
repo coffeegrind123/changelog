@@ -2,6 +2,7 @@
 
 ## 06.04.2026
 
+- `f5f010a` Robust MCP server installation — all three (browser, ghidra, computer-use) now install and connect reliably. Fixed broken pip venv auto-recreation, proper dep verification with retry, npm install for computer-use (npx --prefix broken), MCPSettings shows loading state instead of dismissing, Ghidra flat classpath launcher
 - `4ccf522` Fixed MCPB manifest schema — `McpbManifestSchema` moved to `vAny` namespace in `@anthropic-ai/mcpb`, was breaking all MCPB plugin installs including computer-use MCP
 - `1d1ae0d` Fixed MCP setup race conditions — MCPSettings 5s delay before "no servers" dismiss, browser dep check includes `mcp` package, computer-use switched to MCPB-only (npm installs were broken), Ghidra headless launcher fixed (flat classpath, no module system), `application.properties` health check, zip kept for re-extraction recovery
 - `08e9d47` Completed full 1:1 CLIProxyAPI fingerprinting parity — wired thinking signature cache (3h TTL), proxy header scrubbing (`X-Forwarded-*`, `Sec-Ch-Ua-*`, `Sec-Fetch-*`, etc.), `X-Stainless-Retry-Count`, `Anthropic-Dangerous-Direct-Browser-Access`, `Connection: keep-alive`. Verified against claude-code-proxy + openclaw-billing-proxy — both lack most features we have
