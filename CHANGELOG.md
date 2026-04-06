@@ -2,6 +2,9 @@
 
 ## 06.04.2026
 
+- `ad43d65` Fixed slash command autocomplete — commands with undefined names (null stubs) crashed generateCommandSuggestions silently, killing the entire suggestion pipeline
+- `308414e` Removed CLAUDE_CODE_NO_FLICKER=0 from docker-compose files (was disabling fullscreen)
+- `7e02694` Disabled all three feedback surveys (session, memory, post-compact) — telemetry is stubbed
 - `6d94a23` Added NEVER rule to CLAUDE.md — don't run untested binaries in live session container
 - `441cc16` Fixed useBuiltinMcpServers — static import instead of require() in render body (was breaking React hooks ordering, may have caused slash command autocomplete failure)
 - `5a908af` Added prompt cache expiry hint — shows '~Xk uncached · /clear to start fresh' when returning after 1h cache TTL with >50K tokens (last 2.1.92 TODO)
