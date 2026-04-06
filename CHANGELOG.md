@@ -2,6 +2,8 @@
 
 ## 06.04.2026
 
+- `6d94a23` Added NEVER rule to CLAUDE.md — don't run untested binaries in live session container
+- `441cc16` Fixed useBuiltinMcpServers — static import instead of require() in render body (was breaking React hooks ordering, may have caused slash command autocomplete failure)
 - `5a908af` Added prompt cache expiry hint — shows '~Xk uncached · /clear to start fresh' when returning after 1h cache TTL with >50K tokens (last 2.1.92 TODO)
 - `90d72cc` Applied upstream 2.1.92 changes: removed tengu_attribution_header killswitch (always enabled), added CLAUDE_CODE_SKIP_FAST_MODE_ORG_CHECK and CLAUDE_REMOTE_CONTROL_SESSION_NAME_PREFIX env vars, added binary extraction section to protocol doc
 - `228e476` Added unified upstream update protocol (context/upstream-protocol.md) — covers all 4 sources (Anthropic changelog, Piebald-AI prompts, minzique RE, CLIProxyAPI), step-by-step procedure, cross-reference table, quick commands
