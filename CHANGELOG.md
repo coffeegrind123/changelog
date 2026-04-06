@@ -2,6 +2,7 @@
 
 ## 05.04.2026
 
+- `228e476` Added unified upstream update protocol (context/upstream-protocol.md) — covers all 4 sources (Anthropic changelog, Piebald-AI prompts, minzique RE, CLIProxyAPI), step-by-step procedure, cross-reference table, quick commands
 - `05d07dc` Async MCP server setup — all three built-in servers install/connect after UI renders via useBuiltinMcpServers hook. Non-blocking startup, notifications on connect. Dockerfiles stripped of all MCP installs
 - `c211c21` Ghidra MCP bridge now runs in-process via InProcessTransport (same pattern as Chrome MCP) — no Bun/Python subprocess needed, works in compiled binary
 - `3ac1576` Replaced Python Ghidra bridge with TypeScript — 1:1 port of bridge_mcp_ghidra.py (1425 lines), uses @modelcontextprotocol/sdk, starts Java server itself. Ghidra MCP no longer requires Python
