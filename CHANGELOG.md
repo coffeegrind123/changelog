@@ -2,6 +2,7 @@
 
 ## 06.04.2026
 
+- `4ccf522` Fixed MCPB manifest schema — `McpbManifestSchema` moved to `vAny` namespace in `@anthropic-ai/mcpb`, was breaking all MCPB plugin installs including computer-use MCP
 - `1d1ae0d` Fixed MCP setup race conditions — MCPSettings 5s delay before "no servers" dismiss, browser dep check includes `mcp` package, computer-use switched to MCPB-only (npm installs were broken), Ghidra headless launcher fixed (flat classpath, no module system), `application.properties` health check, zip kept for re-extraction recovery
 - `08e9d47` Completed full 1:1 CLIProxyAPI fingerprinting parity — wired thinking signature cache (3h TTL), proxy header scrubbing (`X-Forwarded-*`, `Sec-Ch-Ua-*`, `Sec-Fetch-*`, etc.), `X-Stainless-Retry-Count`, `Anthropic-Dangerous-Direct-Browser-Access`, `Connection: keep-alive`. Verified against claude-code-proxy + openclaw-billing-proxy — both lack most features we have
 - `e644bb6` Added CLIProxyAPI fingerprinting — device profile stabilization (7d TTL), fake user IDs (`user_{hex}_account_{uuid}_session_{uuid}`, 1h cache), session ID caching (1h), sensitive word obfuscation (U+200B), cloaking system (auto/always/never). All configurable via `fingerprint.json`
