@@ -2,6 +2,9 @@
 
 ## 06.04.2026
 
+- `cae8e84` Resilient MCP installs — verify deps on every startup (import check), retry pip if missing. Fixes ghidra pip silently failing
+- `4a5f246` Fixed startup hang — COMMANDS() array missing .filter(Boolean), null pr_comments command crashed meetsAvailabilityRequirement
+- `c57f843` Pinned lru-cache to 11.2.7 (newer versions use top-level await, breaks bun --compile)
 - `8407941` Populated all 34 stub prompt files from Piebald v2.1.91 extraction — claude-api skill (26 .md), verify skill (3 .md), new Agent Design Patterns skill, memory attachment prompt v2.1.91, MagicDocs stubbed, /pr-comments nulled. 7478 lines added
 - `e33e717` Fixed YOLO classifier — force external permissions template (ant template was wrong extraction)
 - `f0b3352` Fixed /mcp dialog freeze — local JSX commands now register as overlays, disabling typeahead/autocomplete keybindings that stole up/down/esc. Also clears suggestion list when dialog opens
