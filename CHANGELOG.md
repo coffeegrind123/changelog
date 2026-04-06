@@ -2,6 +2,7 @@
 
 ## 06.04.2026
 
+- `5587518` Added inline reasoning display — new "Show reasoning" toggle in `/config`, thinking support for z.ai/DeepSeek (sends `type: "enabled"` not `adaptive`), explicit `type: "disabled"` for providers with default-on thinking, `showThinking` setting in settings.json
 - `f5f010a` Robust MCP server installation — all three (browser, ghidra, computer-use) now install and connect reliably. Fixed broken pip venv auto-recreation, proper dep verification with retry, npm install for computer-use (npx --prefix broken), MCPSettings shows loading state instead of dismissing, Ghidra flat classpath launcher
 - `4ccf522` Fixed MCPB manifest schema — `McpbManifestSchema` moved to `vAny` namespace in `@anthropic-ai/mcpb`, was breaking all MCPB plugin installs including computer-use MCP
 - `1d1ae0d` Fixed MCP setup race conditions — MCPSettings 5s delay before "no servers" dismiss, browser dep check includes `mcp` package, computer-use switched to MCPB-only (npm installs were broken), Ghidra headless launcher fixed (flat classpath, no module system), `application.properties` health check, zip kept for re-extraction recovery
