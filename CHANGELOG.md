@@ -2,6 +2,7 @@
 
 ## 05.04.2026
 
+- `5a908af` Added prompt cache expiry hint — shows '~Xk uncached · /clear to start fresh' when returning after 1h cache TTL with >50K tokens (last 2.1.92 TODO)
 - `90d72cc` Applied upstream 2.1.92 changes: removed tengu_attribution_header killswitch (always enabled), added CLAUDE_CODE_SKIP_FAST_MODE_ORG_CHECK and CLAUDE_REMOTE_CONTROL_SESSION_NAME_PREFIX env vars, added binary extraction section to protocol doc
 - `228e476` Added unified upstream update protocol (context/upstream-protocol.md) — covers all 4 sources (Anthropic changelog, Piebald-AI prompts, minzique RE, CLIProxyAPI), step-by-step procedure, cross-reference table, quick commands
 - `05d07dc` Async MCP server setup — all three built-in servers install/connect after UI renders via useBuiltinMcpServers hook. Non-blocking startup, notifications on connect. Dockerfiles stripped of all MCP installs
