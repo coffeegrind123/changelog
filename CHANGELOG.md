@@ -2,6 +2,7 @@
 
 ## 06.04.2026
 
+- `33fbd2e` Added MCP server health verification and self-healing — spawns server, checks MCP handshake, nukes broken installs for auto-repair on next startup
 - `1884b5a` Added download resume support — Range header for interrupted downloads, .incomplete files, Content-Length verification. Ghidra 400MB zip was silently truncating
 - `9e28e0a` Fixed browser MCP missing pip install -e ., fixed large zip extraction (python3 fallback for >50MB)
 - `ad43d65` Fixed slash command autocomplete — commands with undefined names (null stubs) crashed generateCommandSuggestions silently, killing the entire suggestion pipeline
