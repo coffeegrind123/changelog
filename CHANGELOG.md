@@ -2,6 +2,9 @@
 
 ## 06.04.2026
 
+- `f0b3352` Fixed /mcp dialog freeze — local JSX commands now register as overlays, disabling typeahead/autocomplete keybindings that stole up/down/esc. Also clears suggestion list when dialog opens
+- `90fc452` Fixed mouse copy — fullscreen defaults off for all users (ant was defaulting on, enabling DEC 1003 mouse tracking)
+- `97afd0f` Reverted Ghidra to Python launcher + bridge (in-process TS bridge crashed React by stealing stdio)
 - `33fbd2e` Added MCP server health verification and self-healing — spawns server, checks MCP handshake, nukes broken installs for auto-repair on next startup
 - `1884b5a` Added download resume support — Range header for interrupted downloads, .incomplete files, Content-Length verification. Ghidra 400MB zip was silently truncating
 - `9e28e0a` Fixed browser MCP missing pip install -e ., fixed large zip extraction (python3 fallback for >50MB)
