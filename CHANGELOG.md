@@ -2,6 +2,11 @@
 
 ## 06.04.2026
 
+- `3227e2c` Fixed autocomplete not clearing on empty input — suggestions stayed open after `/clear` or backspace. Also fixed thinking block gate in Message.tsx that broke interactive mode
+- `614c883` Updated ghidra-re skill — `import_file` runs `analyzeHeadless` directly, no curl needed
+- `483abc8` Ghidra headless import + permission fix — `chmod +x` on scripts after zip extraction, `import_file` uses `/load_program` to open binary in server
+- `9f89796` 5% chance Clawd has a little extra between his legs
+- `9bba5a3` Restored MCP registry stub — telemetry-only, not needed in this fork
 - `8747b45` Fixed thinking block rendering — Message.tsx was filtering out thinking blocks before they reached the display component. Now shows reasoning inline when "Show reasoning" is enabled
 - `5587518` Added inline reasoning display — new "Show reasoning" toggle in `/config`, thinking support for z.ai/DeepSeek (sends `type: "enabled"` not `adaptive`), explicit `type: "disabled"` for providers with default-on thinking, `showThinking` setting in settings.json
 - `f5f010a` Robust MCP server installation — all three (browser, ghidra, computer-use) now install and connect reliably. Fixed broken pip venv auto-recreation, proper dep verification with retry, npm install for computer-use (npx --prefix broken), MCPSettings shows loading state instead of dismissing, Ghidra flat classpath launcher
