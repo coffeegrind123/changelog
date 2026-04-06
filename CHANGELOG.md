@@ -2,6 +2,8 @@
 
 ## 06.04.2026
 
+- `8407941` Populated all 34 stub prompt files from Piebald v2.1.91 extraction — claude-api skill (26 .md), verify skill (3 .md), new Agent Design Patterns skill, memory attachment prompt v2.1.91, MagicDocs stubbed, /pr-comments nulled. 7478 lines added
+- `e33e717` Fixed YOLO classifier — force external permissions template (ant template was wrong extraction)
 - `f0b3352` Fixed /mcp dialog freeze — local JSX commands now register as overlays, disabling typeahead/autocomplete keybindings that stole up/down/esc. Also clears suggestion list when dialog opens
 - `90fc452` Fixed mouse copy — fullscreen defaults off for all users (ant was defaulting on, enabling DEC 1003 mouse tracking)
 - `97afd0f` Reverted Ghidra to Python launcher + bridge (in-process TS bridge crashed React by stealing stdio)
