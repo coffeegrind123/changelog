@@ -2,7 +2,8 @@
 
 ## 06.04.2026
 
-- `e644bb6` Added full CLIProxyAPI fingerprinting parity — device profile stabilization (7d TTL), fake user IDs (`user_{hex}_account_{uuid}_session_{uuid}`, 1h cache), session ID caching (1h), sensitive word obfuscation (U+200B), cloaking system (auto/always/never), TLS fingerprinting (optional `tls-client`). All configurable via `fingerprint.json`
+- `08e9d47` Completed full 1:1 CLIProxyAPI fingerprinting parity — wired thinking signature cache (3h TTL), proxy header scrubbing (`X-Forwarded-*`, `Sec-Ch-Ua-*`, `Sec-Fetch-*`, etc.), `X-Stainless-Retry-Count`, `Anthropic-Dangerous-Direct-Browser-Access`, `Connection: keep-alive`. Verified against claude-code-proxy + openclaw-billing-proxy — both lack most features we have
+- `e644bb6` Added CLIProxyAPI fingerprinting — device profile stabilization (7d TTL), fake user IDs (`user_{hex}_account_{uuid}_session_{uuid}`, 1h cache), session ID caching (1h), sensitive word obfuscation (U+200B), cloaking system (auto/always/never). All configurable via `fingerprint.json`
 - `345a595` Added dynamic /model picker — queries `ANTHROPIC_BASE_URL/v1/models` for available models, falls back to hardcoded list. Pretty display names from API (e.g. `GLM-4.7` not `glm-4.7`), sorted newest first. /model selection updates logo immediately
 - `01ee9f4` Added live API model display — logo/status line shows actual model from API response + provider domain (e.g. `GLM-4.7 (api.z.ai)`), updates reactively on every response
 - `cae8e84` Resilient MCP installs — verify deps on every startup (import check), retry pip if missing. Fixes ghidra pip silently failing
