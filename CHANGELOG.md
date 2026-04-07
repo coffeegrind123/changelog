@@ -6,6 +6,7 @@
 - `70174e6` Enabled LSP tool (860-line, 9 operations), fixed autoDream KAIROS gate exclusion, unhided `/heapdump`. Audit found FORK_SUBAGENT already working (211 lines in AgentTool), BUDDY already rendering (18 species), ULTRAPLAN 70% but needs OAuth
 - `b9cfb92` Refactored `/ultraplan` from CCR remote sessions to local forked agent — no OAuth/login needed, uses `runForkedAgent()` + `ExitPlanModeScanner`, spawns planning agent locally with parallel sub-agents
 - `8c9dcf4` Implemented local voice mode via faster-whisper — persistent Python STT worker at `~/.claude/voice-stt/`, length-prefixed PCM protocol, auto-installs venv + model on first `/voice`. Original Anthropic voice_stream preserved behind `VOICE_STREAM_BASE_URL`
+- `cee4eef` Implemented BUDDY speech bubbles (`sideQuery()` LLM quips, ~25% per turn), Snip Tool (fast history truncation, disabled by default via `snipEnabled`), and Workflow Tool (background agent workflows from `~/.claude/workflows/*.md`, built-in: `test-and-fix`, `lint-fix`)
 
 ## 06.04.2026
 
