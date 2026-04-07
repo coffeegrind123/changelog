@@ -10,6 +10,7 @@
 - `d220110` Implemented daemon mode — `--bg` spawns tmux sessions with auto permission bypass, `claude ps/logs/attach/kill` for management, `claude daemon start/stop/status/restart` for supervised sessions with auto-restart (max 3 per 5min). State in `~/.claude/daemon-state.json`
 - `1fc0202` Added tmux auto-install for daemon/bg mode — downloads prebuilt static binary from `tmux/tmux-builds` v3.6a to `~/.claude/bin/tmux` if system tmux not available. Supports linux-x86_64, linux-arm64, macos-x86_64, macos-arm64
 - `abbb079` Implemented templates/jobs system — `claude new <template>` dispatches jobs from `~/.claude/templates/*.md`, job state tracked in `~/.claude/jobs/<id>/state.json` via classifier, `claude list` shows jobs, `claude reply` sends input, `claude daemon start --template` for supervised execution
+- `8f60f43` Implemented 9 previously-disabled slash commands — `/env` (masked env vars), `/debug-tool-call` (raw JSON), `/good-claude` (easter egg), `/ctx_viz` (ASCII context bars), `/summary` (LLM session summary), `/bughunter` (adversarial bug finder skill), `/autofix-pr` (CI fix skill), `/share` (markdown export), `/teleport` (session state export/import)
 
 ## 06.04.2026
 
