@@ -12,6 +12,7 @@
 - `abbb079` Implemented templates/jobs system — `claude new <template>` dispatches jobs from `~/.claude/templates/*.md`, job state tracked in `~/.claude/jobs/<id>/state.json` via classifier, `claude list` shows jobs, `claude reply` sends input, `claude daemon start --template` for supervised execution
 - `8f60f43` Implemented 9 previously-disabled slash commands — `/env` (masked env vars), `/debug-tool-call` (raw JSON), `/good-claude` (easter egg), `/ctx_viz` (alias for `/context`), `/summary` (LLM session summary), `/bughunter` (adversarial bug finder skill), `/autofix-pr` (CI fix skill), `/share` (markdown export), `/teleport` (session state export/import)
 - `b0f34a0` Refactored all 9 commands to production-quality TypeScript — proper `satisfies Command` descriptors, typed `LocalCommandCall`, path sanitization, schema validation, static imports
+- `677eace` Implemented VerifyPlanExecution — background agent verifies approved plan vs actual implementation after ExitPlanMode. Checks git diff, verifies each item, runs tests, reports pass/partial/fail. Enabled via `CLAUDE_CODE_VERIFY_PLAN=true`, reminder every 10 turns, auto-allowed by classifier
 
 ## 06.04.2026
 
