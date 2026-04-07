@@ -2,6 +2,9 @@
 
 ## 07.04.2026
 
+- `b497bff` Added `/humanizer` bundled skill — removes 29 AI writing patterns (significance inflation, AI vocabulary, filler phrases, sycophantic tone, em dash overuse, etc.) with two-pass audit and optional voice calibration. Ported from blader/humanizer (MIT). Complements undercover mode
+- `a386b74` Added undercover mode toggle to `/config` — `undercoverEnabled` setting (default: on) allows disabling AI attribution stripping in commits/PRs
+- `9093779` Fixed Sleep tool crash — missing `mapToolResultToToolResultBlockParam` and Zod `inputSchema` (had raw JSON schema). Added `Sleep(5m)` duration display in tool name
 - `d31a4ac` Fixed Sleep tool permanently disabled — `isEnabled()` used `isProactiveActive()` which returned false due to Bun dual module instance. Replaced with env var check. Model can now actually call Sleep on idle ticks
 - `1c8875d` Fixed proactive Sleep/tick prompt never appearing — Bun's `feature()` from `bun:bundle` plugin was killing `getProactiveSection()` in prompts.ts (evaluated to false in nested function calls despite polyfill returning true). Replaced all `feature()` guards with direct env var check (`CLAUDE_CODE_PROACTIVE=1`). Also replaced module-level `require('../proactive/index.js')` with lazy function accessor (dual module instance issue). `/super` and `/proactive` now produce full "Autonomous work" prompt with Sleep/tick/pacing instructions
 - `f85cf49` Fixed `/assistant` parity with `--assistant` — now sets brief mode (SendUserMessage), calls `initializeAssistantTeam()`, KAIROS addendum dynamically injected. `/proactive` now blocks in coordinator mode
