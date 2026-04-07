@@ -5,6 +5,7 @@
 - `03f2a23` Implemented KAIROS persistent assistant mode — `/assistant on` activates daily append-only logs, proactive tick loop, BriefTool as primary output, and autoDream consolidation. Gate always true, autoDream enabled by default (bypasses `tengu_onyx_plover`). Added `/dream` skill for manual 4-phase memory consolidation. Cross-reference analysis of ccleaks.com + ccunpacked.dev vs codebase saved to `context/cross-reference-analysis.md`
 - `70174e6` Enabled LSP tool (860-line, 9 operations), fixed autoDream KAIROS gate exclusion, unhided `/heapdump`. Audit found FORK_SUBAGENT already working (211 lines in AgentTool), BUDDY already rendering (18 species), ULTRAPLAN 70% but needs OAuth
 - `b9cfb92` Refactored `/ultraplan` from CCR remote sessions to local forked agent — no OAuth/login needed, uses `runForkedAgent()` + `ExitPlanModeScanner`, spawns planning agent locally with parallel sub-agents
+- `8c9dcf4` Implemented local voice mode via faster-whisper — persistent Python STT worker at `~/.claude/voice-stt/`, length-prefixed PCM protocol, auto-installs venv + model on first `/voice`. Original Anthropic voice_stream preserved behind `VOICE_STREAM_BASE_URL`
 
 ## 06.04.2026
 
