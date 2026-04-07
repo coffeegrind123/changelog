@@ -2,7 +2,8 @@
 
 ## 07.04.2026
 
-- `b497bff` Added `/humanizer` bundled skill — removes 29 AI writing patterns (significance inflation, AI vocabulary, filler phrases, sycophantic tone, em dash overuse, etc.) with two-pass audit and optional voice calibration. Ported from blader/humanizer (MIT). Complements undercover mode
+- `41f8456` Added `/humanizer` dual-mode skill — `/humanizer` toggles session-wide humanizer mode (system prompt section applied to ALL output), `/humanizer [text]` for one-shot 29-pattern audit with draft→self-critique→revision. Ported from blader/humanizer (MIT). Complements undercover mode
+- `8d07550` Fixed Sleep tool crash — call() returned wrong shape (`{type,text}` instead of `{data}`), mapper crashed on `content.text`
 - `a386b74` Added undercover mode toggle to `/config` — `undercoverEnabled` setting (default: on) allows disabling AI attribution stripping in commits/PRs
 - `9093779` Fixed Sleep tool crash — missing `mapToolResultToToolResultBlockParam` and Zod `inputSchema` (had raw JSON schema). Added `Sleep(5m)` duration display in tool name
 - `d31a4ac` Fixed Sleep tool permanently disabled — `isEnabled()` used `isProactiveActive()` which returned false due to Bun dual module instance. Replaced with env var check. Model can now actually call Sleep on idle ticks
