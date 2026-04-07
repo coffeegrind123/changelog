@@ -2,7 +2,9 @@
 
 ## 07.04.2026
 
-- `6302f39` Fixed `/proactive` and `/assistant` commands not appearing (Bun circular require), `/super` now sets bypassPermissions mode at runtime, added 6 missing settings to `/config` UI (verifyPlanEnabled, snipEnabled, autoDreamEnabled, autoMemoryEnabled, todoFeatureEnabled, voiceEnabled)
+- `8369669` Fixed proactive system prompt not injected on mid-session `/super` or `/proactive` toggle — moved from static startup string to dynamic injection in `buildEffectiveSystemPrompt()`. Model now sees Sleep instructions and stops spamming idle messages. Removed `feature()` from non-if/ternary positions (Bun silently fails)
+- `13565f0` Fixed `/super` and `/proactive` not activating proactive tick loop — both only set env vars but never called `activateProactive()` from the state machine
+- `6302f39` Fixed `/proactive` and `/assistant` commands not appearing (Bun circular require), `/super` now sets bypassPermissions mode at runtime, added 7 missing settings to `/config` UI (verifyPlanEnabled, snipEnabled, autoDreamEnabled, autoMemoryEnabled, todoFeatureEnabled, voiceEnabled)
 - `cdf4f99` Fixed missing `registerBundledSkill` import that silently killed the REPL on startup
 - `a8ddf20` Added session ingress (transcript persistence with Last-Uuid concurrency), files API (multipart upload/download/list), and triggers API (CRUD + cron scheduler) to local CCR server — 11 new endpoints, 33 total
 - `72202ad` Added local CCR server + BYOC/self-hosted runners — full Anthropic CCR API (~20 endpoints) as Bun HTTP server on localhost:3456, file-backed storage, v1+v2 protocol paths, SSE streaming. `claude ccr-server start/stop/status`, `claude submit "task"`, `claude environment-runner` (register/poll/spawn/heartbeat), `claude self-hosted-runner` (bridge credentials + SSE transport). BYOC_RUNNER + SELF_HOSTED flags now fully implemented
