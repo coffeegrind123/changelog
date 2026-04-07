@@ -7,6 +7,7 @@
 - `b9cfb92` Refactored `/ultraplan` from CCR remote sessions to local forked agent — no OAuth/login needed, uses `runForkedAgent()` + `ExitPlanModeScanner`, spawns planning agent locally with parallel sub-agents
 - `8c9dcf4` Implemented local voice mode via faster-whisper — persistent Python STT worker at `~/.claude/voice-stt/`, length-prefixed PCM protocol, auto-installs venv + model on first `/voice`. Original Anthropic voice_stream preserved behind `VOICE_STREAM_BASE_URL`
 - `cee4eef` Implemented BUDDY speech bubbles (`sideQuery()` LLM quips, ~25% per turn), Snip Tool (fast history truncation, disabled by default via `snipEnabled`), and Workflow Tool (background agent workflows from `~/.claude/workflows/*.md`, built-in: `test-and-fix`, `lint-fix`)
+- `d220110` Implemented daemon mode — `--bg` spawns tmux sessions with auto permission bypass, `claude ps/logs/attach/kill` for management, `claude daemon start/stop/status/restart` for supervised sessions with auto-restart (max 3 per 5min). State in `~/.claude/daemon-state.json`
 
 ## 06.04.2026
 
