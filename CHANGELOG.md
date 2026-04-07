@@ -3,6 +3,7 @@
 ## 07.04.2026
 
 - `03f2a23` Implemented KAIROS persistent assistant mode — `/assistant on` activates daily append-only logs, proactive tick loop, BriefTool as primary output, and autoDream consolidation. Gate always true, autoDream enabled by default (bypasses `tengu_onyx_plover`). Added `/dream` skill for manual 4-phase memory consolidation. Cross-reference analysis of ccleaks.com + ccunpacked.dev vs codebase saved to `context/cross-reference-analysis.md`
+- `70174e6` Enabled LSP tool (860-line, 9 operations), fixed autoDream KAIROS gate exclusion, unhided `/heapdump`. Audit found FORK_SUBAGENT already working (211 lines in AgentTool), BUDDY already rendering (18 species), ULTRAPLAN 70% but needs OAuth
 
 ## 06.04.2026
 
