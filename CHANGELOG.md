@@ -2,7 +2,9 @@
 
 ## 07.04.2026
 
-- `8369669` Fixed proactive system prompt not injected on mid-session `/super` or `/proactive` toggle — moved from static startup string to dynamic injection in `buildEffectiveSystemPrompt()`. Model now sees Sleep instructions and stops spamming idle messages. Removed `feature()` from non-if/ternary positions (Bun silently fails)
+- `1c8875d` Fixed proactive Sleep/tick prompt never appearing — Bun's `feature()` from `bun:bundle` plugin was killing `getProactiveSection()` in prompts.ts (evaluated to false in nested function calls despite polyfill returning true). Replaced all `feature()` guards with direct env var check (`CLAUDE_CODE_PROACTIVE=1`). Also replaced module-level `require('../proactive/index.js')` with lazy function accessor (dual module instance issue). `/super` and `/proactive` now produce full "Autonomous work" prompt with Sleep/tick/pacing instructions
+- `f85cf49` Fixed `/assistant` parity with `--assistant` — now sets brief mode (SendUserMessage), calls `initializeAssistantTeam()`, KAIROS addendum dynamically injected. `/proactive` now blocks in coordinator mode
+- `bafc667` Removed redundant proactive/KAIROS prompt from systemPrompt.ts — prompts.ts is the authoritative source. KAIROS startup now activates proactive automatically
 - `13565f0` Fixed `/super` and `/proactive` not activating proactive tick loop — both only set env vars but never called `activateProactive()` from the state machine
 - `6302f39` Fixed `/proactive` and `/assistant` commands not appearing (Bun circular require), `/super` now sets bypassPermissions mode at runtime, added 7 missing settings to `/config` UI (verifyPlanEnabled, snipEnabled, autoDreamEnabled, autoMemoryEnabled, todoFeatureEnabled, voiceEnabled)
 - `cdf4f99` Fixed missing `registerBundledSkill` import that silently killed the REPL on startup
