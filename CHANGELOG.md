@@ -1,5 +1,9 @@
 # Changelog
 
+## 07.04.2026
+
+- `03f2a23` Implemented KAIROS persistent assistant mode — `/assistant on` activates daily append-only logs, proactive tick loop, BriefTool as primary output, and autoDream consolidation. Gate always true, autoDream enabled by default (bypasses `tengu_onyx_plover`). Added `/dream` skill for manual 4-phase memory consolidation. Cross-reference analysis of ccleaks.com + ccunpacked.dev vs codebase saved to `context/cross-reference-analysis.md`
+
 ## 06.04.2026
 
 - `4a62f06` Added proactive tick loop feature notice (4 sessions)
