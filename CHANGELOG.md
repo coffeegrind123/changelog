@@ -2,6 +2,9 @@
 
 ## 06.04.2026
 
+- `4a62f06` Added proactive tick loop feature notice (4 sessions)
+- `0272c1d` Implemented proactive tick loop — `--super` and `--proactive` now have a working autonomous agent mode with `<tick>` messages, Sleep tool for pacing, pause/resume via Esc, and automatic turn-completion detection
+- `94ad446` Fixed `--super` permission bypass not working with `--resume` (destructure timing)
 - `3227e2c` Fixed autocomplete not clearing on empty input — suggestions stayed open after `/clear` or backspace. Also fixed thinking block gate in Message.tsx that broke interactive mode
 - `614c883` Updated ghidra-re skill — `import_file` runs `analyzeHeadless` directly, no curl needed
 - `483abc8` Ghidra headless import + permission fix — `chmod +x` on scripts after zip extraction, `import_file` uses `/load_program` to open binary in server
