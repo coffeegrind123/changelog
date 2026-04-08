@@ -2,6 +2,11 @@
 
 ## 08.04.2026
 
+- `b5de2f5` Added self-hosted release proxy on cs16.net — transparent GitHub Releases API mirror at `https://cs16.net/openclaude/`, auto-updater and bootstrap now default to cs16.net instead of api.github.com. Refactored binary download from `curl` subprocess to `axios`. Override with `OPENCLAUDE_UPDATE_ENDPOINT`
+- `438e48e` Improved bootstrap.sh — added target argument (`stable`/`latest`/`VERSION`), SHA256 checksum verification via `manifest.json`, jq-optional fallback parser
+- `6c299e5` Fixed CI artifact storage quota exhaustion — eliminated artifact upload/download, each matrix leg uploads binaries directly to GitHub Release via `gh` CLI. Manifest generated as separate job
+- `4f26e89` Added musl/Alpine build targets — CI now produces 4 binaries: `linux-x64`, `linux-arm64`, `linux-x64-musl`, `linux-arm64-musl`. Bootstrap and auto-updater detect musl libc automatically
+- `5f719c2` Fixed CI duplicate release race — only `linux-x64` matrix leg creates the release, others poll until it exists before uploading
 - `16ec21b` Fixed collapsed search/read badge duplication in scrollback during parallel tool use and CLAUDE.md auto-load — `shouldRenderStatically` now returns true for completed collapsed groups. Added `writeToStdoutAsync` with drain backpressure to prevent pipe deadlock on 64KB+ NDJSON output (backport 2.1.89/90)
 - `c15e26b` Fixed CJK/multibyte text corrupted with U+FFFD in stream-json mode — wrap `process.stdin` with `TextDecoder(stream:true)` to handle UTF-8 sequences split across chunk boundaries. Fixed partial assistant response lost on interrupt — flush accumulated `contentBlocks` before abort throw in `queryModel` (backport 2.1.94)
 - `d08d839` Fixed `FORCE_HYPERLINK` env var ignored when set via `settings.json` env — added to `SAFE_ENV_VARS` so it's applied before hyperlink detection caches. Fixed alt-screen ghost lines from DECSTBM scroll when content height shrinks. Fixed hyperlinks opening two browser tabs in tmux — wrap OSC 8 with `wrapForMultiplexer()` (backport 2.1.94)
