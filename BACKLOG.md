@@ -87,7 +87,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed --resume prompt-cache miss with deferred tools` — DONE (already in codebase, USER_TYPE=ant enables isDeferredToolsDeltaEnabled → delta mode persists deferred tool announcements across resume)
 - [x] `Fixed Edit/Write failing with format-on-save hooks` — DONE in 24c7f5b
 - [x] `Fixed PreToolUse hooks with JSON stdout exit code 2` — DONE in 1d66372
-- [ ] `Fixed collapsed search/read badge duplication in fullscreen` — TODO
+- [x] `Fixed collapsed search/read badge duplication in fullscreen` — DONE in 16ec21b (shouldRenderStatically for completed collapsed groups)
 - [x] `Fixed auto mode not respecting explicit user boundaries` — DONE in 7b8f28c (populated empty classifier prompt files)
 - [x] `Fixed click-to-expand hover text on light themes` — DONE in 850256f
 - [x] `Fixed UI crash on malformed tool input in permission dialog` — DONE in 2d14581
@@ -117,7 +117,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed LSP server zombie state after crash` — DONE in bb4fad9
 - [x] `Fixed prompt history CJK/emoji truncation at 4KB boundary` — DONE (already in codebase, fsOperations.ts:730-733 raw byte carry across chunk boundaries)
 - [x] `Fixed /stats undercounting subagent tokens` — DONE in bb4fad9
-- [ ] `Fixed -p --resume hangs on 64KB+ deferred input` — TODO
+- [x] `Fixed -p --resume hangs on 64KB+ deferred input` — DONE in 16ec21b (writeToStdoutAsync with drain backpressure)
 - [-] `Fixed claude-cli:// deep links on macOS` — SKIP (desktop app)
 - [x] `Fixed MCP tool errors truncating to first content block` — DONE in 9de31ec
 - [x] `Fixed skill reminders dropped with SDK image messages` — DONE in 653d2b6
@@ -128,7 +128,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed --resume crash on older transcript format` — DONE in 64c457b
 - [x] `Fixed misleading rate limit message for entitlement errors` — DONE in 2d14581
 - [x] `Fixed hooks if condition not matching compound commands` — DONE (already in codebase, BashTool.tsx:487-510 preparePermissionMatcher splits compound commands)
-- [ ] `Fixed collapsed group badge duplication in parallel tool use` — TODO
+- [x] `Fixed collapsed group badge duplication in parallel tool use` — DONE in 16ec21b (shouldRenderStatically for completed collapsed groups)
 - [x] `Fixed notification invalidates not clearing immediately` — DONE (already in codebase, notifications.tsx invalidatesCurrent clears current + filters queue)
 - [x] `Fixed prompt disappearing after submit with background messages` — DONE (already in codebase, REPL.tsx userInputBaselineRef bump on background messages)
 - [x] `Fixed Devanagari/combining-mark text truncation` — DONE (already in codebase, intl.ts grapheme segmenter + useTypeahead.tsx:36 \p{M} combining marks + fsOperations.ts:731 UTF-8 byte boundary)
