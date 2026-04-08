@@ -26,9 +26,9 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed scrollback showing same diff repeated and blank pages in long-running sessions` — TODO
 - [ ] `Fixed multiline user prompts indenting wrapped lines under the caret instead of under the text` — TODO
 - [ ] `Fixed Shift+Space inserting literal word space instead of space character in search inputs` — TODO
-- [ ] `Fixed hyperlinks opening two browser tabs when clicked inside tmux in xterm.js-based terminals` — TODO
-- [ ] `Fixed alt-screen rendering bug where content height changes mid-scroll left ghost lines` — TODO
-- [ ] `Fixed FORCE_HYPERLINK env var being ignored when set via settings.json env` — TODO
+- [x] `Fixed hyperlinks opening two browser tabs when clicked inside tmux in xterm.js-based terminals` — DONE in d08d839 (wrapForMultiplexer on OSC 8)
+- [x] `Fixed alt-screen rendering bug where content height changes mid-scroll left ghost lines` — DONE in d08d839 (reject DECSTBM when height shrinks)
+- [x] `Fixed FORCE_HYPERLINK env var being ignored when set via settings.json env` — DONE in d08d839 (add to SAFE_ENV_VARS)
 - [-] `Fixed native terminal cursor not tracking selected tab in dialogs` — SKIP (accessibility/screen reader)
 - [-] `Fixed Bedrock invocation of Sonnet 3.5 v2` — SKIP (Bedrock-specific)
 - [x] `Fixed SDK/print mode not preserving partial assistant response when interrupted mid-stream` — DONE in c15e26b (flush partial contentBlocks before abort throw in queryModel)
