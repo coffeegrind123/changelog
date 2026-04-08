@@ -23,9 +23,9 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed plugin skill hooks defined in YAML frontmatter being silently ignored` — TODO
 - [ ] `Fixed plugin hooks failing with No such file or directory when CLAUDE_PLUGIN_ROOT not set` — TODO
 - [ ] `Fixed CLAUDE_PLUGIN_ROOT resolving to marketplace source instead of installed cache for local-marketplace plugins` — TODO
-- [ ] `Fixed scrollback showing same diff repeated and blank pages in long-running sessions` — TODO
-- [ ] `Fixed multiline user prompts indenting wrapped lines under the caret instead of under the text` — TODO
-- [ ] `Fixed Shift+Space inserting literal word space instead of space character in search inputs` — TODO
+- [x] `Fixed scrollback showing same diff repeated and blank pages in long-running sessions` — DONE in d08d839 (DECSTBM height shrink guard prevents ghost lines)
+- [x] `Fixed multiline user prompts indenting wrapped lines under the caret instead of under the text` — DONE in f96f807 (Box flexDirection=row in HighlightedThinkingText)
+- [x] `Fixed Shift+Space inserting literal word space instead of space character in search inputs` — DONE in f96f807 (handle name='space' in keyFromParsed)
 - [x] `Fixed hyperlinks opening two browser tabs when clicked inside tmux in xterm.js-based terminals` — DONE in d08d839 (wrapForMultiplexer on OSC 8)
 - [x] `Fixed alt-screen rendering bug where content height changes mid-scroll left ghost lines` — DONE in d08d839 (reject DECSTBM when height shrinks)
 - [x] `Fixed FORCE_HYPERLINK env var being ignored when set via settings.json env` — DONE in d08d839 (add to SAFE_ENV_VARS)
