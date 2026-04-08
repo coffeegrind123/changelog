@@ -1,5 +1,14 @@
 # Changelog
 
+## 08.04.2026
+
+- `16ec21b` Fixed collapsed search/read badge duplication in scrollback during parallel tool use and CLAUDE.md auto-load — `shouldRenderStatically` now returns true for completed collapsed groups. Added `writeToStdoutAsync` with drain backpressure to prevent pipe deadlock on 64KB+ NDJSON output (backport 2.1.89/90)
+- `c15e26b` Fixed CJK/multibyte text corrupted with U+FFFD in stream-json mode — wrap `process.stdin` with `TextDecoder(stream:true)` to handle UTF-8 sequences split across chunk boundaries. Fixed partial assistant response lost on interrupt — flush accumulated `contentBlocks` before abort throw in `queryModel` (backport 2.1.94)
+- `d08d839` Fixed `FORCE_HYPERLINK` env var ignored when set via `settings.json` env — added to `SAFE_ENV_VARS` so it's applied before hyperlink detection caches. Fixed alt-screen ghost lines from DECSTBM scroll when content height shrinks. Fixed hyperlinks opening two browser tabs in tmux — wrap OSC 8 with `wrapForMultiplexer()` (backport 2.1.94)
+- `f96f807` Fixed Shift+Space inserting literal "space" in search inputs — handle `name='space'` in `keyFromParsed()`. Fixed multiline user prompts indenting wrapped lines under `❯` caret — use `Box flexDirection=row` to separate caret from text content (backport 2.1.94)
+- `5380f82` Fixed agents appearing stuck after 429 rate-limit with long Retry-After — yield error message before sleeping in fast mode path of `withRetry.ts` (backport 2.1.94)
+- `402e025` Added `keep-coding-instructions` frontmatter field for plugin output styles. Added `hookSpecificOutput.sessionTitle` to `UserPromptSubmit` hooks. Plugin skills now use frontmatter `name` for invocation name instead of directory basename (backport 2.1.94)
+
 ## 07.04.2026
 
 - `41f8456` Added `/humanizer` dual-mode skill — `/humanizer` toggles session-wide humanizer mode (system prompt section applied to ALL output), `/humanizer [text]` for one-shot 29-pattern audit with draft→self-critique→revision. Ported from blader/humanizer (MIT). Complements undercover mode
