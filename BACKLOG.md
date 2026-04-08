@@ -6,6 +6,38 @@ Source: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 Only entries after v2.1.87 (our fork base). Refresh by fetching:
 `curl -fsSL https://raw.githubusercontent.com/anthropics/claude-code/refs/heads/main/CHANGELOG.md`
 
+## 2.1.96
+
+- [-] `Fixed Bedrock requests failing with 403 when using AWS_BEARER_TOKEN_BEDROCK or CLAUDE_CODE_SKIP_BEDROCK_AUTH` — SKIP (Bedrock-specific, regression in 2.1.94)
+
+## 2.1.94
+
+- [-] `Added support for Amazon Bedrock powered by Mantle` — SKIP (Anthropic cloud infra)
+- [ ] `Changed default effort level from medium to high for API-key/Bedrock/Vertex/Foundry/Team/Enterprise users` — TODO
+- [-] `Added compact Slacked #channel header with clickable link for Slack MCP send-message` — SKIP (Slack MCP connector, Anthropic infra)
+- [ ] `Added keep-coding-instructions frontmatter field for plugin output styles` — TODO
+- [ ] `Added hookSpecificOutput.sessionTitle to UserPromptSubmit hooks` — TODO
+- [ ] `Plugin skills use frontmatter name for invocation name instead of directory basename` — TODO
+- [ ] `Fixed agents appearing stuck after 429 rate-limit with long Retry-After` — TODO
+- [-] `Fixed Console login on macOS silently failing when login keychain locked` — SKIP (macOS Console login)
+- [ ] `Fixed plugin skill hooks defined in YAML frontmatter being silently ignored` — TODO
+- [ ] `Fixed plugin hooks failing with No such file or directory when CLAUDE_PLUGIN_ROOT not set` — TODO
+- [ ] `Fixed CLAUDE_PLUGIN_ROOT resolving to marketplace source instead of installed cache for local-marketplace plugins` — TODO
+- [ ] `Fixed scrollback showing same diff repeated and blank pages in long-running sessions` — TODO
+- [ ] `Fixed multiline user prompts indenting wrapped lines under the caret instead of under the text` — TODO
+- [ ] `Fixed Shift+Space inserting literal word space instead of space character in search inputs` — TODO
+- [ ] `Fixed hyperlinks opening two browser tabs when clicked inside tmux in xterm.js-based terminals` — TODO
+- [ ] `Fixed alt-screen rendering bug where content height changes mid-scroll left ghost lines` — TODO
+- [ ] `Fixed FORCE_HYPERLINK env var being ignored when set via settings.json env` — TODO
+- [-] `Fixed native terminal cursor not tracking selected tab in dialogs` — SKIP (accessibility/screen reader)
+- [-] `Fixed Bedrock invocation of Sonnet 3.5 v2` — SKIP (Bedrock-specific)
+- [ ] `Fixed SDK/print mode not preserving partial assistant response when interrupted mid-stream` — TODO
+- [ ] `Improved --resume to resume sessions from other worktrees directly` — TODO
+- [ ] `Fixed CJK and multibyte text corrupted with U+FFFD in stream-json when chunk boundaries split UTF-8` — TODO
+- [-] `[VSCode] Reduced cold-open subprocess work` — SKIP (VSCode extension)
+- [-] `[VSCode] Fixed dropdown menus selecting wrong item` — SKIP (VSCode extension)
+- [-] `[VSCode] Added warning banner when settings.json fails to parse` — SKIP (VSCode extension)
+
 ## 2.1.92
 
 - [-] `Added forceRemoteSettingsRefresh policy setting` — SKIP (Anthropic managed infra)
