@@ -2,6 +2,13 @@
 
 ## 08.04.2026
 
+- `6a7df35` Fixed compiled binary REPL hang — replaced all `await import()` with `require()` in Commander action handlers (`main.tsx`, `interactiveHelpers.tsx`, `dialogLaunchers.tsx`, `setup.ts`, `replLauncher.tsx`). Bun compiled binaries deadlock on dynamic import inside Commander callbacks
+- `33e094d` Fixed compiled binary crash on `@ant/*` modules — removed `--external '@ant/*'` from build so stub packages get bundled. Previously the binary crashed with `Cannot find module '@ant/claude-for-chrome-mcp'`
+- `a802b7b` Fixed Ink `patchStderr` swallowing all `process.stderr.write` output — disabled stderr interception (not needed without alt-screen)
+- `2077965` Fixed Ink `createRoot` hang — made synchronous by removing `await Promise.resolve()` microtask yield
+- `1980347` Fixed compiled binary REPL hang on startup — vendored ripgrep path was hardcoded to CI runner directory (`/home/runner/work/...`). Added fallback to system `rg` when vendor binary missing. Bootstrap auto-installs ripgrep
+- `da8d2a0` Improved bootstrap.sh — auto-installs `libstdc++`/`libgcc` on musl/Alpine via `apk`
+- `6a7df35` Improved compiled binary safety — added try/catch to `modifiers-napi` and `audio-capture-napi` external packages
 - `b5de2f5` Added self-hosted release proxy on cs16.net — transparent GitHub Releases API mirror at `https://cs16.net/openclaude/`, auto-updater and bootstrap now default to cs16.net instead of api.github.com. Refactored binary download from `curl` subprocess to `axios`. Override with `OPENCLAUDE_UPDATE_ENDPOINT`
 - `438e48e` Improved bootstrap.sh — added target argument (`stable`/`latest`/`VERSION`), SHA256 checksum verification via `manifest.json`, jq-optional fallback parser
 - `6c299e5` Fixed CI artifact storage quota exhaustion — eliminated artifact upload/download, each matrix leg uploads binaries directly to GitHub Release via `gh` CLI. Manifest generated as separate job
