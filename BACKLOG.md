@@ -13,16 +13,16 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 ## 2.1.94
 
 - [-] `Added support for Amazon Bedrock powered by Mantle` — SKIP (Anthropic cloud infra)
-- [ ] `Changed default effort level from medium to high for API-key/Bedrock/Vertex/Foundry/Team/Enterprise users` — TODO
+- [x] `Changed default effort level from medium to high for API-key/Bedrock/Vertex/Foundry/Team/Enterprise users` — DONE (already in codebase, USER_TYPE=ant returns undefined/high at effort.ts:301)
 - [-] `Added compact Slacked #channel header with clickable link for Slack MCP send-message` — SKIP (Slack MCP connector, Anthropic infra)
-- [ ] `Added keep-coding-instructions frontmatter field for plugin output styles` — TODO
-- [ ] `Added hookSpecificOutput.sessionTitle to UserPromptSubmit hooks` — TODO
-- [ ] `Plugin skills use frontmatter name for invocation name instead of directory basename` — TODO
-- [ ] `Fixed agents appearing stuck after 429 rate-limit with long Retry-After` — TODO
+- [x] `Added keep-coding-instructions frontmatter field for plugin output styles` — DONE in 402e025
+- [x] `Added hookSpecificOutput.sessionTitle to UserPromptSubmit hooks` — DONE in 402e025
+- [x] `Plugin skills use frontmatter name for invocation name instead of directory basename` — DONE in 402e025
+- [x] `Fixed agents appearing stuck after 429 rate-limit with long Retry-After` — DONE in 5380f82 (yield error message before sleeping in fast mode path)
 - [-] `Fixed Console login on macOS silently failing when login keychain locked` — SKIP (macOS Console login)
-- [ ] `Fixed plugin skill hooks defined in YAML frontmatter being silently ignored` — TODO
-- [ ] `Fixed plugin hooks failing with No such file or directory when CLAUDE_PLUGIN_ROOT not set` — TODO
-- [ ] `Fixed CLAUDE_PLUGIN_ROOT resolving to marketplace source instead of installed cache for local-marketplace plugins` — TODO
+- [x] `Fixed plugin skill hooks defined in YAML frontmatter being silently ignored` — DONE (already in codebase, loadSkillsDir.ts:259 parseHooksFromFrontmatter + registerSkillHooks)
+- [x] `Fixed plugin hooks failing with No such file or directory when CLAUDE_PLUGIN_ROOT not set` — DONE (already in codebase, pluginOptionsStorage.ts:326 substitutePluginVariables uses plugin.path)
+- [x] `Fixed CLAUDE_PLUGIN_ROOT resolving to marketplace source instead of installed cache for local-marketplace plugins` — DONE (already in codebase, pluginLoader.ts:1367 plugin.path = pluginPath)
 - [x] `Fixed scrollback showing same diff repeated and blank pages in long-running sessions` — DONE in d08d839 (DECSTBM height shrink guard prevents ghost lines)
 - [x] `Fixed multiline user prompts indenting wrapped lines under the caret instead of under the text` — DONE in f96f807 (Box flexDirection=row in HighlightedThinkingText)
 - [x] `Fixed Shift+Space inserting literal word space instead of space character in search inputs` — DONE in f96f807 (handle name='space' in keyFromParsed)
