@@ -31,9 +31,9 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed FORCE_HYPERLINK env var being ignored when set via settings.json env` — TODO
 - [-] `Fixed native terminal cursor not tracking selected tab in dialogs` — SKIP (accessibility/screen reader)
 - [-] `Fixed Bedrock invocation of Sonnet 3.5 v2` — SKIP (Bedrock-specific)
-- [ ] `Fixed SDK/print mode not preserving partial assistant response when interrupted mid-stream` — TODO
-- [ ] `Improved --resume to resume sessions from other worktrees directly` — TODO
-- [ ] `Fixed CJK and multibyte text corrupted with U+FFFD in stream-json when chunk boundaries split UTF-8` — TODO
+- [x] `Fixed SDK/print mode not preserving partial assistant response when interrupted mid-stream` — DONE in c15e26b (flush partial contentBlocks before abort throw in queryModel)
+- [x] `Improved --resume to resume sessions from other worktrees directly` — DONE (already in codebase, crossProjectResume.ts gates on USER_TYPE=ant which we set at entrypoint)
+- [x] `Fixed CJK and multibyte text corrupted with U+FFFD in stream-json when chunk boundaries split UTF-8` — DONE in c15e26b (decodeUtf8Stream wrapper with TextDecoder stream:true)
 - [-] `[VSCode] Reduced cold-open subprocess work` — SKIP (VSCode extension)
 - [-] `[VSCode] Fixed dropdown menus selecting wrong item` — SKIP (VSCode extension)
 - [-] `[VSCode] Added warning banner when settings.json fails to parse` — SKIP (VSCode extension)
