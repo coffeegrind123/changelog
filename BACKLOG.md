@@ -43,7 +43,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed slash command picker breaking when plugin frontmatter name is a YAML boolean keyword` — DONE in 4950e3e
 - [ ] `Fixed rate-limit upsell text being hidden after message remounts` — TODO
 - [x] `Fixed MCP tools with _meta["anthropic/maxResultSizeChars"] not bypassing token-based persist layer` — DONE in 35a791c
-- [ ] `Fixed voice mode leaking dozens of space characters into input when re-holding push-to-talk key` — TODO
+- [x] `Fixed voice mode leaking dozens of space characters into input when re-holding push-to-talk key` — DONE in c573e06
 - [-] `Fixed DISABLE_AUTOUPDATER not fully suppressing npm registry version check` — SKIP (we use GitHub Releases)
 - [x] `Fixed memory leak where Remote Control permission handler entries were retained for lifetime of session` — DONE in 824cc2e
 - [x] `Fixed background subagents that fail with error not reporting partial progress to parent agent` — DONE in 35a791c
@@ -55,7 +55,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Improved /resume filter hint labels and added project/worktree/branch names in filter indicator` — TODO
 - [x] `Improved footer indicators (Focus, notifications) to stay on mode-indicator row instead of wrapping` — DONE
 - [ ] `Improved /agents with tabbed layout: Running tab shows live subagents, Library tab adds Run agent and View running instance actions` — TODO
-- [ ] `Improved /reload-plugins to pick up plugin-provided skills without requiring restart` — TODO
+- [x] `Improved /reload-plugins to pick up plugin-provided skills without requiring restart` — DONE in c573e06
 - [x] `Improved Accept Edits mode to auto-approve filesystem commands prefixed with safe env vars or process wrappers` — DONE in e9b0c9d
 - [ ] `Improved Vim mode: j/k in NORMAL mode now navigate history and select footer pill at input boundary` — TODO
 - [x] `Improved hook errors in transcript to include first line of stderr for self-diagnosis without --debug` — DONE in defb61c
@@ -90,15 +90,15 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed prompt-type Stop/SubagentStop hooks failing on long sessions` — DONE in defb61c (also in 2.1.98)
 - [x] `Fixed subagents with worktree isolation or cwd: override leaking working directory back to parent session's Bash tool` — DONE in 824cc2e
 - [x] `Fixed compaction writing duplicate multi-MB subagent transcript files on prompt-too-long retries` — DONE in 35a791c
-- [ ] `Fixed claude plugin update reporting "already at latest version" for git-based marketplace plugins with newer remote commits` — TODO
+- [x] `Fixed claude plugin update reporting "already at latest version" for git-based marketplace plugins with newer remote commits` — DONE in be20375
 - [x] `Fixed slash command picker breaking when plugin frontmatter name is YAML boolean keyword` — DONE in 4950e3e (also in 2.1.98)
 - [x] `Fixed copying wrapped URLs in NO_FLICKER mode inserting spaces at line breaks` — DONE in d9432fc
-- [ ] `Fixed scroll rendering artifacts in NO_FLICKER mode when running inside zellij` — TODO
+- [x] `Fixed scroll rendering artifacts in NO_FLICKER mode when running inside zellij` — DONE in be20375
 - [x] `Fixed crash in NO_FLICKER mode when hovering over MCP tool results` — DONE in d9432fc
 - [x] `Fixed NO_FLICKER mode memory leak where API retries left stale streaming state` — DONE in 07783d8
 - [ ] `Fixed slow mouse-wheel scrolling in NO_FLICKER mode on Windows Terminal` — TODO
 - [x] `Fixed custom status line not displaying in NO_FLICKER mode on terminals shorter than 24 rows` — DONE in d9432fc
-- [ ] `Fixed Shift+Enter and Alt/Cmd+arrow shortcuts not working in Warp with NO_FLICKER mode` — TODO
+- [x] `Fixed Shift+Enter and Alt/Cmd+arrow shortcuts not working in Warp with NO_FLICKER mode` — DONE in be20375
 - [-] `Fixed Korean/Japanese/Unicode text becoming garbled when copied in no-flicker mode on Windows` — SKIP (Windows-specific)
 - [-] `Fixed Bedrock SigV4 authentication failing when AWS_BEARER_TOKEN_BEDROCK or ANTHROPIC_BEDROCK_BASE_URL are set to empty strings` — SKIP (Bedrock-specific)
 - [x] `Improved Accept Edits mode to auto-approve filesystem commands prefixed with safe env vars or process wrappers` — DONE in e9b0c9d (also in 2.1.98)

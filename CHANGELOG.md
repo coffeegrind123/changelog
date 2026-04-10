@@ -25,6 +25,11 @@
 - `d9432fc` Fixed crash in fullscreen mode when hovering over MCP tool results — added `parentNode` null check in `dispatchHover` before `onMouseEnter` (matching existing `onMouseLeave` guard)
 - `d9432fc` Fixed copying wrapped URLs in fullscreen mode inserting spaces at line breaks — `extractRowText` now trims trailing spaces on soft-wrapped rows containing hyperlinked cells
 - `d9432fc` Fixed custom status line not displaying in NO_FLICKER mode on terminals shorter than 24 rows — removed `isShort` guard from `PromptInputFooter.tsx` StatusLine render condition
+- `c573e06` Fixed voice mode leaking space characters when re-holding push-to-talk key — swallow bare-char keypresses during `processing` state in `useVoiceIntegration.tsx`
+- `c573e06` Improved `/reload-plugins` to pick up plugin-provided skills without restart — added `clearSkillCaches()` to `clearAllCaches()` in `cacheUtils.ts`
+- `be20375` Fixed Shift+Enter and Alt/Cmd+arrow shortcuts not working in Warp with NO_FLICKER mode — added `WarpTerminal` to `EXTENDED_KEYS_TERMINALS` in `terminal.ts`
+- `be20375` Fixed scroll rendering artifacts in NO_FLICKER mode inside zellij — disable DEC 2026 synchronized output when `ZELLIJ` env var is set
+- `be20375` Fixed `claude plugin update` reporting "already at latest version" for git-based plugins — added `git pull --ff-only` before `calculatePluginVersion` in `pluginOperations.ts`
 
 ## 08.04.2026
 
