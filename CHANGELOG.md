@@ -7,6 +7,10 @@
 - `13b5000` Fixed read-only commands with env-var prefixes not prompting — `stripSafeWrappers` now runs in `isCommandReadOnly` so safe vars are stripped before read-only check (unsafe vars still prompt)
 - `13b5000` Fixed Bash deny rules downgraded to ask for piped cd commands — per-segment deny checks now run before cd+git ask in `segmentedCommandPermissionResult`
 - `13b5000` Improved pasted/attached image token budget — added `compressImageBufferWithTokenLimit` to clipboard paste and attachment paths, matching Read tool's 25K token budget
+- `e9b0c9d` Improved Accept Edits mode — auto-approves filesystem commands prefixed with safe env vars or process wrappers (`NODE_ENV=prod rm file` now works)
+- `e9b0c9d` Fixed `permissions.additionalDirectories` changes not applying mid-session — `applySettingsChange` now rebuilds directory map from fresh settings while preserving CLI-added directories
+- `e9b0c9d` Added `--exclude-dynamic-system-prompt-sections` flag for print mode — excludes user-specific system prompt sections for improved cross-user prompt caching
+- `e9b0c9d` Fixed managed-settings allow rules persisting after admin removal — `policySettings` now cleared in `syncPermissionRulesFromDisk` before re-applying fresh rules
 
 ## 08.04.2026
 

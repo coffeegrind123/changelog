@@ -12,7 +12,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Added CLAUDE_CODE_PERFORCE_MODE env var: Edit/Write/NotebookEdit fail on read-only files with p4 edit hint` — DONE in 35a791c
 - [ ] `Added Monitor tool for streaming events from background scripts` — TODO (MONITOR_TOOL flag stub exists)
 - [-] `Added subprocess sandboxing with PID namespace isolation on Linux (CLAUDE_CODE_SUBPROCESS_ENV_SCRUB, CLAUDE_CODE_SCRIPT_CAPS)` — SKIP (sandbox infra)
-- [ ] `Added --exclude-dynamic-system-prompt-sections flag to print mode for improved cross-user prompt caching` — TODO
+- [x] `Added --exclude-dynamic-system-prompt-sections flag to print mode for improved cross-user prompt caching` — DONE in e9b0c9d
 - [x] `Added workspace.git_worktree to status line JSON input` — DONE in 4950e3e
 - [-] `Added W3C TRACEPARENT env var to Bash tool subprocesses when OTEL tracing enabled` — SKIP (OTEL infra)
 - [-] `LSP: Claude Code now identifies itself to language servers via clientInfo in initialize request` — SKIP (LSP internals)
@@ -26,8 +26,8 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed capital letters being dropped to lowercase on xterm and VS Code with kitty keyboard protocol` — TODO
 - [-] `Fixed macOS text replacements deleting trigger word instead of inserting substitution` — SKIP (macOS-specific)
 - [ ] `Fixed --dangerously-skip-permissions being silently downgraded to accept-edits after approving write to protected path via Bash` — TODO
-- [ ] `Fixed managed-settings allow rules remaining active after admin removed them until process restart` — TODO
-- [ ] `Fixed permissions.additionalDirectories changes not applying mid-session` — TODO
+- [x] `Fixed managed-settings allow rules remaining active after admin removed them until process restart` — DONE in e9b0c9d
+- [x] `Fixed permissions.additionalDirectories changes not applying mid-session` — DONE in e9b0c9d
 - [ ] `Fixed removing directory from additionalDirectories revoking access to same directory passed via --add-dir` — TODO
 - [x] `Fixed Bash(cmd:*) and Bash(git commit *) wildcard permission rules failing to match commands with extra spaces or tabs` — DONE in 35a791c
 - [x] `Fixed Bash(...) deny rules being downgraded to prompt for piped commands mixing cd with other segments` — DONE (reorder deny check before cd+git ask in segmentedCommandPermissionResult)
@@ -56,7 +56,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Improved footer indicators (Focus, notifications) to stay on mode-indicator row instead of wrapping` — DONE
 - [ ] `Improved /agents with tabbed layout: Running tab shows live subagents, Library tab adds Run agent and View running instance actions` — TODO
 - [ ] `Improved /reload-plugins to pick up plugin-provided skills without requiring restart` — TODO
-- [ ] `Improved Accept Edits mode to auto-approve filesystem commands prefixed with safe env vars or process wrappers` — TODO
+- [x] `Improved Accept Edits mode to auto-approve filesystem commands prefixed with safe env vars or process wrappers` — DONE in e9b0c9d
 - [ ] `Improved Vim mode: j/k in NORMAL mode now navigate history and select footer pill at input boundary` — TODO
 - [x] `Improved hook errors in transcript to include first line of stderr for self-diagnosis without --debug` — DONE in defb61c
 - [-] `Improved OTEL tracing: interaction spans now correctly wrap full turns under concurrent SDK calls` — SKIP (OTEL infra)
@@ -76,7 +76,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed --dangerously-skip-permissions being silently downgraded to accept-edits after approving write to protected path` — TODO (also in 2.1.98)
 - [~] `Fixed and hardened Bash tool permissions, tightening checks around env-var prefixes and network redirects` — PARTIAL (env-var prefix fix done, network redirects already in defb61c)
 - [x] `Fixed permission rules with names matching JavaScript prototype properties causing settings.json to be silently ignored` — DONE in 4950e3e (also in 2.1.98)
-- [ ] `Fixed managed-settings allow rules remaining active after admin removed them until process restart` — TODO (also in 2.1.98)
+- [x] `Fixed managed-settings allow rules remaining active after admin removed them until process restart` — DONE in e9b0c9d (also in 2.1.98)
 - [ ] `Fixed permissions.additionalDirectories changes in settings not applying mid-session` — TODO (also in 2.1.98)
 - [ ] `Fixed removing directory from settings.permissions.additionalDirectories revoking access to same directory passed via --add-dir` — TODO (also in 2.1.98)
 - [ ] `Fixed MCP HTTP/SSE connections accumulating ~50 MB/hr of unreleased buffers when servers reconnect` — TODO
@@ -101,7 +101,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed Shift+Enter and Alt/Cmd+arrow shortcuts not working in Warp with NO_FLICKER mode` — TODO
 - [-] `Fixed Korean/Japanese/Unicode text becoming garbled when copied in no-flicker mode on Windows` — SKIP (Windows-specific)
 - [-] `Fixed Bedrock SigV4 authentication failing when AWS_BEARER_TOKEN_BEDROCK or ANTHROPIC_BEDROCK_BASE_URL are set to empty strings` — SKIP (Bedrock-specific)
-- [ ] `Improved Accept Edits mode to auto-approve filesystem commands prefixed with safe env vars or process wrappers` — TODO (also in 2.1.98)
+- [x] `Improved Accept Edits mode to auto-approve filesystem commands prefixed with safe env vars or process wrappers` — DONE in e9b0c9d (also in 2.1.98)
 - [ ] `Improved auto mode and bypass-permissions mode to auto-approve sandbox network access prompts` — TODO
 - [-] `Improved sandbox: sandbox.network.allowMachLookup now takes effect on macOS` — SKIP (macOS sandbox)
 - [x] `Improved image handling: pasted/attached images compressed to same token budget as images read via Read tool` — DONE (compressImageBufferWithTokenLimit added to imagePaste.ts + attachments.ts)
