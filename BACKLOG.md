@@ -36,12 +36,12 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed agent team members not inheriting leader's permission mode when using --dangerously-skip-permissions` — DONE in 8a6dd9e
 - [x] `Fixed crash in fullscreen mode when hovering over MCP tool results` — DONE in d9432fc
 - [x] `Fixed copying wrapped URLs in fullscreen mode inserting spaces at line breaks` — DONE in d9432fc
-- [ ] `Fixed file-edit diffs disappearing from UI on --resume when edited file was larger than 10KB` — TODO
-- [ ] `Fixed several /resume picker issues: --resume <name> opening uneditable, filter reload wiping search state, empty list swallowing arrow keys, cross-project staleness, and transient task-status text replacing conversation summaries` — TODO
+- [x] `Fixed file-edit diffs disappearing from UI on --resume when edited file was larger than 10KB` — DONE in a6a5ba4 (fall through on safeParse failure)
+- [~] `Fixed several /resume picker issues: --resume <name> opening uneditable, filter reload wiping search state, empty list swallowing arrow keys, cross-project staleness, and transient task-status text replacing conversation summaries` — PARTIAL in a6a5ba4 (4 of 5 sub-issues: uneditable, filter wipe, empty list, task-status; cross-project staleness deferred)
 - [x] `Fixed /export not honoring absolute paths and ~, and silently rewriting user-supplied extensions to .txt` — DONE in 4950e3e
 - [x] `Fixed /effort max being denied for unknown or future model IDs` — DONE in defb61c
 - [x] `Fixed slash command picker breaking when plugin frontmatter name is a YAML boolean keyword` — DONE in 4950e3e
-- [ ] `Fixed rate-limit upsell text being hidden after message remounts` — TODO
+- [x] `Fixed rate-limit upsell text being hidden after message remounts` — DONE in 24c7f5b (module-level guard prevents re-opening menu for same resetsAt window)
 - [x] `Fixed MCP tools with _meta["anthropic/maxResultSizeChars"] not bypassing token-based persist layer` — DONE in 35a791c
 - [x] `Fixed voice mode leaking dozens of space characters into input when re-holding push-to-talk key` — DONE in c573e06
 - [-] `Fixed DISABLE_AUTOUPDATER not fully suppressing npm registry version check` — SKIP (we use GitHub Releases)
@@ -57,7 +57,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Improved /agents with tabbed layout: Running tab shows live subagents, Library tab adds Run agent and View running instance actions` — TODO
 - [x] `Improved /reload-plugins to pick up plugin-provided skills without requiring restart` — DONE in c573e06
 - [x] `Improved Accept Edits mode to auto-approve filesystem commands prefixed with safe env vars or process wrappers` — DONE in e9b0c9d
-- [ ] `Improved Vim mode: j/k in NORMAL mode now navigate history and select footer pill at input boundary` — TODO
+- [x] `Improved Vim mode: j/k in NORMAL mode now navigate history and select footer pill at input boundary` — DONE in a6a5ba4
 - [x] `Improved hook errors in transcript to include first line of stderr for self-diagnosis without --debug` — DONE in defb61c
 - [-] `Improved OTEL tracing: interaction spans now correctly wrap full turns under concurrent SDK calls` — SKIP (OTEL infra)
 - [x] `Improved transcript entries to carry final token usage instead of streaming placeholders` — DONE (already in codebase, claude.ts:2245-2256 direct property mutation ensures transcript captures final values)
@@ -82,10 +82,10 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed MCP HTTP/SSE connections accumulating ~50 MB/hr of unreleased buffers when servers reconnect` — DONE in 824cc2e
 - [x] `Fixed MCP OAuth oauth.authServerMetadataUrl not honored on token refresh after restart` — DONE in 824cc2e (also in 2.1.98)
 - [x] `Fixed 429 retries burning all attempts in ~13s when server returns small Retry-After` — DONE in defb61c (also in 2.1.98)
-- [ ] `Fixed rate-limit upgrade options disappearing after context compaction` — TODO
-- [ ] `Fixed several /resume picker issues` — TODO (also in 2.1.98)
-- [ ] `Fixed file-edit diffs disappearing on --resume when edited file was larger than 10KB` — TODO (also in 2.1.98)
-- [ ] `Fixed --resume cache misses and lost mid-turn input from attachment messages not being saved to transcript` — TODO
+- [x] `Fixed rate-limit upgrade options disappearing after context compaction` — DONE in 24c7f5b (module-level guard, also in 2.1.98)
+- [~] `Fixed several /resume picker issues` — PARTIAL in a6a5ba4 (4 of 5 sub-issues, also in 2.1.98)
+- [x] `Fixed file-edit diffs disappearing on --resume when edited file was larger than 10KB` — DONE in a6a5ba4 (also in 2.1.98)
+- [x] `Fixed --resume cache misses and lost mid-turn input from attachment messages not being saved to transcript` — DONE in 9eb1902 (mid-turn input fix; USER_TYPE=ant handles attachment persistence)
 - [x] `Fixed messages typed while Claude is working not being persisted to transcript` — DONE in 9eb1902
 - [x] `Fixed prompt-type Stop/SubagentStop hooks failing on long sessions` — DONE in defb61c (also in 2.1.98)
 - [x] `Fixed subagents with worktree isolation or cwd: override leaking working directory back to parent session's Bash tool` — DONE in 824cc2e
@@ -96,7 +96,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed scroll rendering artifacts in NO_FLICKER mode when running inside zellij` — DONE in be20375
 - [x] `Fixed crash in NO_FLICKER mode when hovering over MCP tool results` — DONE in d9432fc
 - [x] `Fixed NO_FLICKER mode memory leak where API retries left stale streaming state` — DONE in 07783d8
-- [ ] `Fixed slow mouse-wheel scrolling in NO_FLICKER mode on Windows Terminal` — TODO
+- [-] `Fixed slow mouse-wheel scrolling in NO_FLICKER mode on Windows Terminal` — SKIP (Windows-specific)
 - [x] `Fixed custom status line not displaying in NO_FLICKER mode on terminals shorter than 24 rows` — DONE in d9432fc
 - [x] `Fixed Shift+Enter and Alt/Cmd+arrow shortcuts not working in Warp with NO_FLICKER mode` — DONE in be20375
 - [-] `Fixed Korean/Japanese/Unicode text becoming garbled when copied in no-flicker mode on Windows` — SKIP (Windows-specific)

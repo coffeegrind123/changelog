@@ -1,5 +1,14 @@
 # Changelog
 
+## 11.04.2026
+
+- `a6a5ba4` Fixed FuzzyPicker crash on arrow keys when item list is empty — guard against `clamp(i, 0, -1)` in `step()` and `useEffect`
+- `a6a5ba4` Fixed resume picker: task-summary entries replacing conversation summaries — renamed `summary` field to `taskStatus` in `saveTaskSummary` to avoid collision with `extractLastJsonStringField`
+- `a6a5ba4` Fixed resume picker: filter toggle wiping search state — `loadLogs` no longer sets loading spinner on filter reloads, preventing LogSelector unmount/remount
+- `a6a5ba4` Fixed resume picker: `--resume <name>` opening with uneditable search — initialize `viewMode` to `"search"` when `initialSearchQuery` is provided
+- `a6a5ba4` Fixed file-edit diffs disappearing on `--resume` for files >10KB — `UserToolSuccessMessage` now falls through with raw data when `outputSchema.safeParse` fails instead of returning null
+- `a6a5ba4` Improved Vim mode: j/k in NORMAL mode now navigate history and select footer pill at input boundary — detects first/last line and delegates to base handler
+
 ## 10.04.2026
 
 - `13b5000` Added cut/paste/column/awk/gawk/mawk to Bash COMMAND_ALLOWLIST — fixes false permission prompts for `cut -d /`, `paste -d /`, `column -s /`, and awk commands. Fixed `%` in filenames triggering false dangerous-redirect detection (now only flags Windows `%VAR%` patterns)
