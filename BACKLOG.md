@@ -6,6 +6,115 @@ Source: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 Only entries after v2.1.87 (our fork base). Refresh by fetching:
 `curl -fsSL https://raw.githubusercontent.com/anthropics/claude-code/refs/heads/main/CHANGELOG.md`
 
+## 2.1.98
+
+- [-] `Added interactive Google Vertex AI setup wizard from login screen` — SKIP (Anthropic cloud infra)
+- [ ] `Added CLAUDE_CODE_PERFORCE_MODE env var: Edit/Write/NotebookEdit fail on read-only files with p4 edit hint` — TODO
+- [ ] `Added Monitor tool for streaming events from background scripts` — TODO (MONITOR_TOOL flag stub exists)
+- [-] `Added subprocess sandboxing with PID namespace isolation on Linux (CLAUDE_CODE_SUBPROCESS_ENV_SCRUB, CLAUDE_CODE_SCRIPT_CAPS)` — SKIP (sandbox infra)
+- [ ] `Added --exclude-dynamic-system-prompt-sections flag to print mode for improved cross-user prompt caching` — TODO
+- [ ] `Added workspace.git_worktree to status line JSON input` — TODO
+- [-] `Added W3C TRACEPARENT env var to Bash tool subprocesses when OTEL tracing enabled` — SKIP (OTEL infra)
+- [-] `LSP: Claude Code now identifies itself to language servers via clientInfo in initialize request` — SKIP (LSP internals)
+- [ ] `Fixed Bash tool permission bypass where backslash-escaped flag could be auto-allowed as read-only` — TODO (security)
+- [ ] `Fixed compound Bash commands bypassing forced permission prompts in auto and bypass-permissions modes` — TODO (security)
+- [ ] `Fixed read-only commands with env-var prefixes not prompting unless the var is known-safe` — TODO (security)
+- [ ] `Fixed redirects to /dev/tcp/... or /dev/udp/... not prompting instead of auto-allowing` — TODO (security)
+- [ ] `Fixed stalled streaming responses timing out instead of falling back to non-streaming mode` — TODO
+- [ ] `Fixed 429 retries burning all attempts in ~13s when server returns small Retry-After` — TODO
+- [ ] `Fixed MCP OAuth oauth.authServerMetadataUrl config override not honored on token refresh after restart` — TODO
+- [ ] `Fixed capital letters being dropped to lowercase on xterm and VS Code with kitty keyboard protocol` — TODO
+- [-] `Fixed macOS text replacements deleting trigger word instead of inserting substitution` — SKIP (macOS-specific)
+- [ ] `Fixed --dangerously-skip-permissions being silently downgraded to accept-edits after approving write to protected path via Bash` — TODO
+- [ ] `Fixed managed-settings allow rules remaining active after admin removed them until process restart` — TODO
+- [ ] `Fixed permissions.additionalDirectories changes not applying mid-session` — TODO
+- [ ] `Fixed removing directory from additionalDirectories revoking access to same directory passed via --add-dir` — TODO
+- [ ] `Fixed Bash(cmd:*) and Bash(git commit *) wildcard permission rules failing to match commands with extra spaces or tabs` — TODO
+- [ ] `Fixed Bash(...) deny rules being downgraded to prompt for piped commands mixing cd with other segments` — TODO
+- [ ] `Fixed false Bash permission prompts for cut -d /, paste -d /, column -s /, awk, and filenames containing %` — TODO
+- [ ] `Fixed permission rules with names matching JavaScript prototype properties (e.g. toString) causing settings.json to be silently ignored` — TODO
+- [ ] `Fixed agent team members not inheriting leader's permission mode when using --dangerously-skip-permissions` — TODO
+- [ ] `Fixed crash in fullscreen mode when hovering over MCP tool results` — TODO
+- [ ] `Fixed copying wrapped URLs in fullscreen mode inserting spaces at line breaks` — TODO
+- [ ] `Fixed file-edit diffs disappearing from UI on --resume when edited file was larger than 10KB` — TODO
+- [ ] `Fixed several /resume picker issues: --resume <name> opening uneditable, filter reload wiping search state, empty list swallowing arrow keys, cross-project staleness, and transient task-status text replacing conversation summaries` — TODO
+- [ ] `Fixed /export not honoring absolute paths and ~, and silently rewriting user-supplied extensions to .txt` — TODO
+- [ ] `Fixed /effort max being denied for unknown or future model IDs` — TODO
+- [ ] `Fixed slash command picker breaking when plugin frontmatter name is a YAML boolean keyword` — TODO
+- [ ] `Fixed rate-limit upsell text being hidden after message remounts` — TODO
+- [ ] `Fixed MCP tools with _meta["anthropic/maxResultSizeChars"] not bypassing token-based persist layer` — TODO
+- [ ] `Fixed voice mode leaking dozens of space characters into input when re-holding push-to-talk key` — TODO
+- [-] `Fixed DISABLE_AUTOUPDATER not fully suppressing npm registry version check` — SKIP (we use GitHub Releases)
+- [ ] `Fixed memory leak where Remote Control permission handler entries were retained for lifetime of session` — TODO
+- [ ] `Fixed background subagents that fail with error not reporting partial progress to parent agent` — TODO
+- [ ] `Fixed prompt-type Stop/SubagentStop hooks failing on long sessions, and hook evaluator API errors showing "JSON validation failed"` — TODO
+- [-] `Fixed feedback survey rendering when dismissed` — SKIP (feedback disabled)
+- [ ] `Fixed Bash grep -f FILE / rg -f FILE not prompting when reading pattern file outside working directory` — TODO (security)
+- [ ] `Fixed stale subagent worktree cleanup removing worktrees that contain untracked files` — TODO
+- [-] `Fixed sandbox.network.allowMachLookup not taking effect on macOS` — SKIP (macOS sandbox)
+- [ ] `Improved /resume filter hint labels and added project/worktree/branch names in filter indicator` — TODO
+- [ ] `Improved footer indicators (Focus, notifications) to stay on mode-indicator row instead of wrapping` — TODO
+- [ ] `Improved /agents with tabbed layout: Running tab shows live subagents, Library tab adds Run agent and View running instance actions` — TODO
+- [ ] `Improved /reload-plugins to pick up plugin-provided skills without requiring restart` — TODO
+- [ ] `Improved Accept Edits mode to auto-approve filesystem commands prefixed with safe env vars or process wrappers` — TODO
+- [ ] `Improved Vim mode: j/k in NORMAL mode now navigate history and select footer pill at input boundary` — TODO
+- [ ] `Improved hook errors in transcript to include first line of stderr for self-diagnosis without --debug` — TODO
+- [-] `Improved OTEL tracing: interaction spans now correctly wrap full turns under concurrent SDK calls` — SKIP (OTEL infra)
+- [ ] `Improved transcript entries to carry final token usage instead of streaming placeholders` — TODO
+- [ ] `Updated /claude-api skill to cover Managed Agents alongside Claude API` — TODO
+- [-] `[VSCode] Fixed false-positive "requires git-bash" error on Windows` — SKIP (VSCode extension)
+- [ ] `Fixed CLAUDE_CODE_MAX_CONTEXT_TOKENS to honor DISABLE_COMPACT when set` — TODO
+- [ ] `Dropped /compact hints when DISABLE_COMPACT is set` — TODO
+
+## 2.1.97
+
+- [ ] `Added focus view toggle (Ctrl+O) in NO_FLICKER mode showing prompt, one-line tool summary with edit diffstats, and final response` — TODO
+- [ ] `Added refreshInterval status line setting to re-run status line command every N seconds` — TODO
+- [ ] `Added workspace.git_worktree to status line JSON input when inside linked git worktree` — TODO (also in 2.1.98)
+- [ ] `Added ● N running indicator in /agents next to agent types with live subagent instances` — TODO
+- [ ] `Added syntax highlighting for Cedar policy files (.cedar, .cedarpolicy)` — TODO
+- [ ] `Fixed --dangerously-skip-permissions being silently downgraded to accept-edits after approving write to protected path` — TODO (also in 2.1.98)
+- [ ] `Fixed and hardened Bash tool permissions, tightening checks around env-var prefixes and network redirects` — TODO (also in 2.1.98, security)
+- [ ] `Fixed permission rules with names matching JavaScript prototype properties causing settings.json to be silently ignored` — TODO (also in 2.1.98)
+- [ ] `Fixed managed-settings allow rules remaining active after admin removed them until process restart` — TODO (also in 2.1.98)
+- [ ] `Fixed permissions.additionalDirectories changes in settings not applying mid-session` — TODO (also in 2.1.98)
+- [ ] `Fixed removing directory from settings.permissions.additionalDirectories revoking access to same directory passed via --add-dir` — TODO (also in 2.1.98)
+- [ ] `Fixed MCP HTTP/SSE connections accumulating ~50 MB/hr of unreleased buffers when servers reconnect` — TODO
+- [ ] `Fixed MCP OAuth oauth.authServerMetadataUrl not honored on token refresh after restart` — TODO (also in 2.1.98)
+- [ ] `Fixed 429 retries burning all attempts in ~13s when server returns small Retry-After` — TODO (also in 2.1.98)
+- [ ] `Fixed rate-limit upgrade options disappearing after context compaction` — TODO
+- [ ] `Fixed several /resume picker issues` — TODO (also in 2.1.98)
+- [ ] `Fixed file-edit diffs disappearing on --resume when edited file was larger than 10KB` — TODO (also in 2.1.98)
+- [ ] `Fixed --resume cache misses and lost mid-turn input from attachment messages not being saved to transcript` — TODO
+- [ ] `Fixed messages typed while Claude is working not being persisted to transcript` — TODO
+- [ ] `Fixed prompt-type Stop/SubagentStop hooks failing on long sessions` — TODO (also in 2.1.98)
+- [ ] `Fixed subagents with worktree isolation or cwd: override leaking working directory back to parent session's Bash tool` — TODO
+- [ ] `Fixed compaction writing duplicate multi-MB subagent transcript files on prompt-too-long retries` — TODO
+- [ ] `Fixed claude plugin update reporting "already at latest version" for git-based marketplace plugins with newer remote commits` — TODO
+- [ ] `Fixed slash command picker breaking when plugin frontmatter name is YAML boolean keyword` — TODO (also in 2.1.98)
+- [ ] `Fixed copying wrapped URLs in NO_FLICKER mode inserting spaces at line breaks` — TODO
+- [ ] `Fixed scroll rendering artifacts in NO_FLICKER mode when running inside zellij` — TODO
+- [ ] `Fixed crash in NO_FLICKER mode when hovering over MCP tool results` — TODO
+- [ ] `Fixed NO_FLICKER mode memory leak where API retries left stale streaming state` — TODO
+- [ ] `Fixed slow mouse-wheel scrolling in NO_FLICKER mode on Windows Terminal` — TODO
+- [ ] `Fixed custom status line not displaying in NO_FLICKER mode on terminals shorter than 24 rows` — TODO
+- [ ] `Fixed Shift+Enter and Alt/Cmd+arrow shortcuts not working in Warp with NO_FLICKER mode` — TODO
+- [-] `Fixed Korean/Japanese/Unicode text becoming garbled when copied in no-flicker mode on Windows` — SKIP (Windows-specific)
+- [-] `Fixed Bedrock SigV4 authentication failing when AWS_BEARER_TOKEN_BEDROCK or ANTHROPIC_BEDROCK_BASE_URL are set to empty strings` — SKIP (Bedrock-specific)
+- [ ] `Improved Accept Edits mode to auto-approve filesystem commands prefixed with safe env vars or process wrappers` — TODO (also in 2.1.98)
+- [ ] `Improved auto mode and bypass-permissions mode to auto-approve sandbox network access prompts` — TODO
+- [-] `Improved sandbox: sandbox.network.allowMachLookup now takes effect on macOS` — SKIP (macOS sandbox)
+- [ ] `Improved image handling: pasted/attached images compressed to same token budget as images read via Read tool` — TODO
+- [ ] `Improved slash command and @-mention completion to trigger after CJK sentence punctuation` — TODO
+- [-] `Improved Bridge sessions to show local git repo, branch, and working directory on claude.ai session card` — SKIP (claude.ai Bridge)
+- [ ] `Improved footer layout: indicators stay on mode-indicator row instead of wrapping below` — TODO (also in 2.1.98)
+- [ ] `Improved context-low warning to show as transient footer notification instead of persistent row` — TODO
+- [ ] `Improved markdown blockquotes to show continuous left bar across wrapped lines` — TODO
+- [ ] `Improved session transcript size by skipping empty hook entries and capping stored pre-edit file copies` — TODO
+- [ ] `Improved transcript accuracy: per-block entries carry final token usage instead of streaming placeholder` — TODO (also in 2.1.98)
+- [-] `Improved Bash tool OTEL tracing: subprocesses inherit W3C TRACEPARENT env var when tracing enabled` — SKIP (OTEL infra)
+- [ ] `Updated /claude-api skill to cover Managed Agents alongside Claude API` — TODO (also in 2.1.98)
+
 ## 2.1.96
 
 - [-] `Fixed Bedrock requests failing with 403 when using AWS_BEARER_TOKEN_BEDROCK or CLAUDE_CODE_SKIP_BEDROCK_AUTH` — SKIP (Bedrock-specific, regression in 2.1.94)
