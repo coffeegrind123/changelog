@@ -95,7 +95,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed copying wrapped URLs in NO_FLICKER mode inserting spaces at line breaks` — TODO
 - [ ] `Fixed scroll rendering artifacts in NO_FLICKER mode when running inside zellij` — TODO
 - [ ] `Fixed crash in NO_FLICKER mode when hovering over MCP tool results` — TODO
-- [ ] `Fixed NO_FLICKER mode memory leak where API retries left stale streaming state` — TODO
+- [x] `Fixed NO_FLICKER mode memory leak where API retries left stale streaming state` — DONE in 07783d8
 - [ ] `Fixed slow mouse-wheel scrolling in NO_FLICKER mode on Windows Terminal` — TODO
 - [ ] `Fixed custom status line not displaying in NO_FLICKER mode on terminals shorter than 24 rows` — TODO
 - [ ] `Fixed Shift+Enter and Alt/Cmd+arrow shortcuts not working in Warp with NO_FLICKER mode` — TODO

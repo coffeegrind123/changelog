@@ -20,6 +20,7 @@
 - `824cc2e` Fixed MCP OAuth `authServerMetadataUrl` config override not honored on token refresh after restart — `discoveryState()` now checks config URL before cached state when issuer differs from cache
 - `824cc2e` Improved auto mode and bypass-permissions mode to auto-approve sandbox network access prompts — `sandboxAskCallback` returns `true` immediately for `auto`/`bypassPermissions` modes
 - `824cc2e` Fixed MCP HTTP/SSE connections accumulating ~50 MB/hr of unreleased buffers on reconnect — `onclose` handler now explicitly calls `transport.close()` to release SSE response bodies
+- `07783d8` Fixed NO_FLICKER mode memory leak where API retries left stale streaming state — `StreamingToolExecutor.discard()` now called before `continue` on collapse-drain, reactive-compact, and max-output-tokens retry paths
 
 ## 08.04.2026
 
