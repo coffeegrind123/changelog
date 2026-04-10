@@ -23,13 +23,13 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Improved plan mode to hide Refine with Ultraplan when org can't reach web` — SKIP (Anthropic cloud)
 - [-] `Improved beta tracing to honor OTEL_LOG_USER_PROMPTS/TOOL_DETAILS/TOOL_CONTENT` — SKIP (OTEL infra)
 - [-] `Improved SDK query() cleanup on break/await using` — SKIP (SDK internals)
-- [ ] `Fixed command injection vulnerability in POSIX which fallback for LSP binary detection` — TODO (security fix)
+- [ ] `Fixed command injection vulnerability in POSIX which fallback for LSP binary detection` — TODO (security fix, researching)
 - [ ] `Fixed memory leak where long sessions retained historical copies of message list in virtual scroller` — TODO
 - [ ] `Fixed --resume/--continue losing context on large sessions when loader anchored on dead-end branch` — TODO
 - [ ] `Fixed --resume chain recovery bridging into unrelated subagent conversation` — TODO
 - [ ] `Fixed crash on --resume when persisted Edit/Write tool result missing file_path` — TODO
 - [ ] `Fixed hardcoded 5-minute request timeout ignoring API_TIMEOUT_MS` — TODO
-- [ ] `Fixed permissions.deny rules not overriding PreToolUse hook permissionDecision:ask` — TODO
+- [x] `Fixed permissions.deny rules not overriding PreToolUse hook permissionDecision:ask` — DONE in ed80f5a
 - [ ] `Fixed --setting-sources without user causing cleanup to ignore cleanupPeriodDays` — TODO
 - [-] `Fixed Bedrock SigV4 authentication failing with Authorization header` — SKIP (Bedrock-specific)
 - [ ] `Fixed claude -w <name> failing with "already exists" after stale worktree cleanup` — TODO
@@ -37,14 +37,14 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed sub-agents in worktrees denied Read/Edit access to files inside their own worktree` — TODO
 - [-] `Fixed sandboxed Bash commands failing with mktemp after fresh boot` — SKIP (sandbox infra)
 - [-] `Fixed claude mcp serve tool calls failing with outputSchema validation` — SKIP (MCP serve)
-- [ ] `Fixed RemoteTrigger tool run action sending empty body` — TODO
+- [x] `Fixed RemoteTrigger tool run action sending empty body` — DONE in ed80f5a
 - [ ] `Fixed several /resume picker issues: narrow default view, unreachable preview, incorrect cwd in worktrees, session-not-found stderr, terminal title, resume hint overlap` — TODO
 - [ ] `Fixed Grep tool ENOENT when embedded ripgrep binary path stale; falls back to system rg` — TODO
-- [ ] `Fixed /btw writing entire conversation to disk on every use` — TODO
+- [x] `Fixed /btw writing entire conversation to disk on every use` — DONE in ed80f5a (skipTranscript on side questions)
 - [ ] `Fixed /context Free space and Messages breakdown disagreeing with header percentage` — TODO
 - [ ] `Fixed several plugin issues: duplicate name frontmatter, ENAMETOOLONG, stale version cache, context:fork/agent frontmatter` — TODO
 - [ ] `Fixed /mcp menu offering OAuth actions for headersHelper servers` — TODO
-- [ ] `Fixed ctrl+], ctrl+\, ctrl+^ keybindings not firing in terminals sending raw C0 control bytes` — TODO
+- [x] `Fixed ctrl+], ctrl+\, ctrl+^ keybindings not firing in terminals sending raw C0 control bytes` — DONE in ed80f5a
 - [ ] `Fixed /login OAuth URL rendering with padding preventing clean mouse selection` — TODO
 - [ ] `Fixed rendering issues: flicker in non-fullscreen, scrollback wiped during long sessions, mouse-scroll escapes leaking into prompt` — TODO
 - [ ] `Fixed crash when settings.json env values are numbers instead of strings` — TODO

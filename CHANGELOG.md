@@ -10,6 +10,10 @@
 - `a6a5ba4` Improved Vim mode: j/k in NORMAL mode now navigate history and select footer pill at input boundary — detects first/last line and delegates to base handler
 - `7b8eef4` Added ● N running indicator in `/agents` next to agent types with live subagent instances — counts running/pending tasks from AppState
 - `7b8eef4` Improved `/resume` filter hint labels — shows worktree directory name instead of generic "current worktree" text
+- `ed80f5a` Fixed `ctrl+]`, `ctrl+\`, `ctrl+^` keybindings not firing in terminals sending raw C0 control bytes — extend parse-keypress to handle 0x1c-0x1e
+- `ed80f5a` Fixed `permissions.deny` rules not overriding PreToolUse hook `permissionDecision:ask` — check deny rules before passing hook's ask to canUseTool
+- `ed80f5a` Fixed RemoteTrigger tool `run` action sending empty body — use provided body param or omit data
+- `ed80f5a` Fixed `/btw` writing entire conversation to disk on every use — set `skipTranscript` on side questions
 
 ## 10.04.2026
 
