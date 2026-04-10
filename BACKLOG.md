@@ -41,14 +41,14 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed several /resume picker issues: narrow default view, unreachable preview, incorrect cwd in worktrees, session-not-found stderr, terminal title, resume hint overlap` — TODO
 - [x] `Fixed Grep tool ENOENT when embedded ripgrep binary path stale; falls back to system rg` — DONE (already in codebase, ripgrep.ts:64-75 existsSync + findExecutable fallback)
 - [x] `Fixed /btw writing entire conversation to disk on every use` — DONE in ed80f5a (skipTranscript on side questions)
-- [ ] `Fixed /context Free space and Messages breakdown disagreeing with header percentage` — TODO
+- [x] `Fixed /context Free space and Messages breakdown disagreeing with header percentage` — DONE in 295ecea (reconcile Free space with API usage)
 - [ ] `Fixed several plugin issues: duplicate name frontmatter, ENAMETOOLONG, stale version cache, context:fork/agent frontmatter` — TODO
 - [ ] `Fixed /mcp menu offering OAuth actions for headersHelper servers` — TODO
 - [x] `Fixed ctrl+], ctrl+\, ctrl+^ keybindings not firing in terminals sending raw C0 control bytes` — DONE in ed80f5a
 - [x] `Fixed /login OAuth URL rendering with padding preventing clean mouse selection` — DONE in ff9a9b3
 - [ ] `Fixed rendering issues: flicker in non-fullscreen, scrollback wiped during long sessions, mouse-scroll escapes leaking into prompt` — TODO
 - [x] `Fixed crash when settings.json env values are numbers instead of strings` — DONE in eeca77b (String() coercion in filterSettingsEnv)
-- [ ] `Fixed in-app settings writes not refreshing in-memory snapshot` — TODO
+- [x] `Fixed in-app settings writes not refreshing in-memory snapshot` — DONE in 295ecea (clear pluginSettingsBase in resetSettingsCache)
 - [-] `Fixed custom keybindings not loading on Bedrock/Vertex/third-party providers` — SKIP (provider-specific)
 - [x] `Fixed claude --continue -p not correctly continuing -p/SDK sessions` — DONE in ff9a9b3 (bypass isNonInteractive filter via fetchLogs)
 - [-] `Fixed several Remote Control issues` — SKIP (Remote Control infra)

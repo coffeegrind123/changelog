@@ -31,6 +31,8 @@
 - `fcb0b30` Improved focus mode: Claude writes self-contained summaries — `BriefTool` prompt instructs that user only sees `SendUserMessage` output
 - `defb5cf` Fixed sub-agents in worktrees denied Read/Edit access — `allWorkingDirectories()` now includes `getCwd()` (async-local override) so worktree paths are recognized
 - `f4b49cc` Improved `/plugin` and `claude plugin update` — warns when marketplace could not be refreshed instead of silently reporting stale version
+- `295ecea` Fixed `/context` Free space and Messages breakdown disagreeing with header percentage — reconcile Free space with API usage total
+- `295ecea` Fixed in-app settings writes not refreshing in-memory snapshot — `resetSettingsCache()` now clears `pluginSettingsBase`
 
 ## 10.04.2026
 
