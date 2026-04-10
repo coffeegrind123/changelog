@@ -8,6 +8,8 @@
 - `a6a5ba4` Fixed resume picker: `--resume <name>` opening with uneditable search — initialize `viewMode` to `"search"` when `initialSearchQuery` is provided
 - `a6a5ba4` Fixed file-edit diffs disappearing on `--resume` for files >10KB — `UserToolSuccessMessage` now falls through with raw data when `outputSchema.safeParse` fails instead of returning null
 - `a6a5ba4` Improved Vim mode: j/k in NORMAL mode now navigate history and select footer pill at input boundary — detects first/last line and delegates to base handler
+- `7b8eef4` Added ● N running indicator in `/agents` next to agent types with live subagent instances — counts running/pending tasks from AppState
+- `7b8eef4` Improved `/resume` filter hint labels — shows worktree directory name instead of generic "current worktree" text
 
 ## 10.04.2026
 

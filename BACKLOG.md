@@ -52,7 +52,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed Bash grep -f FILE / rg -f FILE not prompting when reading pattern file outside working directory` — DONE in defb61c
 - [x] `Fixed stale subagent worktree cleanup removing worktrees that contain untracked files` — DONE in 35a791c
 - [-] `Fixed sandbox.network.allowMachLookup not taking effect on macOS` — SKIP (macOS sandbox)
-- [ ] `Improved /resume filter hint labels and added project/worktree/branch names in filter indicator` — TODO
+- [x] `Improved /resume filter hint labels and added project/worktree/branch names in filter indicator` — DONE in 7b8eef4 (worktree directory name instead of generic text)
 - [x] `Improved footer indicators (Focus, notifications) to stay on mode-indicator row instead of wrapping` — DONE
 - [ ] `Improved /agents with tabbed layout: Running tab shows live subagents, Library tab adds Run agent and View running instance actions` — TODO
 - [x] `Improved /reload-plugins to pick up plugin-provided skills without requiring restart` — DONE in c573e06
@@ -71,7 +71,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Added focus view toggle (Ctrl+O) in NO_FLICKER mode showing prompt, one-line tool summary with edit diffstats, and final response` — TODO
 - [x] `Added refreshInterval status line setting to re-run status line command every N seconds` — DONE in 4950e3e
 - [x] `Added workspace.git_worktree to status line JSON input when inside linked git worktree` — DONE in 4950e3e (also in 2.1.98)
-- [ ] `Added ● N running indicator in /agents next to agent types with live subagent instances` — TODO
+- [x] `Added ● N running indicator in /agents next to agent types with live subagent instances` — DONE in 7b8eef4
 - [x] `Added syntax highlighting for Cedar policy files (.cedar, .cedarpolicy)` — DONE in defb61c
 - [x] `Fixed --dangerously-skip-permissions being silently downgraded to accept-edits after approving write to protected path` — DONE in 33c3cd1 (also in 2.1.98)
 - [~] `Fixed and hardened Bash tool permissions, tightening checks around env-var prefixes and network redirects` — PARTIAL (env-var prefix fix done, network redirects already in defb61c)
