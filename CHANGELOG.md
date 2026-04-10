@@ -13,6 +13,7 @@
 - `e9b0c9d` Fixed managed-settings allow rules persisting after admin removal — `policySettings` now cleared in `syncPermissionRulesFromDisk` before re-applying fresh rules
 - `33c3cd1` Fixed `--dangerously-skip-permissions` being silently downgraded to `acceptEdits` after approving write to protected path — `setMode` suggestion now only generated when current mode is `default` or `plan`
 - `33c3cd1` Fixed removing directory from `additionalDirectories` revoking access to same directory passed via `--add-dir` — `removeDirectories` now preserves entries with `cliArg` or `session` source
+- `8a6dd9e` Fixed agent team members not inheriting leader's permission mode — team members spawned in `bypassPermissions` mode now inherit that mode via `leaderPermissionMode` in spawn config
 
 ## 08.04.2026
 

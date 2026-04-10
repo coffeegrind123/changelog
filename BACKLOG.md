@@ -33,7 +33,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed Bash(...) deny rules being downgraded to prompt for piped commands mixing cd with other segments` — DONE (reorder deny check before cd+git ask in segmentedCommandPermissionResult)
 - [x] `Fixed false Bash permission prompts for cut -d /, paste -d /, column -s /, awk, and filenames containing %` — DONE (cut/paste/column/awk added to COMMAND_ALLOWLIST, % regex fix in hasDangerousExpansion)
 - [x] `Fixed permission rules with names matching JavaScript prototype properties (e.g. toString) causing settings.json to be silently ignored` — DONE in 4950e3e
-- [ ] `Fixed agent team members not inheriting leader's permission mode when using --dangerously-skip-permissions` — TODO
+- [x] `Fixed agent team members not inheriting leader's permission mode when using --dangerously-skip-permissions` — DONE in 8a6dd9e
 - [ ] `Fixed crash in fullscreen mode when hovering over MCP tool results` — TODO
 - [ ] `Fixed copying wrapped URLs in fullscreen mode inserting spaces at line breaks` — TODO
 - [ ] `Fixed file-edit diffs disappearing from UI on --resume when edited file was larger than 10KB` — TODO
