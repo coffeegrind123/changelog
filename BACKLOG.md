@@ -9,7 +9,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 ## 2.1.98
 
 - [-] `Added interactive Google Vertex AI setup wizard from login screen` — SKIP (Anthropic cloud infra)
-- [ ] `Added CLAUDE_CODE_PERFORCE_MODE env var: Edit/Write/NotebookEdit fail on read-only files with p4 edit hint` — TODO
+- [x] `Added CLAUDE_CODE_PERFORCE_MODE env var: Edit/Write/NotebookEdit fail on read-only files with p4 edit hint` — DONE in 35a791c
 - [ ] `Added Monitor tool for streaming events from background scripts` — TODO (MONITOR_TOOL flag stub exists)
 - [-] `Added subprocess sandboxing with PID namespace isolation on Linux (CLAUDE_CODE_SUBPROCESS_ENV_SCRUB, CLAUDE_CODE_SCRIPT_CAPS)` — SKIP (sandbox infra)
 - [ ] `Added --exclude-dynamic-system-prompt-sections flag to print mode for improved cross-user prompt caching` — TODO
@@ -29,7 +29,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed managed-settings allow rules remaining active after admin removed them until process restart` — TODO
 - [ ] `Fixed permissions.additionalDirectories changes not applying mid-session` — TODO
 - [ ] `Fixed removing directory from additionalDirectories revoking access to same directory passed via --add-dir` — TODO
-- [ ] `Fixed Bash(cmd:*) and Bash(git commit *) wildcard permission rules failing to match commands with extra spaces or tabs` — TODO
+- [x] `Fixed Bash(cmd:*) and Bash(git commit *) wildcard permission rules failing to match commands with extra spaces or tabs` — DONE in 35a791c
 - [ ] `Fixed Bash(...) deny rules being downgraded to prompt for piped commands mixing cd with other segments` — TODO
 - [ ] `Fixed false Bash permission prompts for cut -d /, paste -d /, column -s /, awk, and filenames containing %` — TODO
 - [x] `Fixed permission rules with names matching JavaScript prototype properties (e.g. toString) causing settings.json to be silently ignored` — DONE in 4950e3e
@@ -42,15 +42,15 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed /effort max being denied for unknown or future model IDs` — DONE in defb61c
 - [x] `Fixed slash command picker breaking when plugin frontmatter name is a YAML boolean keyword` — DONE in 4950e3e
 - [ ] `Fixed rate-limit upsell text being hidden after message remounts` — TODO
-- [ ] `Fixed MCP tools with _meta["anthropic/maxResultSizeChars"] not bypassing token-based persist layer` — TODO
+- [x] `Fixed MCP tools with _meta["anthropic/maxResultSizeChars"] not bypassing token-based persist layer` — DONE in 35a791c
 - [ ] `Fixed voice mode leaking dozens of space characters into input when re-holding push-to-talk key` — TODO
 - [-] `Fixed DISABLE_AUTOUPDATER not fully suppressing npm registry version check` — SKIP (we use GitHub Releases)
 - [ ] `Fixed memory leak where Remote Control permission handler entries were retained for lifetime of session` — TODO
-- [ ] `Fixed background subagents that fail with error not reporting partial progress to parent agent` — TODO
+- [x] `Fixed background subagents that fail with error not reporting partial progress to parent agent` — DONE in 35a791c
 - [x] `Fixed prompt-type Stop/SubagentStop hooks failing on long sessions, and hook evaluator API errors showing "JSON validation failed"` — DONE in defb61c (stderr included in error)
 - [-] `Fixed feedback survey rendering when dismissed` — SKIP (feedback disabled)
 - [x] `Fixed Bash grep -f FILE / rg -f FILE not prompting when reading pattern file outside working directory` — DONE in defb61c
-- [ ] `Fixed stale subagent worktree cleanup removing worktrees that contain untracked files` — TODO
+- [x] `Fixed stale subagent worktree cleanup removing worktrees that contain untracked files` — DONE in 35a791c
 - [-] `Fixed sandbox.network.allowMachLookup not taking effect on macOS` — SKIP (macOS sandbox)
 - [ ] `Improved /resume filter hint labels and added project/worktree/branch names in filter indicator` — TODO
 - [x] `Improved footer indicators (Focus, notifications) to stay on mode-indicator row instead of wrapping` — DONE
@@ -89,9 +89,9 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed messages typed while Claude is working not being persisted to transcript` — TODO
 - [x] `Fixed prompt-type Stop/SubagentStop hooks failing on long sessions` — DONE in defb61c (also in 2.1.98)
 - [ ] `Fixed subagents with worktree isolation or cwd: override leaking working directory back to parent session's Bash tool` — TODO
-- [ ] `Fixed compaction writing duplicate multi-MB subagent transcript files on prompt-too-long retries` — TODO
+- [x] `Fixed compaction writing duplicate multi-MB subagent transcript files on prompt-too-long retries` — DONE in 35a791c
 - [ ] `Fixed claude plugin update reporting "already at latest version" for git-based marketplace plugins with newer remote commits` — TODO
-- [ ] `Fixed slash command picker breaking when plugin frontmatter name is YAML boolean keyword` — TODO (also in 2.1.98)
+- [x] `Fixed slash command picker breaking when plugin frontmatter name is YAML boolean keyword` — DONE in 4950e3e (also in 2.1.98)
 - [ ] `Fixed copying wrapped URLs in NO_FLICKER mode inserting spaces at line breaks` — TODO
 - [ ] `Fixed scroll rendering artifacts in NO_FLICKER mode when running inside zellij` — TODO
 - [ ] `Fixed crash in NO_FLICKER mode when hovering over MCP tool results` — TODO
