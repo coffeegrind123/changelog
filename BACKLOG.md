@@ -16,7 +16,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Improved tool-not-available errors to explain why and how to proceed` — DONE in 167cb90
 - [x] `Improved rate-limit retry messages to show which limit was hit and when it resets` — DONE in 98731af
 - [x] `Improved refusal error messages to include API-provided explanation` — DONE in 167cb90
-- [ ] `Improved claude -p --resume <name> to accept session titles from /rename or --name` — TODO
+- [x] `Improved claude -p --resume <name> to accept session titles from /rename or --name` — DONE in ff9a9b3
 - [x] `Improved settings resilience: unrecognized hook event name no longer causes entire settings.json to be ignored` — DONE in fd58648 (z.string() key instead of z.enum)
 - [ ] `Improved plugin hooks from force-enabled plugins to run when allowManagedHooksOnly is set` — TODO
 - [ ] `Improved /plugin and claude plugin update to warn when marketplace could not be refreshed` — TODO
@@ -39,18 +39,18 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Fixed claude mcp serve tool calls failing with outputSchema validation` — SKIP (MCP serve)
 - [x] `Fixed RemoteTrigger tool run action sending empty body` — DONE in ed80f5a
 - [ ] `Fixed several /resume picker issues: narrow default view, unreachable preview, incorrect cwd in worktrees, session-not-found stderr, terminal title, resume hint overlap` — TODO
-- [ ] `Fixed Grep tool ENOENT when embedded ripgrep binary path stale; falls back to system rg` — TODO
+- [x] `Fixed Grep tool ENOENT when embedded ripgrep binary path stale; falls back to system rg` — DONE (already in codebase, ripgrep.ts:64-75 existsSync + findExecutable fallback)
 - [x] `Fixed /btw writing entire conversation to disk on every use` — DONE in ed80f5a (skipTranscript on side questions)
 - [ ] `Fixed /context Free space and Messages breakdown disagreeing with header percentage` — TODO
 - [ ] `Fixed several plugin issues: duplicate name frontmatter, ENAMETOOLONG, stale version cache, context:fork/agent frontmatter` — TODO
 - [ ] `Fixed /mcp menu offering OAuth actions for headersHelper servers` — TODO
 - [x] `Fixed ctrl+], ctrl+\, ctrl+^ keybindings not firing in terminals sending raw C0 control bytes` — DONE in ed80f5a
-- [ ] `Fixed /login OAuth URL rendering with padding preventing clean mouse selection` — TODO
+- [x] `Fixed /login OAuth URL rendering with padding preventing clean mouse selection` — DONE in ff9a9b3
 - [ ] `Fixed rendering issues: flicker in non-fullscreen, scrollback wiped during long sessions, mouse-scroll escapes leaking into prompt` — TODO
 - [x] `Fixed crash when settings.json env values are numbers instead of strings` — DONE in eeca77b (String() coercion in filterSettingsEnv)
 - [ ] `Fixed in-app settings writes not refreshing in-memory snapshot` — TODO
 - [-] `Fixed custom keybindings not loading on Bedrock/Vertex/third-party providers` — SKIP (provider-specific)
-- [ ] `Fixed claude --continue -p not correctly continuing -p/SDK sessions` — TODO
+- [x] `Fixed claude --continue -p not correctly continuing -p/SDK sessions` — DONE in ff9a9b3 (bypass isNonInteractive filter via fetchLogs)
 - [-] `Fixed several Remote Control issues` — SKIP (Remote Control infra)
 - [-] `Fixed /insights sometimes omitting report file link` — SKIP (insights feature)
 - [-] `[VSCode] Fixed file attachment not clearing when last editor tab closed` — SKIP (VSCode extension)

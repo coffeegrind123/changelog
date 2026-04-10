@@ -24,6 +24,9 @@
 - `77ff208` Fixed `--setting-sources` without `user` causing cleanup to ignore `cleanupPeriodDays` — falls back to user settings directly
 - `3554670` Fixed `claude -w <name>` failing with "already exists" after stale worktree cleanup — removes stale directories before `git worktree add`
 - `98731af` Improved rate-limit retry messages — shows limit type (from `anthropic-ratelimit-unified-limit-name`) and reset time instead of opaque countdown
+- `ff9a9b3` Improved `claude -p --resume <name>` — now accepts session titles from `/rename` or `--name` via `searchSessionsByCustomTitle` fallback
+- `ff9a9b3` Fixed `claude --continue -p` not continuing `-p`/SDK sessions — bypasses `isNonInteractive` enrichment filter via direct `fetchLogs(1)`
+- `ff9a9b3` Fixed `/login` OAuth URL padding preventing clean mouse selection
 
 ## 10.04.2026
 
