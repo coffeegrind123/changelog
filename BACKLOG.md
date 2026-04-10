@@ -34,7 +34,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Fixed Bedrock SigV4 authentication failing with Authorization header` — SKIP (Bedrock-specific)
 - [x] `Fixed claude -w <name> failing with "already exists" after stale worktree cleanup` — DONE in 3554670
 - [x] `Fixed subagents not inheriting MCP tools from dynamically-injected servers` — DONE (already in codebase, assembleToolPool passes appState.mcp.tools at AgentTool.tsx:577)
-- [ ] `Fixed sub-agents in worktrees denied Read/Edit access to files inside their own worktree` — TODO
+- [x] `Fixed sub-agents in worktrees denied Read/Edit access to files inside their own worktree` — DONE in defb5cf (getCwd() added to allWorkingDirectories)
 - [-] `Fixed sandboxed Bash commands failing with mktemp after fresh boot` — SKIP (sandbox infra)
 - [-] `Fixed claude mcp serve tool calls failing with outputSchema validation` — SKIP (MCP serve)
 - [x] `Fixed RemoteTrigger tool run action sending empty body` — DONE in ed80f5a

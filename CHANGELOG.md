@@ -29,6 +29,7 @@
 - `ff9a9b3` Fixed `/login` OAuth URL padding preventing clean mouse selection
 - `f7ea957` Improved plugin hooks from force-enabled plugins to run when `allowManagedHooksOnly` is set — checks `getManagedPluginNames` before skipping
 - `fcb0b30` Improved focus mode: Claude writes self-contained summaries — `BriefTool` prompt instructs that user only sees `SendUserMessage` output
+- `defb5cf` Fixed sub-agents in worktrees denied Read/Edit access — `allWorkingDirectories()` now includes `getCwd()` (async-local override) so worktree paths are recognized
 
 ## 10.04.2026
 
