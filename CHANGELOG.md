@@ -1,5 +1,13 @@
 # Changelog
 
+## 10.04.2026
+
+- `13b5000` Added cut/paste/column/awk/gawk/mawk to Bash COMMAND_ALLOWLIST — fixes false permission prompts for `cut -d /`, `paste -d /`, `column -s /`, and awk commands. Fixed `%` in filenames triggering false dangerous-redirect detection (now only flags Windows `%VAR%` patterns)
+- `13b5000` Fixed compound Bash commands bypassing forced permission prompts in auto/bypass modes — deny rule check now runs on full compound command after pipe operator returns 'allow'
+- `13b5000` Fixed read-only commands with env-var prefixes not prompting — `stripSafeWrappers` now runs in `isCommandReadOnly` so safe vars are stripped before read-only check (unsafe vars still prompt)
+- `13b5000` Fixed Bash deny rules downgraded to ask for piped cd commands — per-segment deny checks now run before cd+git ask in `segmentedCommandPermissionResult`
+- `13b5000` Improved pasted/attached image token budget — added `compressImageBufferWithTokenLimit` to clipboard paste and attachment paths, matching Read tool's 25K token budget
+
 ## 08.04.2026
 
 - `6a7df35` Fixed compiled binary REPL hang — replaced all `await import()` with `require()` in Commander action handlers (`main.tsx`, `interactiveHelpers.tsx`, `dialogLaunchers.tsx`, `setup.ts`, `replLauncher.tsx`). Bun compiled binaries deadlock on dynamic import inside Commander callbacks
