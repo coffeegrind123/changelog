@@ -46,7 +46,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed /mcp menu offering OAuth actions for headersHelper servers` — DONE in 55059e8 (show Reconnect instead)
 - [x] `Fixed ctrl+], ctrl+\, ctrl+^ keybindings not firing in terminals sending raw C0 control bytes` — DONE in ed80f5a
 - [x] `Fixed /login OAuth URL rendering with padding preventing clean mouse selection` — DONE in ff9a9b3
-- [ ] `Fixed rendering issues: flicker in non-fullscreen, scrollback wiped during long sessions, mouse-scroll escapes leaking into prompt` — TODO
+- [x] `Fixed rendering issues: flicker in non-fullscreen, scrollback wiped during long sessions, mouse-scroll escapes leaking into prompt` — 04823e8
 - [x] `Fixed crash when settings.json env values are numbers instead of strings` — DONE in eeca77b (String() coercion in filterSettingsEnv)
 - [x] `Fixed in-app settings writes not refreshing in-memory snapshot` — DONE in 295ecea (clear pluginSettingsBase in resetSettingsCache)
 - [-] `Fixed custom keybindings not loading on Bedrock/Vertex/third-party providers` — SKIP (provider-specific)
