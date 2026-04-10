@@ -14,7 +14,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Improved brief mode to retry once when Claude responds with plain text instead of structured message` — TODO
 - [ ] `Improved focus mode: Claude writes more self-contained summaries knowing user only sees final message` — TODO
 - [x] `Improved tool-not-available errors to explain why and how to proceed` — DONE in 167cb90
-- [ ] `Improved rate-limit retry messages to show which limit was hit and when it resets` — TODO
+- [x] `Improved rate-limit retry messages to show which limit was hit and when it resets` — DONE in 98731af
 - [x] `Improved refusal error messages to include API-provided explanation` — DONE in 167cb90
 - [ ] `Improved claude -p --resume <name> to accept session titles from /rename or --name` — TODO
 - [x] `Improved settings resilience: unrecognized hook event name no longer causes entire settings.json to be ignored` — DONE in fd58648 (z.string() key instead of z.enum)
@@ -25,15 +25,15 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Improved SDK query() cleanup on break/await using` — SKIP (SDK internals)
 - [x] `Fixed command injection vulnerability in POSIX which fallback for LSP binary detection` — DONE in 2569482 (execFileSync/execa array args instead of shell interpolation)
 - [ ] `Fixed memory leak where long sessions retained historical copies of message list in virtual scroller` — TODO
-- [ ] `Fixed --resume/--continue losing context on large sessions when loader anchored on dead-end branch` — TODO
-- [ ] `Fixed --resume chain recovery bridging into unrelated subagent conversation` — TODO
+- [x] `Fixed --resume/--continue losing context on large sessions when loader anchored on dead-end branch` — DONE (already in codebase, gated on tengu_pebble_leaf_prune which we enable)
+- [x] `Fixed --resume chain recovery bridging into unrelated subagent conversation` — DONE (already in codebase, findLatestMessage with !m.isSidechain filter at sessionStorage.ts:3949)
 - [x] `Fixed crash on --resume when persisted Edit/Write tool result missing file_path` — DONE in 2569482 (optional chaining)
 - [x] `Fixed hardcoded 5-minute request timeout ignoring API_TIMEOUT_MS` — DONE in b60045d (300s→600s default for non-streaming fallback)
 - [x] `Fixed permissions.deny rules not overriding PreToolUse hook permissionDecision:ask` — DONE in ed80f5a
 - [x] `Fixed --setting-sources without user causing cleanup to ignore cleanupPeriodDays` — DONE in 77ff208
 - [-] `Fixed Bedrock SigV4 authentication failing with Authorization header` — SKIP (Bedrock-specific)
 - [x] `Fixed claude -w <name> failing with "already exists" after stale worktree cleanup` — DONE in 3554670
-- [ ] `Fixed subagents not inheriting MCP tools from dynamically-injected servers` — TODO
+- [x] `Fixed subagents not inheriting MCP tools from dynamically-injected servers` — DONE (already in codebase, assembleToolPool passes appState.mcp.tools at AgentTool.tsx:577)
 - [ ] `Fixed sub-agents in worktrees denied Read/Edit access to files inside their own worktree` — TODO
 - [-] `Fixed sandboxed Bash commands failing with mktemp after fresh boot` — SKIP (sandbox infra)
 - [-] `Fixed claude mcp serve tool calls failing with outputSchema validation` — SKIP (MCP serve)

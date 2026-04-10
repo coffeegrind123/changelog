@@ -23,6 +23,7 @@
 - `b60045d` Fixed hardcoded 5-minute non-streaming fallback timeout ignoring `API_TIMEOUT_MS` — changed default from 300s to 600s to match streaming client
 - `77ff208` Fixed `--setting-sources` without `user` causing cleanup to ignore `cleanupPeriodDays` — falls back to user settings directly
 - `3554670` Fixed `claude -w <name>` failing with "already exists" after stale worktree cleanup — removes stale directories before `git worktree add`
+- `98731af` Improved rate-limit retry messages — shows limit type (from `anthropic-ratelimit-unified-limit-name`) and reset time instead of opaque countdown
 
 ## 10.04.2026
 
