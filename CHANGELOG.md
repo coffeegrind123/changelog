@@ -27,6 +27,8 @@
 - `ff9a9b3` Improved `claude -p --resume <name>` — now accepts session titles from `/rename` or `--name` via `searchSessionsByCustomTitle` fallback
 - `ff9a9b3` Fixed `claude --continue -p` not continuing `-p`/SDK sessions — bypasses `isNonInteractive` enrichment filter via direct `fetchLogs(1)`
 - `ff9a9b3` Fixed `/login` OAuth URL padding preventing clean mouse selection
+- `f7ea957` Improved plugin hooks from force-enabled plugins to run when `allowManagedHooksOnly` is set — checks `getManagedPluginNames` before skipping
+- `fcb0b30` Improved focus mode: Claude writes self-contained summaries — `BriefTool` prompt instructs that user only sees `SendUserMessage` output
 
 ## 10.04.2026
 

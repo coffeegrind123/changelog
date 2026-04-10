@@ -12,13 +12,13 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Added OS CA certificate store trust by default (CLAUDE_CODE_CERT_STORE=bundled)` — SKIP (enterprise TLS proxy feature)
 - [-] `/ultraplan auto-create default cloud environment` — SKIP (Anthropic cloud infra)
 - [ ] `Improved brief mode to retry once when Claude responds with plain text instead of structured message` — TODO
-- [ ] `Improved focus mode: Claude writes more self-contained summaries knowing user only sees final message` — TODO
+- [x] `Improved focus mode: Claude writes more self-contained summaries knowing user only sees final message` — DONE in fcb0b30 (BriefTool prompt updated)
 - [x] `Improved tool-not-available errors to explain why and how to proceed` — DONE in 167cb90
 - [x] `Improved rate-limit retry messages to show which limit was hit and when it resets` — DONE in 98731af
 - [x] `Improved refusal error messages to include API-provided explanation` — DONE in 167cb90
 - [x] `Improved claude -p --resume <name> to accept session titles from /rename or --name` — DONE in ff9a9b3
 - [x] `Improved settings resilience: unrecognized hook event name no longer causes entire settings.json to be ignored` — DONE in fd58648 (z.string() key instead of z.enum)
-- [ ] `Improved plugin hooks from force-enabled plugins to run when allowManagedHooksOnly is set` — TODO
+- [x] `Improved plugin hooks from force-enabled plugins to run when allowManagedHooksOnly is set` — DONE in f7ea957
 - [ ] `Improved /plugin and claude plugin update to warn when marketplace could not be refreshed` — TODO
 - [-] `Improved plan mode to hide Refine with Ultraplan when org can't reach web` — SKIP (Anthropic cloud)
 - [-] `Improved beta tracing to honor OTEL_LOG_USER_PROMPTS/TOOL_DETAILS/TOOL_CONTENT` — SKIP (OTEL infra)
