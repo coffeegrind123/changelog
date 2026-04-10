@@ -11,7 +11,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Added /team-onboarding command to generate a teammate ramp-up guide` — SKIP (Anthropic managed infra, requires cloud onboarding flow)
 - [-] `Added OS CA certificate store trust by default (CLAUDE_CODE_CERT_STORE=bundled)` — SKIP (enterprise TLS proxy feature)
 - [-] `/ultraplan auto-create default cloud environment` — SKIP (Anthropic cloud infra)
-- [ ] `Improved brief mode to retry once when Claude responds with plain text instead of structured message` — TODO
+- [x] `Improved brief mode to retry once when Claude responds with plain text instead of structured message` — a1c7c6e
 - [x] `Improved focus mode: Claude writes more self-contained summaries knowing user only sees final message` — DONE in fcb0b30 (BriefTool prompt updated)
 - [x] `Improved tool-not-available errors to explain why and how to proceed` — DONE in 167cb90
 - [x] `Improved rate-limit retry messages to show which limit was hit and when it resets` — DONE in 98731af

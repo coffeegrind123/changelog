@@ -2,6 +2,7 @@
 
 ## 11.04.2026
 
+- `a1c7c6e` Improved brief mode to retry once when Claude responds with plain text instead of structured SendUserMessage
 - `e9f6195` Added Monitor tool for streaming events from background scripts — real-time stdout→notification with 200ms batching, rate limiting, persistent mode, task detail dialog, permission request component
 - `a6a5ba4` Fixed FuzzyPicker crash on arrow keys when item list is empty — guard against `clamp(i, 0, -1)` in `step()` and `useEffect`
 - `a6a5ba4` Fixed resume picker: task-summary entries replacing conversation summaries — renamed `summary` field to `taskStatus` in `saveTaskSummary` to avoid collision with `extractLastJsonStringField`
