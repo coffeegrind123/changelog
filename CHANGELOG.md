@@ -15,6 +15,7 @@
 - `ed80f5a` Fixed RemoteTrigger tool `run` action sending empty body — use provided body param or omit data
 - `ed80f5a` Fixed `/btw` writing entire conversation to disk on every use — set `skipTranscript` on side questions
 - `eeca77b` Fixed crash when `settings.json` env values are numbers instead of strings — `filterSettingsEnv` now coerces all values via `String()` before `Object.assign` to `process.env`
+- `fd58648` Improved settings resilience: unrecognized hook event name in `settings.json` no longer causes entire file to be ignored — `HooksSchema` key changed from `z.enum(HOOK_EVENTS)` to `z.string()`
 
 ## 10.04.2026
 

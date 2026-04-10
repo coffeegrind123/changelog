@@ -17,7 +17,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Improved rate-limit retry messages to show which limit was hit and when it resets` — TODO
 - [ ] `Improved refusal error messages to include API-provided explanation` — TODO
 - [ ] `Improved claude -p --resume <name> to accept session titles from /rename or --name` — TODO
-- [ ] `Improved settings resilience: unrecognized hook event name no longer causes entire settings.json to be ignored` — TODO
+- [x] `Improved settings resilience: unrecognized hook event name no longer causes entire settings.json to be ignored` — DONE in fd58648 (z.string() key instead of z.enum)
 - [ ] `Improved plugin hooks from force-enabled plugins to run when allowManagedHooksOnly is set` — TODO
 - [ ] `Improved /plugin and claude plugin update to warn when marketplace could not be refreshed` — TODO
 - [-] `Improved plan mode to hide Refine with Ultraplan when org can't reach web` — SKIP (Anthropic cloud)
