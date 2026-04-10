@@ -70,7 +70,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 - [ ] `Added focus view toggle (Ctrl+O) in NO_FLICKER mode showing prompt, one-line tool summary with edit diffstats, and final response` — TODO
 - [x] `Added refreshInterval status line setting to re-run status line command every N seconds` — DONE in 4950e3e
-- [ ] `Added workspace.git_worktree to status line JSON input when inside linked git worktree` — TODO (also in 2.1.98)
+- [x] `Added workspace.git_worktree to status line JSON input when inside linked git worktree` — DONE in 4950e3e (also in 2.1.98)
 - [ ] `Added ● N running indicator in /agents next to agent types with live subagent instances` — TODO
 - [x] `Added syntax highlighting for Cedar policy files (.cedar, .cedarpolicy)` — DONE in defb61c
 - [x] `Fixed --dangerously-skip-permissions being silently downgraded to accept-edits after approving write to protected path` — DONE in 33c3cd1 (also in 2.1.98)
