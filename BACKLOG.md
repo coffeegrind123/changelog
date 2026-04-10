@@ -6,6 +6,55 @@ Source: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 Only entries after v2.1.87 (our fork base). Refresh by fetching:
 `curl -fsSL https://raw.githubusercontent.com/anthropics/claude-code/refs/heads/main/CHANGELOG.md`
 
+## 2.1.101
+
+- [-] `Added /team-onboarding command to generate a teammate ramp-up guide` — SKIP (Anthropic managed infra, requires cloud onboarding flow)
+- [-] `Added OS CA certificate store trust by default (CLAUDE_CODE_CERT_STORE=bundled)` — SKIP (enterprise TLS proxy feature)
+- [-] `/ultraplan auto-create default cloud environment` — SKIP (Anthropic cloud infra)
+- [ ] `Improved brief mode to retry once when Claude responds with plain text instead of structured message` — TODO
+- [ ] `Improved focus mode: Claude writes more self-contained summaries knowing user only sees final message` — TODO
+- [ ] `Improved tool-not-available errors to explain why and how to proceed` — TODO
+- [ ] `Improved rate-limit retry messages to show which limit was hit and when it resets` — TODO
+- [ ] `Improved refusal error messages to include API-provided explanation` — TODO
+- [ ] `Improved claude -p --resume <name> to accept session titles from /rename or --name` — TODO
+- [ ] `Improved settings resilience: unrecognized hook event name no longer causes entire settings.json to be ignored` — TODO
+- [ ] `Improved plugin hooks from force-enabled plugins to run when allowManagedHooksOnly is set` — TODO
+- [ ] `Improved /plugin and claude plugin update to warn when marketplace could not be refreshed` — TODO
+- [-] `Improved plan mode to hide Refine with Ultraplan when org can't reach web` — SKIP (Anthropic cloud)
+- [-] `Improved beta tracing to honor OTEL_LOG_USER_PROMPTS/TOOL_DETAILS/TOOL_CONTENT` — SKIP (OTEL infra)
+- [-] `Improved SDK query() cleanup on break/await using` — SKIP (SDK internals)
+- [ ] `Fixed command injection vulnerability in POSIX which fallback for LSP binary detection` — TODO (security fix)
+- [ ] `Fixed memory leak where long sessions retained historical copies of message list in virtual scroller` — TODO
+- [ ] `Fixed --resume/--continue losing context on large sessions when loader anchored on dead-end branch` — TODO
+- [ ] `Fixed --resume chain recovery bridging into unrelated subagent conversation` — TODO
+- [ ] `Fixed crash on --resume when persisted Edit/Write tool result missing file_path` — TODO
+- [ ] `Fixed hardcoded 5-minute request timeout ignoring API_TIMEOUT_MS` — TODO
+- [ ] `Fixed permissions.deny rules not overriding PreToolUse hook permissionDecision:ask` — TODO
+- [ ] `Fixed --setting-sources without user causing cleanup to ignore cleanupPeriodDays` — TODO
+- [-] `Fixed Bedrock SigV4 authentication failing with Authorization header` — SKIP (Bedrock-specific)
+- [ ] `Fixed claude -w <name> failing with "already exists" after stale worktree cleanup` — TODO
+- [ ] `Fixed subagents not inheriting MCP tools from dynamically-injected servers` — TODO
+- [ ] `Fixed sub-agents in worktrees denied Read/Edit access to files inside their own worktree` — TODO
+- [-] `Fixed sandboxed Bash commands failing with mktemp after fresh boot` — SKIP (sandbox infra)
+- [-] `Fixed claude mcp serve tool calls failing with outputSchema validation` — SKIP (MCP serve)
+- [ ] `Fixed RemoteTrigger tool run action sending empty body` — TODO
+- [ ] `Fixed several /resume picker issues: narrow default view, unreachable preview, incorrect cwd in worktrees, session-not-found stderr, terminal title, resume hint overlap` — TODO
+- [ ] `Fixed Grep tool ENOENT when embedded ripgrep binary path stale; falls back to system rg` — TODO
+- [ ] `Fixed /btw writing entire conversation to disk on every use` — TODO
+- [ ] `Fixed /context Free space and Messages breakdown disagreeing with header percentage` — TODO
+- [ ] `Fixed several plugin issues: duplicate name frontmatter, ENAMETOOLONG, stale version cache, context:fork/agent frontmatter` — TODO
+- [ ] `Fixed /mcp menu offering OAuth actions for headersHelper servers` — TODO
+- [ ] `Fixed ctrl+], ctrl+\, ctrl+^ keybindings not firing in terminals sending raw C0 control bytes` — TODO
+- [ ] `Fixed /login OAuth URL rendering with padding preventing clean mouse selection` — TODO
+- [ ] `Fixed rendering issues: flicker in non-fullscreen, scrollback wiped during long sessions, mouse-scroll escapes leaking into prompt` — TODO
+- [ ] `Fixed crash when settings.json env values are numbers instead of strings` — TODO
+- [ ] `Fixed in-app settings writes not refreshing in-memory snapshot` — TODO
+- [-] `Fixed custom keybindings not loading on Bedrock/Vertex/third-party providers` — SKIP (provider-specific)
+- [ ] `Fixed claude --continue -p not correctly continuing -p/SDK sessions` — TODO
+- [-] `Fixed several Remote Control issues` — SKIP (Remote Control infra)
+- [-] `Fixed /insights sometimes omitting report file link` — SKIP (insights feature)
+- [-] `[VSCode] Fixed file attachment not clearing when last editor tab closed` — SKIP (VSCode extension)
+
 ## 2.1.98
 
 - [-] `Added interactive Google Vertex AI setup wizard from login screen` — SKIP (Anthropic cloud infra)
