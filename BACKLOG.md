@@ -86,7 +86,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed several /resume picker issues` — TODO (also in 2.1.98)
 - [ ] `Fixed file-edit diffs disappearing on --resume when edited file was larger than 10KB` — TODO (also in 2.1.98)
 - [ ] `Fixed --resume cache misses and lost mid-turn input from attachment messages not being saved to transcript` — TODO
-- [ ] `Fixed messages typed while Claude is working not being persisted to transcript` — TODO
+- [x] `Fixed messages typed while Claude is working not being persisted to transcript` — DONE in 9eb1902
 - [x] `Fixed prompt-type Stop/SubagentStop hooks failing on long sessions` — DONE in defb61c (also in 2.1.98)
 - [x] `Fixed subagents with worktree isolation or cwd: override leaking working directory back to parent session's Bash tool` — DONE in 824cc2e
 - [x] `Fixed compaction writing duplicate multi-MB subagent transcript files on prompt-too-long retries` — DONE in 35a791c
