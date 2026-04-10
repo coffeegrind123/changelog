@@ -47,7 +47,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed ctrl+], ctrl+\, ctrl+^ keybindings not firing in terminals sending raw C0 control bytes` — DONE in ed80f5a
 - [ ] `Fixed /login OAuth URL rendering with padding preventing clean mouse selection` — TODO
 - [ ] `Fixed rendering issues: flicker in non-fullscreen, scrollback wiped during long sessions, mouse-scroll escapes leaking into prompt` — TODO
-- [ ] `Fixed crash when settings.json env values are numbers instead of strings` — TODO
+- [x] `Fixed crash when settings.json env values are numbers instead of strings` — DONE in eeca77b (String() coercion in filterSettingsEnv)
 - [ ] `Fixed in-app settings writes not refreshing in-memory snapshot` — TODO
 - [-] `Fixed custom keybindings not loading on Bedrock/Vertex/third-party providers` — SKIP (provider-specific)
 - [ ] `Fixed claude --continue -p not correctly continuing -p/SDK sessions` — TODO

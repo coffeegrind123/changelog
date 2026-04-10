@@ -14,6 +14,7 @@
 - `ed80f5a` Fixed `permissions.deny` rules not overriding PreToolUse hook `permissionDecision:ask` — check deny rules before passing hook's ask to canUseTool
 - `ed80f5a` Fixed RemoteTrigger tool `run` action sending empty body — use provided body param or omit data
 - `ed80f5a` Fixed `/btw` writing entire conversation to disk on every use — set `skipTranscript` on side questions
+- `eeca77b` Fixed crash when `settings.json` env values are numbers instead of strings — `filterSettingsEnv` now coerces all values via `String()` before `Object.assign` to `process.env`
 
 ## 10.04.2026
 
