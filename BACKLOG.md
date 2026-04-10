@@ -32,7 +32,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed permissions.deny rules not overriding PreToolUse hook permissionDecision:ask` — DONE in ed80f5a
 - [x] `Fixed --setting-sources without user causing cleanup to ignore cleanupPeriodDays` — DONE in 77ff208
 - [-] `Fixed Bedrock SigV4 authentication failing with Authorization header` — SKIP (Bedrock-specific)
-- [ ] `Fixed claude -w <name> failing with "already exists" after stale worktree cleanup` — TODO
+- [x] `Fixed claude -w <name> failing with "already exists" after stale worktree cleanup` — DONE in 3554670
 - [ ] `Fixed subagents not inheriting MCP tools from dynamically-injected servers` — TODO
 - [ ] `Fixed sub-agents in worktrees denied Read/Edit access to files inside their own worktree` — TODO
 - [-] `Fixed sandboxed Bash commands failing with mktemp after fresh boot` — SKIP (sandbox infra)
