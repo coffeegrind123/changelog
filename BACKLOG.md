@@ -22,8 +22,8 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed redirects to /dev/tcp/... or /dev/udp/... not prompting instead of auto-allowing` — DONE in defb61c
 - [x] `Fixed stalled streaming responses timing out instead of falling back to non-streaming mode` — DONE (already implemented: watchdog + non-streaming fallback in claude.ts)
 - [x] `Fixed 429 retries burning all attempts in ~13s when server returns small Retry-After` — DONE in defb61c
-- [ ] `Fixed MCP OAuth oauth.authServerMetadataUrl config override not honored on token refresh after restart` — TODO
-- [ ] `Fixed capital letters being dropped to lowercase on xterm and VS Code with kitty keyboard protocol` — TODO
+- [x] `Fixed MCP OAuth oauth.authServerMetadataUrl config override not honored on token refresh after restart` — DONE in 824cc2e
+- [x] `Fixed capital letters being dropped to lowercase on xterm and VS Code with kitty keyboard protocol` — DONE in 824cc2e
 - [-] `Fixed macOS text replacements deleting trigger word instead of inserting substitution` — SKIP (macOS-specific)
 - [x] `Fixed --dangerously-skip-permissions being silently downgraded to accept-edits after approving write to protected path via Bash` — DONE in 33c3cd1
 - [x] `Fixed managed-settings allow rules remaining active after admin removed them until process restart` — DONE in e9b0c9d
@@ -45,7 +45,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed MCP tools with _meta["anthropic/maxResultSizeChars"] not bypassing token-based persist layer` — DONE in 35a791c
 - [ ] `Fixed voice mode leaking dozens of space characters into input when re-holding push-to-talk key` — TODO
 - [-] `Fixed DISABLE_AUTOUPDATER not fully suppressing npm registry version check` — SKIP (we use GitHub Releases)
-- [ ] `Fixed memory leak where Remote Control permission handler entries were retained for lifetime of session` — TODO
+- [x] `Fixed memory leak where Remote Control permission handler entries were retained for lifetime of session` — DONE in 824cc2e
 - [x] `Fixed background subagents that fail with error not reporting partial progress to parent agent` — DONE in 35a791c
 - [x] `Fixed prompt-type Stop/SubagentStop hooks failing on long sessions, and hook evaluator API errors showing "JSON validation failed"` — DONE in defb61c (stderr included in error)
 - [-] `Fixed feedback survey rendering when dismissed` — SKIP (feedback disabled)
@@ -79,8 +79,8 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed managed-settings allow rules remaining active after admin removed them until process restart` — DONE in e9b0c9d (also in 2.1.98)
 - [x] `Fixed permissions.additionalDirectories changes in settings not applying mid-session` — DONE in e9b0c9d (also in 2.1.98)
 - [x] `Fixed removing directory from settings.permissions.additionalDirectories revoking access to same directory passed via --add-dir` — DONE in 33c3cd1 (also in 2.1.98)
-- [ ] `Fixed MCP HTTP/SSE connections accumulating ~50 MB/hr of unreleased buffers when servers reconnect` — TODO
-- [ ] `Fixed MCP OAuth oauth.authServerMetadataUrl not honored on token refresh after restart` — TODO (also in 2.1.98)
+- [x] `Fixed MCP HTTP/SSE connections accumulating ~50 MB/hr of unreleased buffers when servers reconnect` — DONE in 824cc2e
+- [x] `Fixed MCP OAuth oauth.authServerMetadataUrl not honored on token refresh after restart` — DONE in 824cc2e (also in 2.1.98)
 - [x] `Fixed 429 retries burning all attempts in ~13s when server returns small Retry-After` — DONE in defb61c (also in 2.1.98)
 - [ ] `Fixed rate-limit upgrade options disappearing after context compaction` — TODO
 - [ ] `Fixed several /resume picker issues` — TODO (also in 2.1.98)
@@ -88,7 +88,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed --resume cache misses and lost mid-turn input from attachment messages not being saved to transcript` — TODO
 - [ ] `Fixed messages typed while Claude is working not being persisted to transcript` — TODO
 - [x] `Fixed prompt-type Stop/SubagentStop hooks failing on long sessions` — DONE in defb61c (also in 2.1.98)
-- [ ] `Fixed subagents with worktree isolation or cwd: override leaking working directory back to parent session's Bash tool` — TODO
+- [x] `Fixed subagents with worktree isolation or cwd: override leaking working directory back to parent session's Bash tool` — DONE in 824cc2e
 - [x] `Fixed compaction writing duplicate multi-MB subagent transcript files on prompt-too-long retries` — DONE in 35a791c
 - [ ] `Fixed claude plugin update reporting "already at latest version" for git-based marketplace plugins with newer remote commits` — TODO
 - [x] `Fixed slash command picker breaking when plugin frontmatter name is YAML boolean keyword` — DONE in 4950e3e (also in 2.1.98)
@@ -102,7 +102,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Fixed Korean/Japanese/Unicode text becoming garbled when copied in no-flicker mode on Windows` — SKIP (Windows-specific)
 - [-] `Fixed Bedrock SigV4 authentication failing when AWS_BEARER_TOKEN_BEDROCK or ANTHROPIC_BEDROCK_BASE_URL are set to empty strings` — SKIP (Bedrock-specific)
 - [x] `Improved Accept Edits mode to auto-approve filesystem commands prefixed with safe env vars or process wrappers` — DONE in e9b0c9d (also in 2.1.98)
-- [ ] `Improved auto mode and bypass-permissions mode to auto-approve sandbox network access prompts` — TODO
+- [x] `Improved auto mode and bypass-permissions mode to auto-approve sandbox network access prompts` — DONE in 824cc2e
 - [-] `Improved sandbox: sandbox.network.allowMachLookup now takes effect on macOS` — SKIP (macOS sandbox)
 - [x] `Improved image handling: pasted/attached images compressed to same token budget as images read via Read tool` — DONE (compressImageBufferWithTokenLimit added to imagePaste.ts + attachments.ts)
 - [x] `Improved slash command and @-mention completion to trigger after CJK sentence punctuation` — DONE
