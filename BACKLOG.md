@@ -19,9 +19,9 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed Bash tool permission bypass where backslash-escaped flag could be auto-allowed as read-only` — TODO (security)
 - [ ] `Fixed compound Bash commands bypassing forced permission prompts in auto and bypass-permissions modes` — TODO (security)
 - [ ] `Fixed read-only commands with env-var prefixes not prompting unless the var is known-safe` — TODO (security)
-- [ ] `Fixed redirects to /dev/tcp/... or /dev/udp/... not prompting instead of auto-allowing` — TODO (security)
+- [x] `Fixed redirects to /dev/tcp/... or /dev/udp/... not prompting instead of auto-allowing` — DONE in defb61c
 - [ ] `Fixed stalled streaming responses timing out instead of falling back to non-streaming mode` — TODO
-- [ ] `Fixed 429 retries burning all attempts in ~13s when server returns small Retry-After` — TODO
+- [x] `Fixed 429 retries burning all attempts in ~13s when server returns small Retry-After` — DONE in defb61c
 - [ ] `Fixed MCP OAuth oauth.authServerMetadataUrl config override not honored on token refresh after restart` — TODO
 - [ ] `Fixed capital letters being dropped to lowercase on xterm and VS Code with kitty keyboard protocol` — TODO
 - [-] `Fixed macOS text replacements deleting trigger word instead of inserting substitution` — SKIP (macOS-specific)
@@ -39,7 +39,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed file-edit diffs disappearing from UI on --resume when edited file was larger than 10KB` — TODO
 - [ ] `Fixed several /resume picker issues: --resume <name> opening uneditable, filter reload wiping search state, empty list swallowing arrow keys, cross-project staleness, and transient task-status text replacing conversation summaries` — TODO
 - [ ] `Fixed /export not honoring absolute paths and ~, and silently rewriting user-supplied extensions to .txt` — TODO
-- [ ] `Fixed /effort max being denied for unknown or future model IDs` — TODO
+- [x] `Fixed /effort max being denied for unknown or future model IDs` — DONE in defb61c
 - [ ] `Fixed slash command picker breaking when plugin frontmatter name is a YAML boolean keyword` — TODO
 - [ ] `Fixed rate-limit upsell text being hidden after message remounts` — TODO
 - [ ] `Fixed MCP tools with _meta["anthropic/maxResultSizeChars"] not bypassing token-based persist layer` — TODO
@@ -47,9 +47,9 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Fixed DISABLE_AUTOUPDATER not fully suppressing npm registry version check` — SKIP (we use GitHub Releases)
 - [ ] `Fixed memory leak where Remote Control permission handler entries were retained for lifetime of session` — TODO
 - [ ] `Fixed background subagents that fail with error not reporting partial progress to parent agent` — TODO
-- [ ] `Fixed prompt-type Stop/SubagentStop hooks failing on long sessions, and hook evaluator API errors showing "JSON validation failed"` — TODO
+- [x] `Fixed prompt-type Stop/SubagentStop hooks failing on long sessions, and hook evaluator API errors showing "JSON validation failed"` — DONE in defb61c (stderr included in error)
 - [-] `Fixed feedback survey rendering when dismissed` — SKIP (feedback disabled)
-- [ ] `Fixed Bash grep -f FILE / rg -f FILE not prompting when reading pattern file outside working directory` — TODO (security)
+- [x] `Fixed Bash grep -f FILE / rg -f FILE not prompting when reading pattern file outside working directory` — DONE in defb61c
 - [ ] `Fixed stale subagent worktree cleanup removing worktrees that contain untracked files` — TODO
 - [-] `Fixed sandbox.network.allowMachLookup not taking effect on macOS` — SKIP (macOS sandbox)
 - [ ] `Improved /resume filter hint labels and added project/worktree/branch names in filter indicator` — TODO
@@ -58,7 +58,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Improved /reload-plugins to pick up plugin-provided skills without requiring restart` — TODO
 - [ ] `Improved Accept Edits mode to auto-approve filesystem commands prefixed with safe env vars or process wrappers` — TODO
 - [ ] `Improved Vim mode: j/k in NORMAL mode now navigate history and select footer pill at input boundary` — TODO
-- [ ] `Improved hook errors in transcript to include first line of stderr for self-diagnosis without --debug` — TODO
+- [x] `Improved hook errors in transcript to include first line of stderr for self-diagnosis without --debug` — DONE in defb61c
 - [-] `Improved OTEL tracing: interaction spans now correctly wrap full turns under concurrent SDK calls` — SKIP (OTEL infra)
 - [x] `Improved transcript entries to carry final token usage instead of streaming placeholders` — DONE (already in codebase, claude.ts:2245-2256 direct property mutation ensures transcript captures final values)
 - [x] `Updated /claude-api skill to cover Managed Agents alongside Claude API` — DONE
@@ -72,7 +72,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Added refreshInterval status line setting to re-run status line command every N seconds` — TODO
 - [ ] `Added workspace.git_worktree to status line JSON input when inside linked git worktree` — TODO (also in 2.1.98)
 - [ ] `Added ● N running indicator in /agents next to agent types with live subagent instances` — TODO
-- [ ] `Added syntax highlighting for Cedar policy files (.cedar, .cedarpolicy)` — TODO
+- [x] `Added syntax highlighting for Cedar policy files (.cedar, .cedarpolicy)` — DONE in defb61c
 - [ ] `Fixed --dangerously-skip-permissions being silently downgraded to accept-edits after approving write to protected path` — TODO (also in 2.1.98)
 - [ ] `Fixed and hardened Bash tool permissions, tightening checks around env-var prefixes and network redirects` — TODO (also in 2.1.98, security)
 - [ ] `Fixed permission rules with names matching JavaScript prototype properties causing settings.json to be silently ignored` — TODO (also in 2.1.98)
@@ -81,13 +81,13 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed removing directory from settings.permissions.additionalDirectories revoking access to same directory passed via --add-dir` — TODO (also in 2.1.98)
 - [ ] `Fixed MCP HTTP/SSE connections accumulating ~50 MB/hr of unreleased buffers when servers reconnect` — TODO
 - [ ] `Fixed MCP OAuth oauth.authServerMetadataUrl not honored on token refresh after restart` — TODO (also in 2.1.98)
-- [ ] `Fixed 429 retries burning all attempts in ~13s when server returns small Retry-After` — TODO (also in 2.1.98)
+- [x] `Fixed 429 retries burning all attempts in ~13s when server returns small Retry-After` — DONE in defb61c (also in 2.1.98)
 - [ ] `Fixed rate-limit upgrade options disappearing after context compaction` — TODO
 - [ ] `Fixed several /resume picker issues` — TODO (also in 2.1.98)
 - [ ] `Fixed file-edit diffs disappearing on --resume when edited file was larger than 10KB` — TODO (also in 2.1.98)
 - [ ] `Fixed --resume cache misses and lost mid-turn input from attachment messages not being saved to transcript` — TODO
 - [ ] `Fixed messages typed while Claude is working not being persisted to transcript` — TODO
-- [ ] `Fixed prompt-type Stop/SubagentStop hooks failing on long sessions` — TODO (also in 2.1.98)
+- [x] `Fixed prompt-type Stop/SubagentStop hooks failing on long sessions` — DONE in defb61c (also in 2.1.98)
 - [ ] `Fixed subagents with worktree isolation or cwd: override leaking working directory back to parent session's Bash tool` — TODO
 - [ ] `Fixed compaction writing duplicate multi-MB subagent transcript files on prompt-too-long retries` — TODO
 - [ ] `Fixed claude plugin update reporting "already at latest version" for git-based marketplace plugins with newer remote commits` — TODO
