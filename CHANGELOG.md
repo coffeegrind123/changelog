@@ -16,6 +16,8 @@
 - `ed80f5a` Fixed `/btw` writing entire conversation to disk on every use — set `skipTranscript` on side questions
 - `eeca77b` Fixed crash when `settings.json` env values are numbers instead of strings — `filterSettingsEnv` now coerces all values via `String()` before `Object.assign` to `process.env`
 - `fd58648` Improved settings resilience: unrecognized hook event name in `settings.json` no longer causes entire file to be ignored — `HooksSchema` key changed from `z.enum(HOOK_EVENTS)` to `z.string()`
+- `2569482` Fixed command injection vulnerability in POSIX `which` fallback — replaced shell-interpolated `execa(\`which ${command}\`)` with `execa('which', [command])` and `execFileSync('which', [command])`
+- `2569482` Fixed crash on `--resume` when persisted Edit/Write tool result missing `file_path` — added optional chaining for `filePath?.startsWith` and `originalFile?.split`
 
 ## 10.04.2026
 

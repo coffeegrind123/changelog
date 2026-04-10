@@ -23,11 +23,11 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Improved plan mode to hide Refine with Ultraplan when org can't reach web` — SKIP (Anthropic cloud)
 - [-] `Improved beta tracing to honor OTEL_LOG_USER_PROMPTS/TOOL_DETAILS/TOOL_CONTENT` — SKIP (OTEL infra)
 - [-] `Improved SDK query() cleanup on break/await using` — SKIP (SDK internals)
-- [ ] `Fixed command injection vulnerability in POSIX which fallback for LSP binary detection` — TODO (security fix, researching)
+- [x] `Fixed command injection vulnerability in POSIX which fallback for LSP binary detection` — DONE in 2569482 (execFileSync/execa array args instead of shell interpolation)
 - [ ] `Fixed memory leak where long sessions retained historical copies of message list in virtual scroller` — TODO
 - [ ] `Fixed --resume/--continue losing context on large sessions when loader anchored on dead-end branch` — TODO
 - [ ] `Fixed --resume chain recovery bridging into unrelated subagent conversation` — TODO
-- [ ] `Fixed crash on --resume when persisted Edit/Write tool result missing file_path` — TODO
+- [x] `Fixed crash on --resume when persisted Edit/Write tool result missing file_path` — DONE in 2569482 (optional chaining)
 - [ ] `Fixed hardcoded 5-minute request timeout ignoring API_TIMEOUT_MS` — TODO
 - [x] `Fixed permissions.deny rules not overriding PreToolUse hook permissionDecision:ask` — DONE in ed80f5a
 - [ ] `Fixed --setting-sources without user causing cleanup to ignore cleanupPeriodDays` — TODO
