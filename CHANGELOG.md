@@ -14,6 +14,12 @@
 - `33c3cd1` Fixed `--dangerously-skip-permissions` being silently downgraded to `acceptEdits` after approving write to protected path — `setMode` suggestion now only generated when current mode is `default` or `plan`
 - `33c3cd1` Fixed removing directory from `additionalDirectories` revoking access to same directory passed via `--add-dir` — `removeDirectories` now preserves entries with `cliArg` or `session` source
 - `8a6dd9e` Fixed agent team members not inheriting leader's permission mode — team members spawned in `bypassPermissions` mode now inherit that mode via `leaderPermissionMode` in spawn config
+- `824cc2e` Fixed subagent worktree/cwd override leaking working directory back to parent session's Bash tool — `setCwd` now updates AsyncLocalStorage override instead of global `setCwdState` when inside `runWithCwdOverride` context
+- `824cc2e` Fixed capital letters dropped to lowercase on xterm/VS Code with kitty keyboard protocol — infer shift flag from uppercase codepoints (65-90) in CSI u sequences, preserve uppercase in input text for shifted letters
+- `824cc2e` Fixed Remote Control permission handler memory leak — `cancelRequest` now deletes handler from `pendingPermissionHandlers` map (previously only sent cancel to bridge, leaving closure alive for session lifetime)
+- `824cc2e` Fixed MCP OAuth `authServerMetadataUrl` config override not honored on token refresh after restart — `discoveryState()` now checks config URL before cached state when issuer differs from cache
+- `824cc2e` Improved auto mode and bypass-permissions mode to auto-approve sandbox network access prompts — `sandboxAskCallback` returns `true` immediately for `auto`/`bypassPermissions` modes
+- `824cc2e` Fixed MCP HTTP/SSE connections accumulating ~50 MB/hr of unreleased buffers on reconnect — `onclose` handler now explicitly calls `transport.close()` to release SSE response bodies
 
 ## 08.04.2026
 
