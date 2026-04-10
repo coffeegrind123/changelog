@@ -28,7 +28,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed --resume/--continue losing context on large sessions when loader anchored on dead-end branch` — TODO
 - [ ] `Fixed --resume chain recovery bridging into unrelated subagent conversation` — TODO
 - [x] `Fixed crash on --resume when persisted Edit/Write tool result missing file_path` — DONE in 2569482 (optional chaining)
-- [ ] `Fixed hardcoded 5-minute request timeout ignoring API_TIMEOUT_MS` — TODO
+- [x] `Fixed hardcoded 5-minute request timeout ignoring API_TIMEOUT_MS` — DONE in b60045d (300s→600s default for non-streaming fallback)
 - [x] `Fixed permissions.deny rules not overriding PreToolUse hook permissionDecision:ask` — DONE in ed80f5a
 - [ ] `Fixed --setting-sources without user causing cleanup to ignore cleanupPeriodDays` — TODO
 - [-] `Fixed Bedrock SigV4 authentication failing with Authorization header` — SKIP (Bedrock-specific)

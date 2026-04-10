@@ -20,6 +20,7 @@
 - `2569482` Fixed crash on `--resume` when persisted Edit/Write tool result missing `file_path` — added optional chaining for `filePath?.startsWith` and `originalFile?.split`
 - `167cb90` Improved tool-not-available errors — now explains why (MCP server disconnected, mode/feature requirement) instead of just "No such tool available"
 - `167cb90` Improved refusal error messages — includes API-provided explanation text extracted from content blocks before refusal stop_reason
+- `b60045d` Fixed hardcoded 5-minute non-streaming fallback timeout ignoring `API_TIMEOUT_MS` — changed default from 300s to 600s to match streaming client
 
 ## 10.04.2026
 
