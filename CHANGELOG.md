@@ -22,6 +22,9 @@
 - `824cc2e` Fixed MCP HTTP/SSE connections accumulating ~50 MB/hr of unreleased buffers on reconnect — `onclose` handler now explicitly calls `transport.close()` to release SSE response bodies
 - `07783d8` Fixed NO_FLICKER mode memory leak where API retries left stale streaming state — `StreamingToolExecutor.discard()` now called before `continue` on collapse-drain, reactive-compact, and max-output-tokens retry paths
 - `9eb1902` Fixed messages typed while Claude is working not being persisted to transcript — concurrent query handler now adds user messages to React state via `setMessages` before re-enqueueing, so `useLogMessages` writes them to disk
+- `d9432fc` Fixed crash in fullscreen mode when hovering over MCP tool results — added `parentNode` null check in `dispatchHover` before `onMouseEnter` (matching existing `onMouseLeave` guard)
+- `d9432fc` Fixed copying wrapped URLs in fullscreen mode inserting spaces at line breaks — `extractRowText` now trims trailing spaces on soft-wrapped rows containing hyperlinked cells
+- `d9432fc` Fixed custom status line not displaying in NO_FLICKER mode on terminals shorter than 24 rows — removed `isShort` guard from `PromptInputFooter.tsx` StatusLine render condition
 
 ## 08.04.2026
 

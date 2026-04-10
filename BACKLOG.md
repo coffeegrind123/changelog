@@ -34,8 +34,8 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed false Bash permission prompts for cut -d /, paste -d /, column -s /, awk, and filenames containing %` — DONE (cut/paste/column/awk added to COMMAND_ALLOWLIST, % regex fix in hasDangerousExpansion)
 - [x] `Fixed permission rules with names matching JavaScript prototype properties (e.g. toString) causing settings.json to be silently ignored` — DONE in 4950e3e
 - [x] `Fixed agent team members not inheriting leader's permission mode when using --dangerously-skip-permissions` — DONE in 8a6dd9e
-- [ ] `Fixed crash in fullscreen mode when hovering over MCP tool results` — TODO
-- [ ] `Fixed copying wrapped URLs in fullscreen mode inserting spaces at line breaks` — TODO
+- [x] `Fixed crash in fullscreen mode when hovering over MCP tool results` — DONE in d9432fc
+- [x] `Fixed copying wrapped URLs in fullscreen mode inserting spaces at line breaks` — DONE in d9432fc
 - [ ] `Fixed file-edit diffs disappearing from UI on --resume when edited file was larger than 10KB` — TODO
 - [ ] `Fixed several /resume picker issues: --resume <name> opening uneditable, filter reload wiping search state, empty list swallowing arrow keys, cross-project staleness, and transient task-status text replacing conversation summaries` — TODO
 - [x] `Fixed /export not honoring absolute paths and ~, and silently rewriting user-supplied extensions to .txt` — DONE in 4950e3e
@@ -92,12 +92,12 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed compaction writing duplicate multi-MB subagent transcript files on prompt-too-long retries` — DONE in 35a791c
 - [ ] `Fixed claude plugin update reporting "already at latest version" for git-based marketplace plugins with newer remote commits` — TODO
 - [x] `Fixed slash command picker breaking when plugin frontmatter name is YAML boolean keyword` — DONE in 4950e3e (also in 2.1.98)
-- [ ] `Fixed copying wrapped URLs in NO_FLICKER mode inserting spaces at line breaks` — TODO
+- [x] `Fixed copying wrapped URLs in NO_FLICKER mode inserting spaces at line breaks` — DONE in d9432fc
 - [ ] `Fixed scroll rendering artifacts in NO_FLICKER mode when running inside zellij` — TODO
-- [ ] `Fixed crash in NO_FLICKER mode when hovering over MCP tool results` — TODO
+- [x] `Fixed crash in NO_FLICKER mode when hovering over MCP tool results` — DONE in d9432fc
 - [x] `Fixed NO_FLICKER mode memory leak where API retries left stale streaming state` — DONE in 07783d8
 - [ ] `Fixed slow mouse-wheel scrolling in NO_FLICKER mode on Windows Terminal` — TODO
-- [ ] `Fixed custom status line not displaying in NO_FLICKER mode on terminals shorter than 24 rows` — TODO
+- [x] `Fixed custom status line not displaying in NO_FLICKER mode on terminals shorter than 24 rows` — DONE in d9432fc
 - [ ] `Fixed Shift+Enter and Alt/Cmd+arrow shortcuts not working in Warp with NO_FLICKER mode` — TODO
 - [-] `Fixed Korean/Japanese/Unicode text becoming garbled when copied in no-flicker mode on Windows` — SKIP (Windows-specific)
 - [-] `Fixed Bedrock SigV4 authentication failing when AWS_BEARER_TOKEN_BEDROCK or ANTHROPIC_BEDROCK_BASE_URL are set to empty strings` — SKIP (Bedrock-specific)
