@@ -2,6 +2,7 @@
 
 ## 11.04.2026
 
+- `257a60d` Fixed plugin issues: duplicate name frontmatter resolution, ENAMETOOLONG on update, stale version cache for directory-source plugins, context: fork and agent frontmatter not honored
 - `04823e8` Fixed rendering issues: flicker in non-fullscreen mode, terminal scrollback being wiped during long sessions, mouse-scroll escape sequences leaking into prompt
 - `a1c7c6e` Improved brief mode to retry once when Claude responds with plain text instead of structured SendUserMessage
 - `e9f6195` Added Monitor tool for streaming events from background scripts — real-time stdout→notification with 200ms batching, rate limiting, persistent mode, task detail dialog, permission request component
