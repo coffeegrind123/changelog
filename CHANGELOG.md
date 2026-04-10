@@ -21,6 +21,7 @@
 - `167cb90` Improved tool-not-available errors — now explains why (MCP server disconnected, mode/feature requirement) instead of just "No such tool available"
 - `167cb90` Improved refusal error messages — includes API-provided explanation text extracted from content blocks before refusal stop_reason
 - `b60045d` Fixed hardcoded 5-minute non-streaming fallback timeout ignoring `API_TIMEOUT_MS` — changed default from 300s to 600s to match streaming client
+- `77ff208` Fixed `--setting-sources` without `user` causing cleanup to ignore `cleanupPeriodDays` — falls back to user settings directly
 
 ## 10.04.2026
 

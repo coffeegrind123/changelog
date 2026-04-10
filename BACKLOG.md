@@ -30,7 +30,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed crash on --resume when persisted Edit/Write tool result missing file_path` — DONE in 2569482 (optional chaining)
 - [x] `Fixed hardcoded 5-minute request timeout ignoring API_TIMEOUT_MS` — DONE in b60045d (300s→600s default for non-streaming fallback)
 - [x] `Fixed permissions.deny rules not overriding PreToolUse hook permissionDecision:ask` — DONE in ed80f5a
-- [ ] `Fixed --setting-sources without user causing cleanup to ignore cleanupPeriodDays` — TODO
+- [x] `Fixed --setting-sources without user causing cleanup to ignore cleanupPeriodDays` — DONE in 77ff208
 - [-] `Fixed Bedrock SigV4 authentication failing with Authorization header` — SKIP (Bedrock-specific)
 - [ ] `Fixed claude -w <name> failing with "already exists" after stale worktree cleanup` — TODO
 - [ ] `Fixed subagents not inheriting MCP tools from dynamically-injected servers` — TODO
