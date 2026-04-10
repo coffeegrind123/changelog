@@ -30,6 +30,7 @@
 - `f7ea957` Improved plugin hooks from force-enabled plugins to run when `allowManagedHooksOnly` is set — checks `getManagedPluginNames` before skipping
 - `fcb0b30` Improved focus mode: Claude writes self-contained summaries — `BriefTool` prompt instructs that user only sees `SendUserMessage` output
 - `defb5cf` Fixed sub-agents in worktrees denied Read/Edit access — `allWorkingDirectories()` now includes `getCwd()` (async-local override) so worktree paths are recognized
+- `f4b49cc` Improved `/plugin` and `claude plugin update` — warns when marketplace could not be refreshed instead of silently reporting stale version
 
 ## 10.04.2026
 

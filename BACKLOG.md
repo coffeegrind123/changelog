@@ -19,7 +19,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Improved claude -p --resume <name> to accept session titles from /rename or --name` — DONE in ff9a9b3
 - [x] `Improved settings resilience: unrecognized hook event name no longer causes entire settings.json to be ignored` — DONE in fd58648 (z.string() key instead of z.enum)
 - [x] `Improved plugin hooks from force-enabled plugins to run when allowManagedHooksOnly is set` — DONE in f7ea957
-- [ ] `Improved /plugin and claude plugin update to warn when marketplace could not be refreshed` — TODO
+- [x] `Improved /plugin and claude plugin update to warn when marketplace could not be refreshed` — DONE in f4b49cc
 - [-] `Improved plan mode to hide Refine with Ultraplan when org can't reach web` — SKIP (Anthropic cloud)
 - [-] `Improved beta tracing to honor OTEL_LOG_USER_PROMPTS/TOOL_DETAILS/TOOL_CONTENT` — SKIP (OTEL infra)
 - [-] `Improved SDK query() cleanup on break/await using` — SKIP (SDK internals)
