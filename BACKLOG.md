@@ -53,18 +53,18 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed stale subagent worktree cleanup removing worktrees that contain untracked files` — TODO
 - [-] `Fixed sandbox.network.allowMachLookup not taking effect on macOS` — SKIP (macOS sandbox)
 - [ ] `Improved /resume filter hint labels and added project/worktree/branch names in filter indicator` — TODO
-- [ ] `Improved footer indicators (Focus, notifications) to stay on mode-indicator row instead of wrapping` — TODO
+- [x] `Improved footer indicators (Focus, notifications) to stay on mode-indicator row instead of wrapping` — DONE
 - [ ] `Improved /agents with tabbed layout: Running tab shows live subagents, Library tab adds Run agent and View running instance actions` — TODO
 - [ ] `Improved /reload-plugins to pick up plugin-provided skills without requiring restart` — TODO
 - [ ] `Improved Accept Edits mode to auto-approve filesystem commands prefixed with safe env vars or process wrappers` — TODO
 - [ ] `Improved Vim mode: j/k in NORMAL mode now navigate history and select footer pill at input boundary` — TODO
 - [ ] `Improved hook errors in transcript to include first line of stderr for self-diagnosis without --debug` — TODO
 - [-] `Improved OTEL tracing: interaction spans now correctly wrap full turns under concurrent SDK calls` — SKIP (OTEL infra)
-- [ ] `Improved transcript entries to carry final token usage instead of streaming placeholders` — TODO
-- [ ] `Updated /claude-api skill to cover Managed Agents alongside Claude API` — TODO
+- [x] `Improved transcript entries to carry final token usage instead of streaming placeholders` — DONE (already in codebase, claude.ts:2245-2256 direct property mutation ensures transcript captures final values)
+- [x] `Updated /claude-api skill to cover Managed Agents alongside Claude API` — DONE
 - [-] `[VSCode] Fixed false-positive "requires git-bash" error on Windows` — SKIP (VSCode extension)
-- [ ] `Fixed CLAUDE_CODE_MAX_CONTEXT_TOKENS to honor DISABLE_COMPACT when set` — TODO
-- [ ] `Dropped /compact hints when DISABLE_COMPACT is set` — TODO
+- [x] `Fixed CLAUDE_CODE_MAX_CONTEXT_TOKENS to honor DISABLE_COMPACT when set` — DONE
+- [x] `Dropped /compact hints when DISABLE_COMPACT is set` — DONE
 
 ## 2.1.97
 
@@ -105,15 +105,15 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Improved auto mode and bypass-permissions mode to auto-approve sandbox network access prompts` — TODO
 - [-] `Improved sandbox: sandbox.network.allowMachLookup now takes effect on macOS` — SKIP (macOS sandbox)
 - [ ] `Improved image handling: pasted/attached images compressed to same token budget as images read via Read tool` — TODO
-- [ ] `Improved slash command and @-mention completion to trigger after CJK sentence punctuation` — TODO
+- [x] `Improved slash command and @-mention completion to trigger after CJK sentence punctuation` — DONE
 - [-] `Improved Bridge sessions to show local git repo, branch, and working directory on claude.ai session card` — SKIP (claude.ai Bridge)
-- [ ] `Improved footer layout: indicators stay on mode-indicator row instead of wrapping below` — TODO (also in 2.1.98)
-- [ ] `Improved context-low warning to show as transient footer notification instead of persistent row` — TODO
-- [ ] `Improved markdown blockquotes to show continuous left bar across wrapped lines` — TODO
-- [ ] `Improved session transcript size by skipping empty hook entries and capping stored pre-edit file copies` — TODO
-- [ ] `Improved transcript accuracy: per-block entries carry final token usage instead of streaming placeholder` — TODO (also in 2.1.98)
+- [x] `Improved footer layout: indicators stay on mode-indicator row instead of wrapping below` — DONE (also in 2.1.98)
+- [x] `Improved context-low warning to show as transient footer notification instead of persistent row` — DONE
+- [x] `Improved markdown blockquotes to show continuous left bar across wrapped lines` — DONE
+- [x] `Improved session transcript size by skipping empty hook entries and capping stored pre-edit file copies` — DONE
+- [x] `Improved transcript accuracy: per-block entries carry final token usage instead of streaming placeholder` — DONE (already in codebase, claude.ts:2245-2256)
 - [-] `Improved Bash tool OTEL tracing: subprocesses inherit W3C TRACEPARENT env var when tracing enabled` — SKIP (OTEL infra)
-- [ ] `Updated /claude-api skill to cover Managed Agents alongside Claude API` — TODO (also in 2.1.98)
+- [x] `Updated /claude-api skill to cover Managed Agents alongside Claude API` — DONE (also in 2.1.98)
 
 ## 2.1.96
 
