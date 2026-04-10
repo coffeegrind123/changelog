@@ -13,10 +13,10 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Added Monitor tool for streaming events from background scripts` — TODO (MONITOR_TOOL flag stub exists)
 - [-] `Added subprocess sandboxing with PID namespace isolation on Linux (CLAUDE_CODE_SUBPROCESS_ENV_SCRUB, CLAUDE_CODE_SCRIPT_CAPS)` — SKIP (sandbox infra)
 - [ ] `Added --exclude-dynamic-system-prompt-sections flag to print mode for improved cross-user prompt caching` — TODO
-- [ ] `Added workspace.git_worktree to status line JSON input` — TODO
+- [x] `Added workspace.git_worktree to status line JSON input` — DONE in 4950e3e
 - [-] `Added W3C TRACEPARENT env var to Bash tool subprocesses when OTEL tracing enabled` — SKIP (OTEL infra)
 - [-] `LSP: Claude Code now identifies itself to language servers via clientInfo in initialize request` — SKIP (LSP internals)
-- [ ] `Fixed Bash tool permission bypass where backslash-escaped flag could be auto-allowed as read-only` — TODO (security)
+- [x] `Fixed Bash tool permission bypass where backslash-escaped flag could be auto-allowed as read-only` — DONE in 4950e3e
 - [ ] `Fixed compound Bash commands bypassing forced permission prompts in auto and bypass-permissions modes` — TODO (security)
 - [ ] `Fixed read-only commands with env-var prefixes not prompting unless the var is known-safe` — TODO (security)
 - [x] `Fixed redirects to /dev/tcp/... or /dev/udp/... not prompting instead of auto-allowing` — DONE in defb61c
@@ -32,15 +32,15 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed Bash(cmd:*) and Bash(git commit *) wildcard permission rules failing to match commands with extra spaces or tabs` — TODO
 - [ ] `Fixed Bash(...) deny rules being downgraded to prompt for piped commands mixing cd with other segments` — TODO
 - [ ] `Fixed false Bash permission prompts for cut -d /, paste -d /, column -s /, awk, and filenames containing %` — TODO
-- [ ] `Fixed permission rules with names matching JavaScript prototype properties (e.g. toString) causing settings.json to be silently ignored` — TODO
+- [x] `Fixed permission rules with names matching JavaScript prototype properties (e.g. toString) causing settings.json to be silently ignored` — DONE in 4950e3e
 - [ ] `Fixed agent team members not inheriting leader's permission mode when using --dangerously-skip-permissions` — TODO
 - [ ] `Fixed crash in fullscreen mode when hovering over MCP tool results` — TODO
 - [ ] `Fixed copying wrapped URLs in fullscreen mode inserting spaces at line breaks` — TODO
 - [ ] `Fixed file-edit diffs disappearing from UI on --resume when edited file was larger than 10KB` — TODO
 - [ ] `Fixed several /resume picker issues: --resume <name> opening uneditable, filter reload wiping search state, empty list swallowing arrow keys, cross-project staleness, and transient task-status text replacing conversation summaries` — TODO
-- [ ] `Fixed /export not honoring absolute paths and ~, and silently rewriting user-supplied extensions to .txt` — TODO
+- [x] `Fixed /export not honoring absolute paths and ~, and silently rewriting user-supplied extensions to .txt` — DONE in 4950e3e
 - [x] `Fixed /effort max being denied for unknown or future model IDs` — DONE in defb61c
-- [ ] `Fixed slash command picker breaking when plugin frontmatter name is a YAML boolean keyword` — TODO
+- [x] `Fixed slash command picker breaking when plugin frontmatter name is a YAML boolean keyword` — DONE in 4950e3e
 - [ ] `Fixed rate-limit upsell text being hidden after message remounts` — TODO
 - [ ] `Fixed MCP tools with _meta["anthropic/maxResultSizeChars"] not bypassing token-based persist layer` — TODO
 - [ ] `Fixed voice mode leaking dozens of space characters into input when re-holding push-to-talk key` — TODO
@@ -69,13 +69,13 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 ## 2.1.97
 
 - [ ] `Added focus view toggle (Ctrl+O) in NO_FLICKER mode showing prompt, one-line tool summary with edit diffstats, and final response` — TODO
-- [ ] `Added refreshInterval status line setting to re-run status line command every N seconds` — TODO
+- [x] `Added refreshInterval status line setting to re-run status line command every N seconds` — DONE in 4950e3e
 - [ ] `Added workspace.git_worktree to status line JSON input when inside linked git worktree` — TODO (also in 2.1.98)
 - [ ] `Added ● N running indicator in /agents next to agent types with live subagent instances` — TODO
 - [x] `Added syntax highlighting for Cedar policy files (.cedar, .cedarpolicy)` — DONE in defb61c
 - [ ] `Fixed --dangerously-skip-permissions being silently downgraded to accept-edits after approving write to protected path` — TODO (also in 2.1.98)
 - [ ] `Fixed and hardened Bash tool permissions, tightening checks around env-var prefixes and network redirects` — TODO (also in 2.1.98, security)
-- [ ] `Fixed permission rules with names matching JavaScript prototype properties causing settings.json to be silently ignored` — TODO (also in 2.1.98)
+- [x] `Fixed permission rules with names matching JavaScript prototype properties causing settings.json to be silently ignored` — DONE in 4950e3e (also in 2.1.98)
 - [ ] `Fixed managed-settings allow rules remaining active after admin removed them until process restart` — TODO (also in 2.1.98)
 - [ ] `Fixed permissions.additionalDirectories changes in settings not applying mid-session` — TODO (also in 2.1.98)
 - [ ] `Fixed removing directory from settings.permissions.additionalDirectories revoking access to same directory passed via --add-dir` — TODO (also in 2.1.98)
