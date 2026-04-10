@@ -13,9 +13,9 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `/ultraplan auto-create default cloud environment` — SKIP (Anthropic cloud infra)
 - [ ] `Improved brief mode to retry once when Claude responds with plain text instead of structured message` — TODO
 - [ ] `Improved focus mode: Claude writes more self-contained summaries knowing user only sees final message` — TODO
-- [ ] `Improved tool-not-available errors to explain why and how to proceed` — TODO
+- [x] `Improved tool-not-available errors to explain why and how to proceed` — DONE in 167cb90
 - [ ] `Improved rate-limit retry messages to show which limit was hit and when it resets` — TODO
-- [ ] `Improved refusal error messages to include API-provided explanation` — TODO
+- [x] `Improved refusal error messages to include API-provided explanation` — DONE in 167cb90
 - [ ] `Improved claude -p --resume <name> to accept session titles from /rename or --name` — TODO
 - [x] `Improved settings resilience: unrecognized hook event name no longer causes entire settings.json to be ignored` — DONE in fd58648 (z.string() key instead of z.enum)
 - [ ] `Improved plugin hooks from force-enabled plugins to run when allowManagedHooksOnly is set` — TODO

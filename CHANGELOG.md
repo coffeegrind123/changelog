@@ -18,6 +18,8 @@
 - `fd58648` Improved settings resilience: unrecognized hook event name in `settings.json` no longer causes entire file to be ignored — `HooksSchema` key changed from `z.enum(HOOK_EVENTS)` to `z.string()`
 - `2569482` Fixed command injection vulnerability in POSIX `which` fallback — replaced shell-interpolated `execa(\`which ${command}\`)` with `execa('which', [command])` and `execFileSync('which', [command])`
 - `2569482` Fixed crash on `--resume` when persisted Edit/Write tool result missing `file_path` — added optional chaining for `filePath?.startsWith` and `originalFile?.split`
+- `167cb90` Improved tool-not-available errors — now explains why (MCP server disconnected, mode/feature requirement) instead of just "No such tool available"
+- `167cb90` Improved refusal error messages — includes API-provided explanation text extracted from content blocks before refusal stop_reason
 
 ## 10.04.2026
 
