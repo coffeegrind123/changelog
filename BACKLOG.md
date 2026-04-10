@@ -17,10 +17,10 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Added W3C TRACEPARENT env var to Bash tool subprocesses when OTEL tracing enabled` — SKIP (OTEL infra)
 - [-] `LSP: Claude Code now identifies itself to language servers via clientInfo in initialize request` — SKIP (LSP internals)
 - [x] `Fixed Bash tool permission bypass where backslash-escaped flag could be auto-allowed as read-only` — DONE in 4950e3e
-- [ ] `Fixed compound Bash commands bypassing forced permission prompts in auto and bypass-permissions modes` — TODO (security)
-- [ ] `Fixed read-only commands with env-var prefixes not prompting unless the var is known-safe` — TODO (security)
+- [x] `Fixed compound Bash commands bypassing forced permission prompts in auto and bypass-permissions modes` — DONE (deny rule check on full compound after operator 'allow')
+- [x] `Fixed read-only commands with env-var prefixes not prompting unless the var is known-safe` — DONE (stripSafeWrappers in isCommandReadOnly)
 - [x] `Fixed redirects to /dev/tcp/... or /dev/udp/... not prompting instead of auto-allowing` — DONE in defb61c
-- [ ] `Fixed stalled streaming responses timing out instead of falling back to non-streaming mode` — TODO
+- [x] `Fixed stalled streaming responses timing out instead of falling back to non-streaming mode` — DONE (already implemented: watchdog + non-streaming fallback in claude.ts)
 - [x] `Fixed 429 retries burning all attempts in ~13s when server returns small Retry-After` — DONE in defb61c
 - [ ] `Fixed MCP OAuth oauth.authServerMetadataUrl config override not honored on token refresh after restart` — TODO
 - [ ] `Fixed capital letters being dropped to lowercase on xterm and VS Code with kitty keyboard protocol` — TODO
@@ -30,8 +30,8 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed permissions.additionalDirectories changes not applying mid-session` — TODO
 - [ ] `Fixed removing directory from additionalDirectories revoking access to same directory passed via --add-dir` — TODO
 - [x] `Fixed Bash(cmd:*) and Bash(git commit *) wildcard permission rules failing to match commands with extra spaces or tabs` — DONE in 35a791c
-- [ ] `Fixed Bash(...) deny rules being downgraded to prompt for piped commands mixing cd with other segments` — TODO
-- [ ] `Fixed false Bash permission prompts for cut -d /, paste -d /, column -s /, awk, and filenames containing %` — TODO
+- [x] `Fixed Bash(...) deny rules being downgraded to prompt for piped commands mixing cd with other segments` — DONE (reorder deny check before cd+git ask in segmentedCommandPermissionResult)
+- [x] `Fixed false Bash permission prompts for cut -d /, paste -d /, column -s /, awk, and filenames containing %` — DONE (cut/paste/column/awk added to COMMAND_ALLOWLIST, % regex fix in hasDangerousExpansion)
 - [x] `Fixed permission rules with names matching JavaScript prototype properties (e.g. toString) causing settings.json to be silently ignored` — DONE in 4950e3e
 - [ ] `Fixed agent team members not inheriting leader's permission mode when using --dangerously-skip-permissions` — TODO
 - [ ] `Fixed crash in fullscreen mode when hovering over MCP tool results` — TODO
@@ -74,7 +74,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Added ● N running indicator in /agents next to agent types with live subagent instances` — TODO
 - [x] `Added syntax highlighting for Cedar policy files (.cedar, .cedarpolicy)` — DONE in defb61c
 - [ ] `Fixed --dangerously-skip-permissions being silently downgraded to accept-edits after approving write to protected path` — TODO (also in 2.1.98)
-- [ ] `Fixed and hardened Bash tool permissions, tightening checks around env-var prefixes and network redirects` — TODO (also in 2.1.98, security)
+- [~] `Fixed and hardened Bash tool permissions, tightening checks around env-var prefixes and network redirects` — PARTIAL (env-var prefix fix done, network redirects already in defb61c)
 - [x] `Fixed permission rules with names matching JavaScript prototype properties causing settings.json to be silently ignored` — DONE in 4950e3e (also in 2.1.98)
 - [ ] `Fixed managed-settings allow rules remaining active after admin removed them until process restart` — TODO (also in 2.1.98)
 - [ ] `Fixed permissions.additionalDirectories changes in settings not applying mid-session` — TODO (also in 2.1.98)
@@ -104,7 +104,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Improved Accept Edits mode to auto-approve filesystem commands prefixed with safe env vars or process wrappers` — TODO (also in 2.1.98)
 - [ ] `Improved auto mode and bypass-permissions mode to auto-approve sandbox network access prompts` — TODO
 - [-] `Improved sandbox: sandbox.network.allowMachLookup now takes effect on macOS` — SKIP (macOS sandbox)
-- [ ] `Improved image handling: pasted/attached images compressed to same token budget as images read via Read tool` — TODO
+- [x] `Improved image handling: pasted/attached images compressed to same token budget as images read via Read tool` — DONE (compressImageBufferWithTokenLimit added to imagePaste.ts + attachments.ts)
 - [x] `Improved slash command and @-mention completion to trigger after CJK sentence punctuation` — DONE
 - [-] `Improved Bridge sessions to show local git repo, branch, and working directory on claude.ai session card` — SKIP (claude.ai Bridge)
 - [x] `Improved footer layout: indicators stay on mode-indicator row instead of wrapping below` — DONE (also in 2.1.98)
