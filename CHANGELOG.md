@@ -2,6 +2,10 @@
 
 ## 11.04.2026
 
+- `977c299` Added OpenRouter as /login provider — failover, budget controls, usage analytics, clears ANTHROPIC_API_KEY per OpenRouter requirements
+- `977c299` Fixed Ctrl+C in super/proactive mode — pauses tick loop 3s on interrupt so user can double-press to exit instead of Sleep restarting immediately
+- `977c299` Fixed agent progress displaying "0 tokens" when proxy doesn't return usage data — treats 0 as unreported instead of showing misleading count
+- `977c299` Improved advisor tool — enabled unconditionally for first-party endpoints, bypassing GrowthBook gate
 - `6262f68` Improved /login with multi-provider selection: Anthropic OAuth, Anthropic direct API key, z.ai (GLM Coding Plan), DeepSeek — writes correct env vars to settings.json, applies immediately
 - `fe9920c` Fixed browser MCP dep check missing Pillow — import verification now tests all three required packages (zendriver, mcp, PIL)
 - `10a5a71` Improved --super mode: comprehensive feature prompt (daemon, workflows, monitor, swarms, templates), forced auto-compact to prevent context window errors, aggressive parallel agent emphasis
