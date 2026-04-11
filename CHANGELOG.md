@@ -22,6 +22,7 @@
 - `0809ba7` Added archsetup.sh — Podman-based Arch Linux sandbox with claude-sandboxed wrapper. Updated README with full feature documentation (all CLI flags, 40+ slash commands, settings, MCP servers)
 - `2a9753d` Improved browser MCP pip install timeout — bumped all pip timeouts to 500s (was 120/180s), cryptography + httpx dependency tree needs more time on slow connections
 - `c8e5d0d` Fixed /update-config crash — `z.undefined()` in enabledPlugins schema not representable in JSON Schema, replaced with `.optional()` on the union
+- `6b92873` Fixed auto-updater blocked on compiled binaries — removed NONESSENTIAL_TRAFFIC gate (our updater hits cs16.net, not Anthropic), fixed development build detection for real semver versions
 - `f578630` Improved --super mode prompt with Anthropic multi-agent coordination patterns — context-centric decomposition, effort scaling, research-first synthesis, verification with early-victory mitigation, pattern selection guide (solo/fork → orchestrator → teams), PROGRESS.md note-taking
 - `f578630` Fixed tmux teammates not inheriting super mode env vars — CLAUDE_CODE_SUPER_MODE, CLAUDE_CODE_EFFORT_LEVEL, CLAUDE_INTERNAL_FC_OVERRIDES, ALLOW_ANT_COMPUTER_USE_MCP now propagate to pane-spawned workers (auto-compact was silently disabled)
 - `f578630` Added dario (askalf/dario) as upstream fingerprinting source alongside CLIProxyAPI — dario for build tag/headers/betas, CLIProxyAPI for CCH signing (dario's random CCH is incorrect, uses randomBytes instead of xxHash64)
