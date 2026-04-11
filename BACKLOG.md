@@ -6,16 +6,6 @@ Source: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 Only entries after v2.1.87 (our fork base). Refresh by fetching:
 `curl -fsSL https://raw.githubusercontent.com/anthropics/claude-code/refs/heads/main/CHANGELOG.md`
 
-## 2.1.100 (prompt-only release, not in Anthropic changelog)
-
-- [-] `REMOVED: system-prompt-exploratory-questions-analyze-before-implementing.md` — SKIP (runtime-injected prompt, not in our source)
-- [-] `REMOVED: system-prompt-output-efficiency.md` — SKIP (runtime-injected prompt, not in our source)
-- [-] `REMOVED: system-prompt-user-facing-communication-style.md` — SKIP (runtime-injected prompt, content folded into communication-style.md)
-- [-] `EDITED: system-prompt-communication-style.md — end-of-turn summary tightened to "one or two sentences"` — SKIP (runtime-injected prompt)
-- [-] `20 new feature flags (tengu_kairos_loop_*, tengu_loops_command, tengu_mcp_directory_*, tengu_sdk_*, tengu_sedge_lantern, tengu_cinder_almanac, tengu_ultraplan_dialog_choice, tengu_vertex_setup_complete)` — SKIP (all pass through feature() polyfill)
-- [-] `REMOVED: tengu_flint_harbor flag` — SKIP (not referenced in our code)
-- [-] `2 new env vars: CLAUDE_CODE_CERT_STORE, CLAUDE_CODE_SDK_HAS_OAUTH_REFRESH` — SKIP (enterprise/OAuth infra)
-
 ## 2.1.101
 
 - [-] `Added /team-onboarding command to generate a teammate ramp-up guide` — SKIP (Anthropic managed infra, requires cloud onboarding flow)
@@ -64,6 +54,16 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Fixed several Remote Control issues` — SKIP (Remote Control infra)
 - [-] `Fixed /insights sometimes omitting report file link` — SKIP (insights feature)
 - [-] `[VSCode] Fixed file attachment not clearing when last editor tab closed` — SKIP (VSCode extension)
+
+## 2.1.100 (prompt-only release, not in Anthropic changelog)
+
+- [-] `REMOVED: system-prompt-exploratory-questions-analyze-before-implementing.md` — SKIP (runtime-injected prompt, not in our source)
+- [-] `REMOVED: system-prompt-output-efficiency.md` — SKIP (runtime-injected prompt, not in our source)
+- [-] `REMOVED: system-prompt-user-facing-communication-style.md` — SKIP (runtime-injected prompt, content folded into communication-style.md)
+- [-] `EDITED: system-prompt-communication-style.md — end-of-turn summary tightened to "one or two sentences"` — SKIP (runtime-injected prompt)
+- [-] `20 new feature flags (tengu_kairos_loop_*, tengu_loops_command, tengu_mcp_directory_*, tengu_sdk_*, tengu_sedge_lantern, tengu_cinder_almanac, tengu_ultraplan_dialog_choice, tengu_vertex_setup_complete)` — SKIP (all pass through feature() polyfill)
+- [-] `REMOVED: tengu_flint_harbor flag` — SKIP (not referenced in our code)
+- [-] `2 new env vars: CLAUDE_CODE_CERT_STORE, CLAUDE_CODE_SDK_HAS_OAUTH_REFRESH` — SKIP (enterprise/OAuth infra)
 
 ## 2.1.98
 
