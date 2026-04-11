@@ -117,7 +117,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 ## 2.1.97
 
-- [ ] `Added focus view toggle (Ctrl+O) in NO_FLICKER mode showing prompt, one-line tool summary with edit diffstats, and final response` — TODO
+- [x] `Added focus view toggle (Ctrl+O) in NO_FLICKER mode showing prompt, one-line tool summary with edit diffstats, and final response` — 3b4d08a
 - [x] `Added refreshInterval status line setting to re-run status line command every N seconds` — DONE in 4950e3e
 - [x] `Added workspace.git_worktree to status line JSON input when inside linked git worktree` — DONE in 4950e3e (also in 2.1.98)
 - [x] `Added ● N running indicator in /agents next to agent types with live subagent instances` — DONE in 7b8eef4

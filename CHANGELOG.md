@@ -2,6 +2,7 @@
 
 ## 11.04.2026
 
+- `3b4d08a` Added focus view toggle (Ctrl+O) in NO_FLICKER mode — shows user prompt, tool summaries, and final response
 - `05b0656` Fixed /resume picker: narrow default view, unreachable preview, incorrect worktree cwd, session-not-found stderr, terminal title, resume hint overlap
 - `257a60d` Fixed plugin issues: duplicate name frontmatter resolution, ENAMETOOLONG on update, stale version cache for directory-source plugins, context: fork and agent frontmatter not honored
 - `04823e8` Fixed rendering issues: flicker in non-fullscreen mode, terminal scrollback being wiped during long sessions, mouse-scroll escape sequences leaking into prompt
