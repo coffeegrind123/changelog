@@ -38,7 +38,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Fixed sandboxed Bash commands failing with mktemp after fresh boot` — SKIP (sandbox infra)
 - [-] `Fixed claude mcp serve tool calls failing with outputSchema validation` — SKIP (MCP serve)
 - [x] `Fixed RemoteTrigger tool run action sending empty body` — DONE in ed80f5a
-- [ ] `Fixed several /resume picker issues: narrow default view, unreachable preview, incorrect cwd in worktrees, session-not-found stderr, terminal title, resume hint overlap` — TODO
+- [x] `Fixed several /resume picker issues: narrow default view, unreachable preview, incorrect cwd in worktrees, session-not-found stderr, terminal title, resume hint overlap` — 05b0656
 - [x] `Fixed Grep tool ENOENT when embedded ripgrep binary path stale; falls back to system rg` — DONE (already in codebase, ripgrep.ts:64-75 existsSync + findExecutable fallback)
 - [x] `Fixed /btw writing entire conversation to disk on every use` — DONE in ed80f5a (skipTranscript on side questions)
 - [x] `Fixed /context Free space and Messages breakdown disagreeing with header percentage` — DONE in 295ecea (reconcile Free space with API usage)
