@@ -6,6 +6,12 @@
 - `ab81561` Fixed source code exposure via release API — tarball_url/zipball_url stripped from proxied release JSON responses
 - `7e423b0` Added security headers to Caddy config — HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Server header stripped
 - `7e423b0` Improved openclaude-updater deployment — rotated GitHub token, verified all exploit paths return 404
+- `2a0780c` Added native client-side advisor tool — works with any API provider (DeepSeek, z.ai, OpenRouter), uses sideQuery() with transcript-based context, ★ Advisor… display block with showAdvisorThinking setting
+- `2a0780c` Added /advisor two-step picker — mode selection (API/Native/Off) then model picker, replaces text-only command
+- `2a0780c` Added provider-aware advisor defaults — deepseek-reasoner for DeepSeek, glm-5.1 for z.ai, anthropic/claude-opus-4.6 for OpenRouter, stock API behavior for Anthropic direct
+- `2a0780c` Added provider-aware model list fetching — DeepSeek and OpenRouter endpoints use correct URLs and Bearer auth, cache cleared on /login
+- `2a0780c` Fixed /login not resetting model state — mainLoopModel, advisorModel, ANTHROPIC_MODEL env var now cleared on provider switch, prevents stale deepseek-chat on z.ai
+- `2a0780c` Added autonomous AskUserQuestion — in super/proactive mode, AI auto-resolves questions via sideQuery instead of blocking on interactive UI, 60s timeout with first-option fallback
 - `f578630` Improved --super mode prompt with Anthropic multi-agent coordination patterns — context-centric decomposition, effort scaling, research-first synthesis, verification with early-victory mitigation, pattern selection guide (solo/fork → orchestrator → teams), PROGRESS.md note-taking
 - `f578630` Fixed tmux teammates not inheriting super mode env vars — CLAUDE_CODE_SUPER_MODE, CLAUDE_CODE_EFFORT_LEVEL, CLAUDE_INTERNAL_FC_OVERRIDES, ALLOW_ANT_COMPUTER_USE_MCP now propagate to pane-spawned workers (auto-compact was silently disabled)
 - `f578630` Added dario (askalf/dario) as upstream fingerprinting source alongside CLIProxyAPI — dario for build tag/headers/betas, CLIProxyAPI for CCH signing (dario's random CCH is incorrect, uses randomBytes instead of xxHash64)
