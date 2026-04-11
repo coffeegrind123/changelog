@@ -2,6 +2,7 @@
 
 ## 11.04.2026
 
+- `a0124cf` Fixed memory leak in virtual scroller — prevMessagesRef no longer retains full historical message arrays
 - `55de6f2` Improved /agents with tabbed layout: Library tab for agent definitions, Running tab for live subagents
 - `3b4d08a` Added focus view toggle (Ctrl+O) in NO_FLICKER mode — shows user prompt, tool summaries, and final response
 - `05b0656` Fixed /resume picker: narrow default view, unreachable preview, incorrect worktree cwd, session-not-found stderr, terminal title, resume hint overlap
