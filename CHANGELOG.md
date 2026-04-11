@@ -17,6 +17,9 @@
 - `ced77ec` Added openclaude_features system prompt section — model now knows about all fork-specific slash commands, CLI subcommands (daemon, ccr-server, templates), settings, and capabilities. Previously invisible due to SkillTool filtering out local/local-jsx commands
 - `a06bd18` Improved openclaude_features section — trimmed from 65 to 30 lines, removed redundant MCP/implementation details
 - `2b35627` Fixed Python detection for Arch Linux — browser MCP, Ghidra MCP, and voice STT now fall back to `python` if `python3` binary not found (Arch ships only `python`). Venv binary path also checks both names
+- `aac8a4d` Fixed /ultraplan not loading — lazy-load to break circular require deadlock (ultraplan → context.js → commands.ts)
+- `1a34540` Fixed bootstrap.sh download failure in Docker — force HTTP/1.1 to avoid HTTP/2 stream resets through reverse proxies
+- `0809ba7` Added archsetup.sh — Podman-based Arch Linux sandbox with claude-sandboxed wrapper. Updated README with full feature documentation (all CLI flags, 40+ slash commands, settings, MCP servers)
 - `f578630` Improved --super mode prompt with Anthropic multi-agent coordination patterns — context-centric decomposition, effort scaling, research-first synthesis, verification with early-victory mitigation, pattern selection guide (solo/fork → orchestrator → teams), PROGRESS.md note-taking
 - `f578630` Fixed tmux teammates not inheriting super mode env vars — CLAUDE_CODE_SUPER_MODE, CLAUDE_CODE_EFFORT_LEVEL, CLAUDE_INTERNAL_FC_OVERRIDES, ALLOW_ANT_COMPUTER_USE_MCP now propagate to pane-spawned workers (auto-compact was silently disabled)
 - `f578630` Added dario (askalf/dario) as upstream fingerprinting source alongside CLIProxyAPI — dario for build tag/headers/betas, CLIProxyAPI for CCH signing (dario's random CCH is incorrect, uses randomBytes instead of xxHash64)
