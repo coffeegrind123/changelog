@@ -103,7 +103,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Fixed sandbox.network.allowMachLookup not taking effect on macOS` — SKIP (macOS sandbox)
 - [x] `Improved /resume filter hint labels and added project/worktree/branch names in filter indicator` — DONE in 7b8eef4 (worktree directory name instead of generic text)
 - [x] `Improved footer indicators (Focus, notifications) to stay on mode-indicator row instead of wrapping` — DONE
-- [ ] `Improved /agents with tabbed layout: Running tab shows live subagents, Library tab adds Run agent and View running instance actions` — TODO
+- [x] `Improved /agents with tabbed layout: Running tab shows live subagents, Library tab adds Run agent and View running instance actions` — 55de6f2
 - [x] `Improved /reload-plugins to pick up plugin-provided skills without requiring restart` — DONE in c573e06
 - [x] `Improved Accept Edits mode to auto-approve filesystem commands prefixed with safe env vars or process wrappers` — DONE in e9b0c9d
 - [x] `Improved Vim mode: j/k in NORMAL mode now navigate history and select footer pill at input boundary` — DONE in a6a5ba4
