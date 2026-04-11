@@ -2,6 +2,7 @@
 
 ## 11.04.2026
 
+- `6262f68` Improved /login with multi-provider selection: Anthropic OAuth, Anthropic direct API key, z.ai (GLM Coding Plan), DeepSeek — writes correct env vars to settings.json, applies immediately
 - `fe9920c` Fixed browser MCP dep check missing Pillow — import verification now tests all three required packages (zendriver, mcp, PIL)
 - `10a5a71` Improved --super mode: comprehensive feature prompt (daemon, workflows, monitor, swarms, templates), forced auto-compact to prevent context window errors, aggressive parallel agent emphasis
 - `a0124cf` Fixed memory leak in virtual scroller — prevMessagesRef no longer retains full historical message arrays
