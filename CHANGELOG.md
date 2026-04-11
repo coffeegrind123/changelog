@@ -2,6 +2,9 @@
 
 ## 11.04.2026
 
+- `f578630` Improved --super mode prompt with Anthropic multi-agent coordination patterns — context-centric decomposition, effort scaling, research-first synthesis, verification with early-victory mitigation, pattern selection guide (solo/fork → orchestrator → teams), PROGRESS.md note-taking
+- `f578630` Fixed tmux teammates not inheriting super mode env vars — CLAUDE_CODE_SUPER_MODE, CLAUDE_CODE_EFFORT_LEVEL, CLAUDE_INTERNAL_FC_OVERRIDES, ALLOW_ANT_COMPUTER_USE_MCP now propagate to pane-spawned workers (auto-compact was silently disabled)
+- `f578630` Added dario (askalf/dario) as upstream fingerprinting source alongside CLIProxyAPI — dario for build tag/headers/betas, CLIProxyAPI for CCH signing (dario's random CCH is incorrect, uses randomBytes instead of xxHash64)
 - `977c299` Added OpenRouter as /login provider — failover, budget controls, usage analytics, clears ANTHROPIC_API_KEY per OpenRouter requirements
 - `977c299` Fixed Ctrl+C in super/proactive mode — pauses tick loop 3s on interrupt so user can double-press to exit instead of Sleep restarting immediately
 - `977c299` Fixed agent progress displaying "0 tokens" when proxy doesn't return usage data — treats 0 as unreported instead of showing misleading count
