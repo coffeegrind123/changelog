@@ -2,6 +2,10 @@
 
 ## 11.04.2026
 
+- `6191203` Fixed critical unauthenticated GitHub API proxy in openclaude-updater (CVSS 9.8) — `/repos/*` path now whitelisted to releases/latest and releases/tags/{tag} only, tag names validated, rate limiting added (30 req/min per IP)
+- `ab81561` Fixed source code exposure via release API — tarball_url/zipball_url stripped from proxied release JSON responses
+- `7e423b0` Added security headers to Caddy config — HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Server header stripped
+- `7e423b0` Improved openclaude-updater deployment — rotated GitHub token, verified all exploit paths return 404
 - `f578630` Improved --super mode prompt with Anthropic multi-agent coordination patterns — context-centric decomposition, effort scaling, research-first synthesis, verification with early-victory mitigation, pattern selection guide (solo/fork → orchestrator → teams), PROGRESS.md note-taking
 - `f578630` Fixed tmux teammates not inheriting super mode env vars — CLAUDE_CODE_SUPER_MODE, CLAUDE_CODE_EFFORT_LEVEL, CLAUDE_INTERNAL_FC_OVERRIDES, ALLOW_ANT_COMPUTER_USE_MCP now propagate to pane-spawned workers (auto-compact was silently disabled)
 - `f578630` Added dario (askalf/dario) as upstream fingerprinting source alongside CLIProxyAPI — dario for build tag/headers/betas, CLIProxyAPI for CCH signing (dario's random CCH is incorrect, uses randomBytes instead of xxHash64)
