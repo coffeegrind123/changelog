@@ -2,6 +2,9 @@
 
 ## 12.04.2026
 
+- `c504208` Added DeepSeek balance tracking — polls `api.deepseek.com/user/balance` with inference API key, shows USD balance in `/usage`, warns when <$1, rejects at $0. 120s background poll. New `src/services/api/deepseekBalance.ts`, `isDeepSeekProvider()` in providers.ts
+- `c504208` Added GLM and DeepSeek model limits — glm-* (32K/128K output, 200K context), deepseek-reasoner (32K/64K, 128K), deepseek-chat (4K/8K, 128K) in `getModelMaxOutputTokens()` and `getContextWindowForModel()`
+- `c504208` Disabled 1M context for non-Anthropic providers — `is1mContextDisabled()` returns true when `ANTHROPIC_BASE_URL` is not api.anthropic.com, prevents requesting 1M context from z.ai/DeepSeek/OpenRouter
 - `5b2c662` Added z.ai quota tracking — polls `/api/monitor/usage/quota/limit` for 5-hour and token limits, shown in status line, `/usage` command, and rate limit warnings. New `src/services/api/zaiQuota.ts`, `isZaiProvider()` in providers.ts. 60s background poll, `/login` cache invalidation, 429 quota refresh
 - `2db3d57` Added comprehensive test suite — 623 tests across 55 files using Bun built-in test runner, bunfig.toml [test] preload, test-setup.ts, package.json test/test:watch/test:coverage scripts, covering utils, services/api, services/mcp, services/compact, tools/FileEditTool, config, hooks, permissions
 - `92d38b3` Fixed autocompact crash in super mode — reactiveCompact.ts and contextCollapse/index.ts stubs exported `{}` (truthy) causing TypeError on `?.isReactiveCompactEnabled()` calls, preventing blocking limit check and compaction recovery chain from running. Stubs now export proper no-op functions
