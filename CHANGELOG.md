@@ -5,6 +5,7 @@
 - `2db3d57` Added comprehensive test suite — 623 tests across 55 files using Bun built-in test runner, bunfig.toml [test] preload, test-setup.ts, package.json test/test:watch/test:coverage scripts, covering utils, services/api, services/mcp, services/compact, tools/FileEditTool, config, hooks, permissions
 - `92d38b3` Fixed autocompact crash in super mode — reactiveCompact.ts and contextCollapse/index.ts stubs exported `{}` (truthy) causing TypeError on `?.isReactiveCompactEnabled()` calls, preventing blocking limit check and compaction recovery chain from running. Stubs now export proper no-op functions
 - `fb77fd2` Added 610 tests across 17 files — permissions (permissionRuleParser, denialTracking, pathValidation, permissions engine), OAuth (PKCE crypto, client), API errors, compact (autoCompact, compactWarningState, timeBasedMCConfig), MCP (utils, headersHelper), state (store, selectors), utils (messages, context, attachments). Total: 1233 tests/72 files
+- `2483db9` Added CI test gate — new ci.yml runs `bun test` + typecheck on push/PR to main, build.yml test job blocks release builds until tests pass
 
 ## 11.04.2026
 
