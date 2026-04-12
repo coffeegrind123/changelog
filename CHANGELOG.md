@@ -1,5 +1,9 @@
 # Changelog
 
+## 12.04.2026
+
+- `2db3d57` Added comprehensive test suite — 623 tests across 55 files using Bun built-in test runner, bunfig.toml [test] preload, test-setup.ts, package.json test/test:watch/test:coverage scripts, covering utils, services/api, services/mcp, services/compact, tools/FileEditTool, config, hooks, permissions
+
 ## 11.04.2026
 
 - `6191203` Fixed critical unauthenticated GitHub API proxy in openclaude-updater (CVSS 9.8) — `/repos/*` path now whitelisted to releases/latest and releases/tags/{tag} only, tag names validated, rate limiting added (30 req/min per IP)
