@@ -2,6 +2,8 @@
 
 ## 12.04.2026
 
+- `855833a` Added low-context mode — auto-enabled for DeepSeek (128K context), trims system prompt ~60% (10K→4K tokens). Condenses `doing_tasks`, `actions`, `session_guidance`, `tone_style`, `output_efficiency`; disables `openclaude_features`, `scratchpad`, `frc`, `summarize_tool_results`, `humanizer`, `brief`, `memory`. Toggle via `lowContextMode` in `/config`, auto-detects via `ANTHROPIC_MODEL` or `isDeepSeekProvider()`
+- `855833a` Added native MCP tool deferral for all providers — ToolSearchTool now uses text `<discovered-tools>` markers for non-Anthropic APIs instead of `tool_reference` blocks. Proxy gate removed from `isToolSearchEnabledOptimistic()`, `defer_loading` and beta header restricted to first-party Anthropic. Saves ~25K tokens for 200+ MCP tool setups on z.ai/DeepSeek/OpenRouter
 - `c504208` Added DeepSeek balance tracking — polls `api.deepseek.com/user/balance` with inference API key, shows USD balance in `/usage`, warns when <$1, rejects at $0. 120s background poll. New `src/services/api/deepseekBalance.ts`, `isDeepSeekProvider()` in providers.ts
 - `c504208` Added GLM and DeepSeek model limits — glm-* (32K/128K output, 200K context), deepseek-reasoner (32K/64K, 128K), deepseek-chat (4K/8K, 128K) in `getModelMaxOutputTokens()` and `getContextWindowForModel()`
 - `c504208` Disabled 1M context for non-Anthropic providers — `is1mContextDisabled()` returns true when `ANTHROPIC_BASE_URL` is not api.anthropic.com, prevents requesting 1M context from z.ai/DeepSeek/OpenRouter
