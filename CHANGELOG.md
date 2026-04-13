@@ -3,7 +3,7 @@
 ## 13.04.2026
 
 - `39f6b5d` Fixed CI pinned to Bun 1.3.11 — latest versions have regressions in type guard checks that break the build
-- `79fdc85` Improved autocompact buffer scaling — buffer now scales with context window size (5% of context, floor 8K, cap 20K) for all providers, max output token escalation capped at 16K to prevent runaway token usage
+- `79fdc85` Improved autocompact buffer scaling for low-context mode — buffer scales with context window (5% of context, floor 8K, cap 20K) for DeepSeek/low-context providers only. Anthropic models keep original 13K. Max output token escalation capped at 16K to prevent runaway token usage
 
 ## 12.04.2026
 
