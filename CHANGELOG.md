@@ -1,5 +1,10 @@
 # Changelog
 
+## 13.04.2026
+
+- `39f6b5d` Fixed CI pinned to Bun 1.3.11 — latest versions have regressions in type guard checks that break the build
+- `79fdc85` Improved autocompact buffer scaling — buffer now scales with context window size (5% of context, floor 8K, cap 20K) for all providers, max output token escalation capped at 16K to prevent runaway token usage
+
 ## 12.04.2026
 
 - `855833a` Added low-context mode — auto-enabled for DeepSeek (128K context), trims system prompt ~60% (10K→4K tokens). Condenses `doing_tasks`, `actions`, `session_guidance`, `tone_style`, `output_efficiency`; disables `openclaude_features`, `scratchpad`, `frc`, `summarize_tool_results`, `humanizer`, `brief`, `memory`. Toggle via `lowContextMode` in `/config`, auto-detects via `ANTHROPIC_MODEL` or `isDeepSeekProvider()`
