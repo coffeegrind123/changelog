@@ -2,6 +2,10 @@
 
 ## 13.04.2026
 
+- `0942a9f` Added OpenRouter provider support — `isOpenRouterProvider()`, `isOpenRouterAnthropicModel()`, `isAnthropicCompatibleForModel()` in providers.ts. OpenRouter+Claude gets full Anthropic treatment: beta headers, adaptive thinking, 1M context, tool_reference blocks, defer_loading, FGTS
+- `0942a9f` Added client-side thinking pruner — strips thinking blocks from older assistant turns before API calls, saving 40-500K+ input tokens in long conversations. Default on for z.ai/DeepSeek/other providers (keep 1 turn, 0 in low-context). Skipped for Anthropic/OpenRouter+Claude. Settings: `pruneThinking` in `/config`
+- `0942a9f` Added compaction thinking strip — unconditionally removes all thinking from messages before compaction summary model, all providers including Anthropic. Setting: `pruneThinkingOnCompact` in `/config`
+- `0942a9f` Added effort level system prompt fallback — `/effort low|high|max` now injects reasoning instructions for providers that don't support `output_config.effort` (z.ai, DeepSeek). Skipped for Anthropic/OpenRouter+Claude
 - `39f6b5d` Fixed CI pinned to Bun 1.3.11 — latest versions have regressions in type guard checks that break the build. Both ci.yml and build.yml now pinned
 - `a85b4bf` Fixed 3 CI test failures caused by Bun mock.module leak — attachments.test.ts globally mocked selectors.js, poisoning selector tests in same process. Skipped on CI until Bun fixes mock isolation
 - `79fdc85` Improved autocompact buffer scaling for low-context mode — buffer scales with context window (5% of context, floor 8K, cap 20K) for DeepSeek/low-context providers only. Anthropic models keep original 13K. Max output token escalation capped at 16K to prevent runaway token usage
