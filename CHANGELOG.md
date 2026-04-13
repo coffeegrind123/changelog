@@ -9,6 +9,11 @@
 - `39f6b5d` Fixed CI pinned to Bun 1.3.11 — latest versions have regressions in type guard checks that break the build. Both ci.yml and build.yml now pinned
 - `a85b4bf` Fixed 3 CI test failures caused by Bun mock.module leak — attachments.test.ts globally mocked selectors.js, poisoning selector tests in same process. Skipped on CI until Bun fixes mock isolation
 - `79fdc85` Improved autocompact buffer scaling for low-context mode — buffer scales with context window (5% of context, floor 8K, cap 20K) for DeepSeek/low-context providers only. Anthropic models keep original 13K. Max output token escalation capped at 16K to prevent runaway token usage
+- `dafd71b` Improved build system — replaced broken `bun build src/main.tsx` with proper `build.ts` using Bun.build() API, code splitting (750 chunks), linked sourcemaps, centralized `scripts/defines.ts` for --define constants
+- `dafd71b` Added `build:binary` script for local compiled binary testing — mirrors exact CI flags (--compile --minify --bytecode), no more pushing tags to test binaries
+- `dafd71b` Added CI binary validation — version check, 200MB size gate, --help smoke test on linux-x64
+- `dafd71b` Improved sandbox container — precompiles with build.ts during Docker build, runs `bun dist/cli.js` instead of interpreting TypeScript per invocation
+- `dafd71b` Added token-usage-analysis.md reference doc — translated from zhihui-hu/claude-code, covers Claude Code's dual token metrics, 4-tier compaction pipeline, prompt cache stabilization, tool result disk-spill thresholds
 
 ## 12.04.2026
 
