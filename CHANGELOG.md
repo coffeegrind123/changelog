@@ -14,6 +14,8 @@
 - `dafd71b` Added CI binary validation — version check, 200MB size gate, --help smoke test on linux-x64
 - `dafd71b` Improved sandbox container — precompiles with build.ts during Docker build, runs `bun dist/cli.js` instead of interpreting TypeScript per invocation
 - `dafd71b` Added token-usage-analysis.md reference doc — translated from zhihui-hu/claude-code, covers Claude Code's dual token metrics, 4-tier compaction pipeline, prompt cache stabilization, tool result disk-spill thresholds
+- `1b4d3f9` Added LAN Pipes — multi-instance CLI swarm coordination over UDS (local) and TCP/UDP multicast (LAN). 32 files, 4,419 lines. Core: `pipeTransport.ts` (PipeServer/Client, NDJSON protocol), `lanBeacon.ts` (UDP 224.0.71.67:7101 peer discovery), `pipeRegistry.ts` (file-locked role management), `pipePermissionRelay.ts` (master-slave permission forwarding). Commands: `/pipes`, `/attach`, `/detach`, `/send`, `/claim-main`, `/pipe-status`. Shift+Down toggles pipe selector. `udsMessaging.ts` and `udsClient.ts` stubs filled — SendMessage `uds://` routing now works end-to-end
+- `1b4d3f9` Improved low-context mode — now also disables background token consumers: `executePromptSuggestion`, `executeExtractMemories`, `executeAutoDream` (stopHooks.ts) and agent summarization (agentSummary.ts)
 
 ## 12.04.2026
 
