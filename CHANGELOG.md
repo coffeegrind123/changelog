@@ -1,5 +1,23 @@
 # Changelog
 
+## 14.04.2026
+
+- `7a854b3` Updated references to renamed openclaude-observe repo
+- `5c9ff3a` Enabled observe by default — always start observe service in docker-compose, wire URL via Docker DNS (`http://observe:4981`)
+- `9e87894` Added depends_on: observe for interactive container, gitignore openclaude-observe/
+- `f443ac9` Fixed observe SPA serving — added `AGENTS_OBSERVE_CLIENT_DIST_PATH` for proper client dist path
+- `83d10a1` Fixed effortPromptFallback ReferenceError — const used before declaration in queryModel
+- `31313d5` Fixed observeApiStartTime ReferenceError — moved const to function scope
+- `513689e` Fixed OTel provider init — pass spanProcessors in constructor (SDK v2 API, `addSpanProcessor` removed)
+- `ad3c399` Fixed observe tracing — pass observeTrace to queryModel options, emit SessionStart immediately as separate span
+- `d892b7f` Fixed observe: removed per-turn Stop emission, added prompt/response previews to LLM spans
+- `b64e490` Wired full conversation events to observe — UserPromptSubmit, tool calls (PreToolUse/PostToolUse), prompt/response text
+- `6d2d1ca` Wired observe events for all multi-instance features — pipes (PromptRouted, PermissionForward), daemon (Heartbeat), coordinator (Dispatch), bridge (Connected/Disconnected/WorkReceived), subagent traces
+- `3dde937` Fixed observe: TTFT now passes real value (was always 0), singleton session trace (no duplicate SessionStart per turn), proper Stop emission on Ctrl+C via cleanup registry
+- `799cc05` Replaced per-event OTel instrumentation with universal hook forwarding — `forwardHookToObserve()` intercepts all 27 hook events and POSTs directly to observe dashboard. Removed duplicate OTel emissions for SessionStart/UserPromptSubmit/PostToolUse (hooks cover these natively). LLMGeneration and multi-instance events stay as OTel
+- `1df056b` Fixed observe: null-guard message access in LLM observation — messages array can contain entries with undefined `.message` property
+- `991801f` Fixed critical PreToolUse crash — `forwardHookToObserve(hookInput)` was called before `hookInput` was defined, causing ReferenceError on every tool use
+
 ## 13.04.2026
 
 - `0942a9f` Added OpenRouter provider support — `isOpenRouterProvider()`, `isOpenRouterAnthropicModel()`, `isAnthropicCompatibleForModel()` in providers.ts. OpenRouter+Claude gets full Anthropic treatment: beta headers, adaptive thinking, 1M context, tool_reference blocks, defer_loading, FGTS
