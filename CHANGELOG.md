@@ -17,6 +17,8 @@
 - `799cc05` Replaced per-event OTel instrumentation with universal hook forwarding — `forwardHookToObserve()` intercepts all 27 hook events and POSTs directly to observe dashboard. Removed duplicate OTel emissions for SessionStart/UserPromptSubmit/PostToolUse (hooks cover these natively). LLMGeneration and multi-instance events stay as OTel
 - `1df056b` Fixed observe: null-guard message access in LLM observation — messages array can contain entries with undefined `.message` property
 - `991801f` Fixed critical PreToolUse crash — `forwardHookToObserve(hookInput)` was called before `hookInput` was defined, causing ReferenceError on every tool use
+- `f4b8781` Fixed SessionEnd not reaching observe on Ctrl+C — `forwardHookToObserve` fetch was fire-and-forget, process.exit() killed it mid-flight. Now tracks pending SessionEnd/Stop fetches, `flushObserveForwards()` awaits them in gracefulShutdown with 2s timeout
+- `96ce094` Added ToolSearch deferred-tool guidance to main session_guidance prompt (not just low-context mode). Concise ~40 token version for Claude models, gated on `isToolSearchEnabledOptimistic()`
 
 ## 13.04.2026
 
