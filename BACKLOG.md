@@ -6,6 +6,50 @@ Source: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 Only entries after v2.1.87 (our fork base). Refresh by fetching:
 `curl -fsSL https://raw.githubusercontent.com/anthropics/claude-code/refs/heads/main/CHANGELOG.md`
 
+## 2.1.107
+
+- [ ] `Show thinking hints sooner during long operations` — UI timing tweak
+
+## 2.1.105
+
+- [ ] `Added path parameter to EnterWorktree tool to switch into an existing worktree` — worktree tool enhancement
+- [ ] `Added PreCompact hook support: hooks can block compaction by exiting with code 2 or returning {"decision":"block"}` — hooks extension
+- [-] `Added background monitor support for plugins via top-level monitors manifest key` — SKIP (plugin monitors, managed infra)
+- [-] `/proactive is now an alias for /loop` — SKIP (we have our own /proactive implementation)
+- [ ] `Improved stalled API stream handling: streams abort after 5 minutes of no data and retry non-streaming` — reliability fix
+- [ ] `Improved network error messages: connection errors show retry message immediately instead of silent spinner` — UX fix
+- [ ] `Improved file write display: long single-line writes truncated in UI instead of paginating` — UI fix
+- [-] `Improved /doctor layout with status icons; press f to have Claude fix reported issues` — SKIP (/doctor is Anthropic-specific)
+- [-] `Improved /config labels and descriptions for clarity` — SKIP (UI polish)
+- [ ] `Improved skill description handling: raised listing cap from 250 to 1,536 characters and startup warning when truncated` — skill system
+- [ ] `Improved WebFetch to strip <style> and <script> contents from fetched pages` — token savings
+- [ ] `Improved stale agent worktree cleanup to remove worktrees whose PR was squash-merged` — worktree cleanup
+- [ ] `Improved MCP large-output truncation prompt to give format-specific recipes` — UX improvement
+- [ ] `Fixed images attached to queued messages being dropped` — bug fix
+- [ ] `Fixed screen going blank when prompt input wraps to second line in long conversations` — rendering fix
+- [ ] `Fixed leading whitespace getting copied when selecting multi-line assistant responses in fullscreen mode` — clipboard fix
+- [ ] `Fixed leading whitespace being trimmed from assistant messages, breaking ASCII art and indented diagrams` — rendering fix
+- [ ] `Fixed garbled bash output when commands print clickable file links` — terminal fix
+- [ ] `Fixed alt+enter not inserting a newline in terminals using ESC-prefix alt encoding, and Ctrl+J regression` — keybinding fix
+- [ ] `Fixed duplicate "Creating worktree" text in EnterWorktree/ExitWorktree tool display` — UI fix
+- [ ] `Fixed queued user prompts disappearing from focus mode` — focus mode fix
+- [ ] `Fixed one-shot scheduled tasks re-firing repeatedly when file watcher missed post-fire cleanup` — scheduler fix
+- [-] `Fixed inbound channel notifications silently dropped after first message for Team/Enterprise` — SKIP (Team/Enterprise infra)
+- [-] `Fixed marketplace plugins with package.json not having dependencies installed after install/update` — SKIP (marketplace)
+- [-] `Fixed marketplace auto-update leaving official marketplace broken when plugin process holds files open` — SKIP (marketplace)
+- [ ] `Fixed "Resume this session with..." hint not printing on exit after /resume, --worktree, or /branch` — resume UX fix
+- [ ] `Fixed feedback survey shortcut keys firing when typed at end of longer prompt` — input fix
+- [ ] `Fixed stdio MCP server emitting malformed output hanging session instead of failing fast` — MCP reliability
+- [ ] `Fixed MCP tools missing on first turn of headless/remote-trigger sessions when MCP servers connect asynchronously` — MCP timing fix
+- [-] `Fixed /model picker on AWS Bedrock in non-US regions persisting invalid us.* model IDs` — SKIP (Bedrock-specific)
+- [ ] `Fixed 429 rate-limit errors showing raw JSON dump instead of clean message for API-key, Bedrock, and Vertex users` — error UX
+- [ ] `Fixed crash on resume when session contains malformed text blocks` — stability fix
+- [ ] `Fixed /help dropping tab bar, Shortcuts heading, and footer at short terminal heights` — UI fix
+- [ ] `Fixed malformed keybinding entry values in keybindings.json being silently loaded instead of rejected` — validation fix
+- [ ] `Fixed CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC in one project's settings permanently disabling usage metrics for all projects` — settings isolation fix
+- [ ] `Fixed washed-out 16-color palette when using Ghostty, Kitty, Alacritty, WezTerm, foot, rio, or Contour over SSH/mosh` — terminal colors fix
+- [ ] `Fixed Bash tool suggesting acceptEdits permission mode when exiting plan mode would downgrade from higher level` — permission UX fix
+
 ## 2.1.101
 
 - [-] `Added /team-onboarding command to generate a teammate ramp-up guide` — SKIP (Anthropic managed infra, requires cloud onboarding flow)
