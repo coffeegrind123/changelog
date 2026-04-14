@@ -10,6 +10,7 @@
 - `d53aa2f` Synced fingerprinting — x-stainless-package-version 0.74.0→0.81.0, EnterWorktree prompt updated for path param + CLAUDE.md triggers
 - `67e4304` Improved autonomous prompt — stewardship philosophy, 6-level work priority, event-gated waking (Monitor+Sleep), PR maintenance guidance, reversibility heuristic
 - `e87c897` Added thinking frequency tuning to system reminders — calibrate thinking depth based on task complexity
+- `50c2317` Added `/runtime-verification` alias for verify skill
 - `7a854b3` Updated references to renamed openclaude-observe repo
 - `5c9ff3a` Enabled observe by default — always start observe service in docker-compose, wire URL via Docker DNS (`http://observe:4981`)
 - `9e87894` Added depends_on: observe for interactive container, gitignore openclaude-observe/
