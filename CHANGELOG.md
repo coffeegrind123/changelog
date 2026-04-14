@@ -7,6 +7,7 @@
 - `b76ddca` Added upstream 2.1.105 backports (batch 3/4) — Ctrl+J newline insertion, /help min height at short terminals
 - `b48f3cf` Added upstream 2.1.105 backports (batch 4/4) — prompt wrap blank screen fix (textWrap→wrap), fullscreen copy whitespace (noSelect padding), garbled bash OSC 8 links (strip-ansi regex), focus mode queued prompts
 - `b6c6b0e` Added upstream 2.1.107 backport — thinking hints sooner (min display 2s→1s)
+- `d53aa2f` Synced fingerprinting — x-stainless-package-version 0.74.0→0.81.0, EnterWorktree prompt updated for path param + CLAUDE.md triggers
 - `7a854b3` Updated references to renamed openclaude-observe repo
 - `5c9ff3a` Enabled observe by default — always start observe service in docker-compose, wire URL via Docker DNS (`http://observe:4981`)
 - `9e87894` Added depends_on: observe for interactive container, gitignore openclaude-observe/
