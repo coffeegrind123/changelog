@@ -8,7 +8,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 ## 2.1.107
 
-- [ ] `Show thinking hints sooner during long operations` — UI timing tweak
+- [x] `Show thinking hints sooner during long operations` — DONE in b6c6b0e (thinking min display 2s→1s)
 
 ## 2.1.105
 
@@ -26,13 +26,13 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Improved stale agent worktree cleanup to remove worktrees whose PR was squash-merged` — DONE in 611f21f (diff --quiet against origin/HEAD)
 - [x] `Improved MCP large-output truncation prompt to give format-specific recipes` — DONE in 611f21f (jq for JSON, Read chunks for text)
 - [x] `Fixed images attached to queued messages being dropped` — DONE in 64c109a (pass pastedContents from all queued commands)
-- [ ] `Fixed screen going blank when prompt input wraps to second line in long conversations` — rendering fix (needs deep ink investigation)
-- [ ] `Fixed leading whitespace getting copied when selecting multi-line assistant responses in fullscreen mode` — clipboard fix (needs fullscreen selection investigation)
+- [x] `Fixed screen going blank when prompt input wraps to second line in long conversations` — DONE in b48f3cf (BaseTextInput textWrap truncate-end→wrap)
+- [x] `Fixed leading whitespace getting copied when selecting multi-line assistant responses in fullscreen mode` — DONE in b48f3cf (mark padding columns noSelect)
 - [x] `Fixed leading whitespace being trimmed from assistant messages, breaking ASCII art and indented diagrams` — DONE in 611f21f (trimEnd instead of trim in Markdown.tsx)
-- [ ] `Fixed garbled bash output when commands print clickable file links` — terminal fix (needs OSC 8 investigation)
+- [x] `Fixed garbled bash output when commands print clickable file links` — DONE in b48f3cf (OSC 8 pattern added to strip-ansi regex)
 - [x] `Fixed alt+enter not inserting a newline in terminals using ESC-prefix alt encoding, and Ctrl+J regression` — DONE in b76ddca (Ctrl+J added to handleCtrl map)
 - [x] `Fixed duplicate "Creating worktree" text in EnterWorktree/ExitWorktree tool display` — DONE in 611f21f (renderToolUseMessage returns null)
-- [ ] `Fixed queued user prompts disappearing from focus mode` — focus mode fix (needs REPL state investigation)
+- [x] `Fixed queued user prompts disappearing from focus mode` — DONE in b48f3cf (preserve queued_command attachments in filterForFocusView)
 - [x] `Fixed one-shot scheduled tasks re-firing repeatedly when file watcher missed post-fire cleanup` — DONE in 64c109a (nextFireAt=Infinity during deletion)
 - [-] `Fixed inbound channel notifications silently dropped after first message for Team/Enterprise` — SKIP (Team/Enterprise infra)
 - [-] `Fixed marketplace plugins with package.json not having dependencies installed after install/update` — SKIP (marketplace)
