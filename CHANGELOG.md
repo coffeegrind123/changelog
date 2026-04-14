@@ -2,6 +2,11 @@
 
 ## 14.04.2026
 
+- `611f21f` Added upstream 2.1.105 backports (batch 1/4) — EnterWorktree `path` param, PreCompact hook blocking, stream watchdog 5min default, network error immediate display, file write single-line truncation, skill desc cap 250→1536, WebFetch style/script stripping, squash-merged worktree cleanup, MCP truncation format-specific recipes, worktree duplicate text fix, stdio MCP malformed output, 429 clean message, resume hint fix, malformed text block crash fix, Bash acceptEdits plan mode, keybinding validation, leading whitespace preservation
+- `64c109a` Added upstream 2.1.105 backports (batch 2/4) — one-shot task re-fire fix, MCP tools first headless turn, 16-color SSH palette (Ghostty/Kitty/Alacritty/WezTerm/foot/rio/Contour), queued image drops
+- `b76ddca` Added upstream 2.1.105 backports (batch 3/4) — Ctrl+J newline insertion, /help min height at short terminals
+- `b48f3cf` Added upstream 2.1.105 backports (batch 4/4) — prompt wrap blank screen fix (textWrap→wrap), fullscreen copy whitespace (noSelect padding), garbled bash OSC 8 links (strip-ansi regex), focus mode queued prompts
+- `b6c6b0e` Added upstream 2.1.107 backport — thinking hints sooner (min display 2s→1s)
 - `7a854b3` Updated references to renamed openclaude-observe repo
 - `5c9ff3a` Enabled observe by default — always start observe service in docker-compose, wire URL via Docker DNS (`http://observe:4981`)
 - `9e87894` Added depends_on: observe for interactive container, gitignore openclaude-observe/
