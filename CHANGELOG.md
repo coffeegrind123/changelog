@@ -5,6 +5,7 @@
 - `b813817` Added /buddy command — full companion pet implementation with 14 subcommands (hatch, pet, stats, rename, personality, off/on, save/summon/list/dismiss menagerie, pick, frequency, style, rarity). Contextual observer detects errors, test pass/fail, build status, large diffs. Configurable cooldown. Bubble style config. Parity with community claude-buddy MCP
 - `5bc67b7` Added /fork, /peers, /remote-control-server commands — /fork spawns background fork agent with current context, /peers lists UDS sessions + pipes + LAN peers, /rcs starts local CCR server
 - `9670277` Fixed /rcs — rewired from Anthropic bridge (OAuth required) to local CCR server (works with any API provider, no subscription needed)
+- `40a1143` Fixed Anthropic gates blocking local features — baseline GrowthBook overrides at entrypoint (computer use, bridge, session memory work without /super), bridge bypasses OAuth for USER_TYPE=ant, super mode merges FC_OVERRIDES instead of clobbering
 
 ## 15.04.2026
 
