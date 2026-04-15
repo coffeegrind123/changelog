@@ -1,5 +1,9 @@
 # Changelog
 
+## 15.04.2026
+
+- `19f2d6c` Added upstream 2.1.108 backports (20/24 items) — ENABLE_PROMPT_CACHING_1H + FORCE_PROMPT_CACHING_5M env vars, /recap command + awaySummaryEnabled setting + CLAUDE_CODE_ENABLE_AWAY_SUMMARY env var, /model mid-conversation warning, unknown slash command suggestion (Levenshtein), 5xx/529 status.anthropic.com link, DISABLE_PROMPT_CACHING startup warning, Ctrl+O verbose indicator, /login paste fix, CLAUDE_ENV_FILE trailing comment fix, classifier overflow auto-allow, --resume name/color restore, session title greeting guard, diacritical marks sanitization fix, self-referencing parentUuid guard, transcript write error logging, --teleport/--resume stderr precondition errors, teleport ANSI stripping
+
 ## 14.04.2026
 
 - `611f21f` Added upstream 2.1.105 backports (batch 1/4) — EnterWorktree `path` param, PreCompact hook blocking, stream watchdog 5min default, network error immediate display, file write single-line truncation, skill desc cap 250→1536, WebFetch style/script stripping, squash-merged worktree cleanup, MCP truncation format-specific recipes, worktree duplicate text fix, stdio MCP malformed output, 429 clean message, resume hint fix, malformed text block crash fix, Bash acceptEdits plan mode, keybinding validation, leading whitespace preservation
