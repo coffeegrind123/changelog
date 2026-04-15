@@ -3,6 +3,7 @@
 ## 16.04.2026
 
 - `b813817` Added /buddy command — full companion pet implementation with 14 subcommands (hatch, pet, stats, rename, personality, off/on, save/summon/list/dismiss menagerie, pick, frequency, style, rarity). Contextual observer detects errors, test pass/fail, build status, large diffs. Configurable cooldown. Bubble style config. Parity with community claude-buddy MCP
+- `5bc67b7` Added /fork, /peers, /remote-control-server commands — /fork spawns background fork agent with current context, /peers lists UDS sessions + pipes + LAN peers, /rcs exposes headless bridge server for daemon mode
 
 ## 15.04.2026
 
