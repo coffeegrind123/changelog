@@ -80,7 +80,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 ## 2.1.101
 
 - [-] `Added /team-onboarding command to generate a teammate ramp-up guide` — SKIP (Anthropic managed infra, requires cloud onboarding flow)
-- [-] `Added OS CA certificate store trust by default (CLAUDE_CODE_CERT_STORE=bundled)` — SKIP (enterprise TLS proxy feature)
+- [x] `Added OS CA certificate store trust by default (CLAUDE_CODE_CERT_STORE=bundled)` — DONE in cb7e5ca
 - [-] `/ultraplan auto-create default cloud environment` — SKIP (Anthropic cloud infra)
 - [x] `Improved brief mode to retry once when Claude responds with plain text instead of structured message` — a1c7c6e
 - [x] `Improved focus mode: Claude writes more self-contained summaries knowing user only sees final message` — DONE in fcb0b30 (BriefTool prompt updated)
@@ -141,7 +141,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Added interactive Google Vertex AI setup wizard from login screen` — SKIP (Anthropic cloud infra)
 - [x] `Added CLAUDE_CODE_PERFORCE_MODE env var: Edit/Write/NotebookEdit fail on read-only files with p4 edit hint` — DONE in 35a791c
 - [x] `Added Monitor tool for streaming events from background scripts` — e9f6195
-- [-] `Added subprocess sandboxing with PID namespace isolation on Linux (CLAUDE_CODE_SUBPROCESS_ENV_SCRUB, CLAUDE_CODE_SCRIPT_CAPS)` — SKIP (sandbox infra)
+- [x] `Added subprocess sandboxing with PID namespace isolation on Linux (CLAUDE_CODE_SUBPROCESS_ENV_SCRUB, CLAUDE_CODE_SCRIPT_CAPS)` — DONE in cb7e5ca (unshare --pid --fork when CLAUDE_CODE_SCRIPT_CAPS=1 or IS_SANDBOX=1)
 - [x] `Added --exclude-dynamic-system-prompt-sections flag to print mode for improved cross-user prompt caching` — DONE in e9b0c9d
 - [x] `Added workspace.git_worktree to status line JSON input` — DONE in 4950e3e
 - [-] `Added W3C TRACEPARENT env var to Bash tool subprocesses when OTEL tracing enabled` — SKIP (OTEL infra)

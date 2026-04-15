@@ -2,6 +2,7 @@
 
 ## 15.04.2026
 
+- `cb7e5ca` Added OS CA certificate store trust by default (enterprise TLS proxies work without setup, `CLAUDE_CODE_CERT_STORE=bundled` to opt out) + subprocess PID namespace isolation (`unshare --pid --fork` when `CLAUDE_CODE_SCRIPT_CAPS=1` or `IS_SANDBOX=1` on Linux)
 - `35f5bd6` Added REPL tool — JS sandbox for batching tool calls as async functions. Shorthands: sh(), cat(), rg(), rgf(), gl(), put(), gh(), haiku(). Variable persistence, auto-await on `o` object, error resilience. Default: available alongside primitives. `replStrictMode` setting / `CLAUDE_CODE_REPL=1` forces REPL-only. Piebald prompts wired in for strict mode. Also creates src/types/tools.ts (progress type definitions)
 - `ba712cc` Synced upstream prompts — Bash permission rule examples colon→space syntax (security-review, init-verifiers, updateConfig, skillify), sleep duration "1-5 seconds"→"keep it short" (BashTool, PowerShellTool). Fingerprinting current, v2.1.109 is no-op rebuild
 - `f4c0fd9` Improved super mode — rate limit pause/resume (auto-sleep until 429 reset window passes, parses z.ai/header timestamps), agent-first prompt (plan mode first for complex tasks, agent swarms as primary execution model, coordinator-workers emphasis)
