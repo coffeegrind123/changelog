@@ -1,5 +1,9 @@
 # Changelog
 
+## 16.04.2026
+
+- `b813817` Added /buddy command — full companion pet implementation with 14 subcommands (hatch, pet, stats, rename, personality, off/on, save/summon/list/dismiss menagerie, pick, frequency, style, rarity). Contextual observer detects errors, test pass/fail, build status, large diffs. Configurable cooldown. Bubble style config. Parity with community claude-buddy MCP
+
 ## 15.04.2026
 
 - `9d287d4` Fixed plugin monitors — skill-invoke trigger wired into SkillTool, timeout logic fixed (non-persistent=10min not 24h), default persistent=false
