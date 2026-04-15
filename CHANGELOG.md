@@ -2,6 +2,7 @@
 
 ## 15.04.2026
 
+- `f4c0fd9` Improved super mode — rate limit pause/resume (auto-sleep until 429 reset window passes, parses z.ai/header timestamps), agent-first prompt (plan mode first for complex tasks, agent swarms as primary execution model, coordinator-workers emphasis)
 - `19f2d6c` Added upstream 2.1.108 backports (20/24 items) — ENABLE_PROMPT_CACHING_1H + FORCE_PROMPT_CACHING_5M env vars, /recap command + awaySummaryEnabled setting + CLAUDE_CODE_ENABLE_AWAY_SUMMARY env var, /model mid-conversation warning, unknown slash command suggestion (Levenshtein), 5xx/529 status.anthropic.com link, DISABLE_PROMPT_CACHING startup warning, Ctrl+O verbose indicator, /login paste fix, CLAUDE_ENV_FILE trailing comment fix, classifier overflow auto-allow, --resume name/color restore, session title greeting guard, diacritical marks sanitization fix, self-referencing parentUuid guard, transcript write error logging, --teleport/--resume stderr precondition errors, teleport ANSI stripping
 
 ## 14.04.2026
