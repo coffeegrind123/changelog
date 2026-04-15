@@ -2,6 +2,7 @@
 
 ## 15.04.2026
 
+- `9d287d4` Fixed plugin monitors — skill-invoke trigger wired into SkillTool, timeout logic fixed (non-persistent=10min not 24h), default persistent=false
 - `4e65c5d` Added background plugin monitors — plugins declare `monitors` array in manifest with shell commands, auto-armed at session start or skill invoke. Uses Monitor tool infrastructure (event batching, rate limiting, task notifications)
 - `574aa75` Improved /doctor — press `f` to have Claude fix reported issues (collects warnings, recommendations, unreachable rules, context warnings into auto-submitted prompt)
 - `cb7e5ca` Added OS CA certificate store trust by default (enterprise TLS proxies work without setup, `CLAUDE_CODE_CERT_STORE=bundled` to opt out) + subprocess PID namespace isolation (`unshare --pid --fork` when `CLAUDE_CODE_SCRIPT_CAPS=1` or `IS_SANDBOX=1` on Linux)
