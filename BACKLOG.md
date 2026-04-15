@@ -8,7 +8,6 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 ## 2.1.108
 
-- [x] `REPL Tool: JS sandbox for batching tool calls as async functions with shorthands (sh, cat, rg, rgf, gl, put, gh, haiku)` — DONE in 35f5bd6
 - [x] `Added ENABLE_PROMPT_CACHING_1H env var to opt into 1-hour prompt cache TTL on API key, Bedrock, Vertex, and Foundry; FORCE_PROMPT_CACHING_5M to force 5-minute TTL` — DONE in 19f2d6c
 - [x] `Added recap feature to provide context when returning to a session, configurable in /config and manually invocable with /recap; force with CLAUDE_CODE_ENABLE_AWAY_SUMMARY if telemetry disabled` — DONE in 19f2d6c (/recap command + awaySummaryEnabled setting + env var)
 - [x] `The model can now discover and invoke built-in slash commands like /init, /review, and /security-review via the Skill tool` — DONE (already in codebase, SkillTool discovers all type:'prompt' commands)
