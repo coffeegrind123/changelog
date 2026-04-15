@@ -8,29 +8,29 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 ## 2.1.108
 
-- [ ] `Added ENABLE_PROMPT_CACHING_1H env var to opt into 1-hour prompt cache TTL on API key, Bedrock, Vertex, and Foundry; FORCE_PROMPT_CACHING_5M to force 5-minute TTL` — TODO
-- [ ] `Added recap feature to provide context when returning to a session, configurable in /config and manually invocable with /recap; force with CLAUDE_CODE_ENABLE_AWAY_SUMMARY if telemetry disabled` — TODO
-- [ ] `The model can now discover and invoke built-in slash commands like /init, /review, and /security-review via the Skill tool` — TODO
+- [x] `Added ENABLE_PROMPT_CACHING_1H env var to opt into 1-hour prompt cache TTL on API key, Bedrock, Vertex, and Foundry; FORCE_PROMPT_CACHING_5M to force 5-minute TTL` — DONE in 19f2d6c
+- [x] `Added recap feature to provide context when returning to a session, configurable in /config and manually invocable with /recap; force with CLAUDE_CODE_ENABLE_AWAY_SUMMARY if telemetry disabled` — DONE in 19f2d6c (/recap command + awaySummaryEnabled setting + env var)
+- [x] `The model can now discover and invoke built-in slash commands like /init, /review, and /security-review via the Skill tool` — DONE (already in codebase, SkillTool discovers all type:'prompt' commands)
 - [-] `/undo is now an alias for /rewind` — SKIP (trivial alias, low priority)
-- [ ] `Improved /model to warn before switching models mid-conversation, since the next response re-reads the full history uncached` — TODO
-- [ ] `Improved /resume picker to default to sessions from current directory; press Ctrl+A to show all projects` — TODO
-- [ ] `Improved error messages: server rate limits distinguished from plan usage limits; 5xx/529 errors show status.claude.com link; unknown slash commands suggest closest match` — TODO
-- [ ] `Reduced memory footprint for file reads, edits, and syntax highlighting by loading language grammars on demand` — TODO
-- [ ] `Added verbose indicator when viewing detailed transcript (Ctrl+O)` — TODO
-- [ ] `Added warning at startup when prompt caching is disabled via DISABLE_PROMPT_CACHING* environment variables` — TODO
-- [ ] `Fixed paste not working in /login code prompt (regression in 2.1.105)` — TODO
-- [ ] `Fixed subscribers who set DISABLE_TELEMETRY falling back to 5-minute prompt cache TTL instead of 1 hour` — TODO
-- [ ] `Fixed Agent tool prompting for permission in auto mode when safety classifier transcript exceeded context window` — TODO
-- [ ] `Fixed Bash tool producing no output when CLAUDE_ENV_FILE ends with a # comment line` — TODO
-- [ ] `Fixed claude --resume <session-id> losing session custom name and color set via /rename` — TODO
-- [ ] `Fixed session titles showing placeholder example text when first message is a short greeting` — TODO
-- [ ] `Fixed terminal escape codes appearing as garbage text in prompt input after --teleport` — TODO
+- [x] `Improved /model to warn before switching models mid-conversation, since the next response re-reads the full history uncached` — DONE in 19f2d6c
+- [x] `Improved /resume picker to default to sessions from current directory; press Ctrl+A to show all projects` — DONE (already in codebase, showAllProjects toggle with Ctrl+A in LogSelector)
+- [x] `Improved error messages: server rate limits distinguished from plan usage limits; 5xx/529 errors show status.claude.com link; unknown slash commands suggest closest match` — DONE in 19f2d6c (levenshtein matching + status link on 529/5xx)
+- [x] `Reduced memory footprint for file reads, edits, and syntax highlighting by loading language grammars on demand` — DONE (already in codebase, highlight.js lazy-loaded via getCliHighlightPromise)
+- [x] `Added verbose indicator when viewing detailed transcript (Ctrl+O)` — DONE in 19f2d6c (verbose appState toggle)
+- [x] `Added warning at startup when prompt caching is disabled via DISABLE_PROMPT_CACHING* environment variables` — DONE in 19f2d6c
+- [x] `Fixed paste not working in /login code prompt (regression in 2.1.105)` — DONE in 19f2d6c (onPaste={setPastedCode} on ConsoleOAuthFlow TextInput)
+- [x] `Fixed subscribers who set DISABLE_TELEMETRY falling back to 5-minute prompt cache TTL instead of 1 hour` — DONE (USER_TYPE=ant bypasses; ENABLE_PROMPT_CACHING_1H env var added for 3P)
+- [x] `Fixed Agent tool prompting for permission in auto mode when safety classifier transcript exceeded context window` — DONE in 19f2d6c (auto-allow in bypassPermissions mode on overflow)
+- [x] `Fixed Bash tool producing no output when CLAUDE_ENV_FILE ends with a # comment line` — DONE in 19f2d6c (trimStart + trailing newline guard)
+- [x] `Fixed claude --resume <session-id> losing session custom name and color set via /rename` — DONE in 19f2d6c (customTitle ?? agentName in sessionRestore)
+- [x] `Fixed session titles showing placeholder example text when first message is a short greeting` — DONE in 19f2d6c (SHORT_GREETINGS set + length check)
+- [x] `Fixed terminal escape codes appearing as garbage text in prompt input after --teleport` — DONE in 19f2d6c (stripAnsi on teleported message blocks)
 - [-] `Fixed /feedback retry: pressing Enter to resubmit after failure` — SKIP (feedback disabled in our fork)
-- [ ] `Fixed --teleport and --resume <id> precondition errors exiting silently instead of showing error message` — TODO
+- [x] `Fixed --teleport and --resume <id> precondition errors exiting silently instead of showing error message` — DONE in 19f2d6c (stderr.write before exit)
 - [-] `Fixed Remote Control session titles set in web UI being overwritten by auto-generated titles after third message` — SKIP (Remote Control infra)
-- [ ] `Fixed --resume truncating sessions when transcript contained self-referencing message` — TODO
-- [ ] `Fixed transcript write failures (disk full) being silently dropped instead of logged` — TODO
-- [ ] `Fixed diacritical marks (accents, umlauts, cedillas) being dropped from responses when language setting is configured` — TODO
+- [x] `Fixed --resume truncating sessions when transcript contained self-referencing message` — DONE in 19f2d6c (parentUuid !== uuid guard + visited set cycle detection)
+- [x] `Fixed transcript write failures (disk full) being silently dropped instead of logged` — DONE in 19f2d6c (logError on tombstone removal + metadata re-append)
+- [x] `Fixed diacritical marks (accents, umlauts, cedillas) being dropped from responses when language setting is configured` — DONE in 19f2d6c (combining marks \p{M} guard in sanitization.ts)
 - [-] `Fixed policy-managed plugins never auto-updating when running from different project than first installed` — SKIP (managed plugins infra)
 
 ## 2.1.107
