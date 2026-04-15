@@ -46,7 +46,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Improved stalled API stream handling: streams abort after 5 minutes of no data and retry non-streaming` — DONE in 611f21f (watchdog enabled by default, 300s timeout)
 - [x] `Improved network error messages: connection errors show retry message immediately instead of silent spinner` — DONE in 611f21f
 - [x] `Improved file write display: long single-line writes truncated in UI instead of paginating` — DONE in 611f21f (500 char/line cap)
-- [-] `Improved /doctor layout with status icons; press f to have Claude fix reported issues` — SKIP (/doctor is Anthropic-specific)
+- [x] `Improved /doctor layout with status icons; press f to have Claude fix reported issues` — DONE in 574aa75 (press f to fix implemented; status icons skipped — UI polish)
 - [-] `Improved /config labels and descriptions for clarity` — SKIP (UI polish)
 - [x] `Improved skill description handling: raised listing cap from 250 to 1,536 characters and startup warning when truncated` — DONE in 611f21f
 - [x] `Improved WebFetch to strip <style> and <script> contents from fetched pages` — DONE in 611f21f
