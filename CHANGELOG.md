@@ -2,6 +2,7 @@
 
 ## 15.04.2026
 
+- `4e65c5d` Added background plugin monitors — plugins declare `monitors` array in manifest with shell commands, auto-armed at session start or skill invoke. Uses Monitor tool infrastructure (event batching, rate limiting, task notifications)
 - `574aa75` Improved /doctor — press `f` to have Claude fix reported issues (collects warnings, recommendations, unreachable rules, context warnings into auto-submitted prompt)
 - `cb7e5ca` Added OS CA certificate store trust by default (enterprise TLS proxies work without setup, `CLAUDE_CODE_CERT_STORE=bundled` to opt out) + subprocess PID namespace isolation (`unshare --pid --fork` when `CLAUDE_CODE_SCRIPT_CAPS=1` or `IS_SANDBOX=1` on Linux)
 - `35f5bd6` Added REPL tool — JS sandbox for batching tool calls as async functions. Shorthands: sh(), cat(), rg(), rgf(), gl(), put(), gh(), haiku(). Variable persistence, auto-await on `o` object, error resilience. Default: available alongside primitives. `replStrictMode` setting / `CLAUDE_CODE_REPL=1` forces REPL-only. Piebald prompts wired in for strict mode. Also creates src/types/tools.ts (progress type definitions)

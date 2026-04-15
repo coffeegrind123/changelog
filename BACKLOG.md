@@ -41,7 +41,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 - [x] `Added path parameter to EnterWorktree tool to switch into an existing worktree` — DONE in 611f21f
 - [x] `Added PreCompact hook support: hooks can block compaction by exiting with code 2 or returning {"decision":"block"}` — DONE in 611f21f
-- [-] `Added background monitor support for plugins via top-level monitors manifest key` — SKIP (plugin monitors, managed infra)
+- [x] `Added background monitor support for plugins via top-level monitors manifest key` — DONE in 4e65c5d
 - [-] `/proactive is now an alias for /loop` — SKIP (we have our own /proactive implementation)
 - [x] `Improved stalled API stream handling: streams abort after 5 minutes of no data and retry non-streaming` — DONE in 611f21f (watchdog enabled by default, 300s timeout)
 - [x] `Improved network error messages: connection errors show retry message immediately instead of silent spinner` — DONE in 611f21f
