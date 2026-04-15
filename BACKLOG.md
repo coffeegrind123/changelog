@@ -18,7 +18,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Reduced memory footprint for file reads, edits, and syntax highlighting by loading language grammars on demand` — TODO
 - [ ] `Added verbose indicator when viewing detailed transcript (Ctrl+O)` — TODO
 - [ ] `Added warning at startup when prompt caching is disabled via DISABLE_PROMPT_CACHING* environment variables` — TODO
-- [-] `Fixed paste not working in /login code prompt (regression in 2.1.105)` — SKIP (we don't use /login OAuth flow)
+- [ ] `Fixed paste not working in /login code prompt (regression in 2.1.105)` — TODO
 - [ ] `Fixed subscribers who set DISABLE_TELEMETRY falling back to 5-minute prompt cache TTL instead of 1 hour` — TODO
 - [ ] `Fixed Agent tool prompting for permission in auto mode when safety classifier transcript exceeded context window` — TODO
 - [ ] `Fixed Bash tool producing no output when CLAUDE_ENV_FILE ends with a # comment line` — TODO
