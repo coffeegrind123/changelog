@@ -14,8 +14,8 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 - [-] `Claude Opus 4.7 xhigh is now available! Use /effort to tune speed vs. intelligence` — SKIP (Anthropic model, auto-available via provider)
 - [-] `Auto mode is now available for Max subscribers when using Opus 4.7` — SKIP (subscription gating)
-- [ ] `Added xhigh effort level for Opus 4.7, sitting between high and max. Available via /effort, --effort, and the model picker; other models fall back to high`
-- [ ] `/effort now opens an interactive slider when called without arguments, with arrow-key navigation between levels and Enter to confirm`
+- [x] `Added xhigh effort level for Opus 4.7, sitting between high and max. Available via /effort, --effort, and the model picker; other models fall back to high` — DONE in d8bb862
+- [x] `/effort now opens an interactive slider when called without arguments, with arrow-key navigation between levels and Enter to confirm` — DONE in d8bb862
 - [ ] `Added "Auto (match terminal)" theme option that matches your terminal's dark/light mode — select it from /theme`
 - [ ] `Added /less-permission-prompts skill — scans transcripts for common read-only Bash and MCP tool calls and proposes a prioritized allowlist for .claude/settings.json`
 - [ ] `Added /ultrareview for running comprehensive code review in the cloud using parallel multi-agent analysis and critique — invoke with no arguments to review your current branch, or /ultrareview <PR#> to fetch and review a specific GitHub PR`
