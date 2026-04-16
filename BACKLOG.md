@@ -286,7 +286,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Added ● N running indicator in /agents next to agent types with live subagent instances` — DONE in 7b8eef4
 - [x] `Added syntax highlighting for Cedar policy files (.cedar, .cedarpolicy)` — DONE in defb61c
 - [x] `Fixed --dangerously-skip-permissions being silently downgraded to accept-edits after approving write to protected path` — DONE in 33c3cd1 (also in 2.1.98)
-- [~] `Fixed and hardened Bash tool permissions, tightening checks around env-var prefixes and network redirects` — PARTIAL (env-var prefix fix done, network redirects already in defb61c)
+- [x] `Fixed and hardened Bash tool permissions, tightening checks around env-var prefixes and network redirects` — DONE in 69d29ac (pipe-to-interpreter detection) + defb61c (env-var prefix + network redirects)
 - [x] `Fixed permission rules with names matching JavaScript prototype properties causing settings.json to be silently ignored` — DONE in 4950e3e (also in 2.1.98)
 - [x] `Fixed managed-settings allow rules remaining active after admin removed them until process restart` — DONE in e9b0c9d (also in 2.1.98)
 - [x] `Fixed permissions.additionalDirectories changes in settings not applying mid-session` — DONE in e9b0c9d (also in 2.1.98)
