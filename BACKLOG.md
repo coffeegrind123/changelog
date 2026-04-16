@@ -18,33 +18,33 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `--resume/--continue now resurrects unexpired scheduled tasks`
 - [-] `/context, /exit, and /reload-plugins now work from Remote Control (mobile/web) clients` — SKIP (Remote Control infra)
 - [ ] `Write tool now informs the model when you edit the proposed content in the IDE diff before accepting`
-- [ ] `Bash tool now enforces the documented maximum timeout instead of accepting arbitrarily large values`
+- [x] `Bash tool now enforces the documented maximum timeout instead of accepting arbitrarily large values` — DONE in ebc109a
 - [ ] `SDK/headless sessions now read TRACEPARENT/TRACESTATE from the environment for distributed trace linking`
 - [ ] `Session recap is now enabled for users with telemetry disabled (Bedrock, Vertex, Foundry, DISABLE_TELEMETRY). Opt out via /config or CLAUDE_CODE_ENABLE_AWAY_SUMMARY=0.`
-- [ ] `Fixed MCP tool calls hanging indefinitely when the server connection drops mid-response on SSE/HTTP transports`
-- [ ] `Fixed non-streaming fallback retries causing multi-minute hangs when the API is unreachable`
+- [x] `Fixed MCP tool calls hanging indefinitely when the server connection drops mid-response on SSE/HTTP transports` — DONE in ebc109a (reduced tool timeout from 27.8h to 10min)
+- [x] `Fixed non-streaming fallback retries causing multi-minute hangs when the API is unreachable` — DONE in ebc109a (maxRetries 10→3 for fallback)
 - [ ] `Fixed session recap, local slash-command output, and other system status lines not appearing in focus mode`
 - [ ] `Fixed high CPU usage in fullscreen when text is selected while a tool is running`
 - [-] `Fixed plugin install not honoring dependencies declared in plugin.json when the marketplace entry omits them; /plugin install now lists auto-installed dependencies` — SKIP (marketplace)
-- [ ] `Fixed skills with disable-model-invocation: true failing when invoked via /<skill> mid-message`
-- [ ] `Fixed --resume sometimes showing the first prompt instead of the /rename name for sessions still running or exited uncleanly`
-- [ ] `Fixed queued messages briefly appearing twice during multi-tool-call turns`
-- [ ] `Fixed session cleanup not removing the full session directory including subagent transcripts`
+- [x] `Fixed skills with disable-model-invocation: true failing when invoked via /<skill> mid-message` — DONE in ebc109a
+- [x] `Fixed --resume sometimes showing the first prompt instead of the /rename name for sessions still running or exited uncleanly` — DONE in ebc109a (customTitle priority over agentName)
+- [x] `Fixed queued messages briefly appearing twice during multi-tool-call turns` — DONE in ebc109a
+- [x] `Fixed session cleanup not removing the full session directory including subagent transcripts` — DONE in ebc109a
 - [ ] `Fixed dropped keystrokes after the CLI relaunches (e.g. /tui, provider setup wizards)`
 - [ ] `Fixed garbled startup rendering in macOS Terminal.app and other terminals that don't support synchronized output`
-- [ ] `Hardened "Open in editor" actions against command injection from untrusted filenames`
-- [ ] `Fixed PermissionRequest hooks returning updatedInput not being re-checked against permissions.deny rules; setMode:bypassPermissions updates now respect disableBypassPermissionsMode`
-- [ ] `Fixed PreToolUse hook additionalContext being dropped when the tool call fails`
-- [ ] `Fixed stdio MCP servers that print stray non-JSON lines to stdout being disconnected on the first stray line (regression in 2.1.105)`
+- [x] `Hardened "Open in editor" actions against command injection from untrusted filenames` — DONE in ebc109a (single-quote escaping in promptEditor)
+- [x] `Fixed PermissionRequest hooks returning updatedInput not being re-checked against permissions.deny rules; setMode:bypassPermissions updates now respect disableBypassPermissionsMode` — DONE in ebc109a
+- [x] `Fixed PreToolUse hook additionalContext being dropped when the tool call fails` — DONE in ebc109a
+- [x] `Fixed stdio MCP servers that print stray non-JSON lines to stdout being disconnected on the first stray line (regression in 2.1.105)` — DONE in ebc109a (10-line tolerance before disconnect)
 - [-] `Fixed headless/SDK session auto-title firing an extra Haiku request when CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC or CLAUDE_CODE_DISABLE_TERMINAL_TITLE is set` — SKIP (we set DISABLE_NONESSENTIAL_TRAFFIC=1 globally)
-- [ ] `Fixed potential excessive memory allocation when piped (non-TTY) Ink output contains a single very wide line`
+- [x] `Fixed potential excessive memory allocation when piped (non-TTY) Ink output contains a single very wide line` — DONE in ebc109a (10K width cap in resetScreen)
 - [ ] `Fixed /skills menu not scrolling when the list overflows the modal in fullscreen mode`
 - [-] `Fixed Remote Control sessions showing a generic error instead of prompting for re-login when the session is too old` — SKIP (Remote Control infra)
 - [-] `Fixed Remote Control session renames from claude.ai not persisting the title to the local CLI session` — SKIP (Remote Control infra)
 
 ## 2.1.109
 
-- [ ] `Improved the extended-thinking indicator with a rotating progress hint`
+- [x] `Improved the extended-thinking indicator with a rotating progress hint` — DONE in ebc109a (6-word cycle: thinking→reasoning→analyzing→considering→evaluating→reflecting)
 
 ## 2.1.108
 

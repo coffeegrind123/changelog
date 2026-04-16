@@ -2,6 +2,7 @@
 
 ## 16.04.2026
 
+- `ebc109a` Backported 13 fixes from upstream 2.1.109-2.1.110 — Bash timeout enforcement (clamp to 600s), editor command injection hardening (single-quote escaping), PermissionRequest hook updatedInput re-checked against deny rules + disableBypassPermissionsMode respected, PreToolUse additionalContext preserved on failure, stdio MCP 10-line stray tolerance, MCP tool timeout 27.8h→10min, non-streaming fallback retries 10→3, disable-model-invocation skills work from /<skill>, rotating thinking hints, queued message dedup, --resume prefers customTitle, session cleanup removes subagents/, screen width cap 10K for piped output
 - `b813817` Added /buddy command — full companion pet implementation with 14 subcommands (hatch, pet, stats, rename, personality, off/on, save/summon/list/dismiss menagerie, pick, frequency, style, rarity). Contextual observer detects errors, test pass/fail, build status, large diffs. Configurable cooldown. Bubble style config. Parity with community claude-buddy MCP
 - `5bc67b7` Added /fork, /peers, /remote-control-server commands — /fork spawns background fork agent with current context, /peers lists UDS sessions + pipes + LAN peers, /rcs starts local CCR server
 - `9670277` Fixed /rcs — rewired from Anthropic bridge (OAuth required) to local CCR server (works with any API provider, no subscription needed)
