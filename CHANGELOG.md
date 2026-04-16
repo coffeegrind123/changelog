@@ -2,6 +2,7 @@
 
 ## 16.04.2026
 
+- `4c51673` Added /tui command and tui setting — `/tui fullscreen` switches to flicker-free alt-screen rendering mid-session, `/tui default` switches back. Setting persists via `tui` in settings.json
 - `386b37a` Backported 10 more upstream 2.1.110 fixes — /skills modal scroll, fullscreen CPU with text selection, garbled startup sync markers, dropped keystrokes after relaunch, autoScrollEnabled setting, /doctor MCP scope warning, TRACEPARENT/TRACESTATE tracing, recap enabled by default, scheduled task resurrection on --resume
 - `ebc109a` Backported 13 fixes from upstream 2.1.109-2.1.110 — Bash timeout enforcement (clamp to 600s), editor command injection hardening (single-quote escaping), PermissionRequest hook updatedInput re-checked against deny rules + disableBypassPermissionsMode respected, PreToolUse additionalContext preserved on failure, stdio MCP 10-line stray tolerance, MCP tool timeout 27.8h→10min, non-streaming fallback retries 10→3, disable-model-invocation skills work from /<skill>, rotating thinking hints, queued message dedup, --resume prefers customTitle, session cleanup removes subagents/, screen width cap 10K for piped output
 - `b813817` Added /buddy command — full companion pet implementation with 14 subcommands (hatch, pet, stats, rename, personality, off/on, save/summon/list/dismiss menagerie, pick, frequency, style, rarity). Contextual observer detects errors, test pass/fail, build status, large diffs. Configurable cooldown. Bubble style config. Parity with community claude-buddy MCP

@@ -8,7 +8,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 ## 2.1.110
 
-- [ ] `Added /tui command and tui setting — run /tui fullscreen to switch to flicker-free rendering in the same conversation`
+- [x] `Added /tui command and tui setting — run /tui fullscreen to switch to flicker-free rendering in the same conversation` — DONE in 4c51673
 - [-] `Added push notification tool — Claude can send mobile push notifications when Remote Control and "Push when Claude decides" config are enabled` — SKIP (Remote Control infra; we have our own PushNotificationTool)
 - [ ] `Changed Ctrl+O to toggle between normal and verbose transcript only; focus view is now toggled separately with the new /focus command`
 - [x] `Added autoScrollEnabled config to disable conversation auto-scroll in fullscreen mode` — DONE in 386b37a
