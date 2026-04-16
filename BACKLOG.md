@@ -16,28 +16,28 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Auto mode is now available for Max subscribers when using Opus 4.7` — SKIP (subscription gating)
 - [x] `Added xhigh effort level for Opus 4.7, sitting between high and max. Available via /effort, --effort, and the model picker; other models fall back to high` — DONE in d8bb862
 - [x] `/effort now opens an interactive slider when called without arguments, with arrow-key navigation between levels and Enter to confirm` — DONE in d8bb862
-- [ ] `Added "Auto (match terminal)" theme option that matches your terminal's dark/light mode — select it from /theme`
-- [ ] `Added /less-permission-prompts skill — scans transcripts for common read-only Bash and MCP tool calls and proposes a prioritized allowlist for .claude/settings.json`
-- [ ] `Added /ultrareview for running comprehensive code review in the cloud using parallel multi-agent analysis and critique — invoke with no arguments to review your current branch, or /ultrareview <PR#> to fetch and review a specific GitHub PR`
+- [x] `Added "Auto (match terminal)" theme option that matches your terminal's dark/light mode — select it from /theme` — DONE (already implemented via AUTO_THEME feature flag, enabled in our fork)
+- [x] `Added /less-permission-prompts skill — scans transcripts for common read-only Bash and MCP tool calls and proposes a prioritized allowlist for .claude/settings.json` — DONE in 6053180
+- [x] `Added /ultrareview for running comprehensive code review in the cloud using parallel multi-agent analysis and critique — invoke with no arguments to review your current branch, or /ultrareview <PR#> to fetch and review a specific GitHub PR` — DONE in 6053180 (adapted to local forked agents)
 - [-] `Auto mode no longer requires --enable-auto-mode` — SKIP (already unrestricted in our fork)
-- [ ] `Windows: PowerShell tool is progressively rolling out. Opt in or out with CLAUDE_CODE_USE_POWERSHELL_TOOL. On Linux and macOS, enable with CLAUDE_CODE_USE_POWERSHELL_TOOL=1 (requires pwsh on PATH)`
+- [-] `Windows: PowerShell tool is progressively rolling out. Opt in or out with CLAUDE_CODE_USE_POWERSHELL_TOOL. On Linux and macOS, enable with CLAUDE_CODE_USE_POWERSHELL_TOOL=1 (requires pwsh on PATH)` — SKIP (PowerShell tool already exists in codebase, opt-in via env var)
 - [x] `Read-only bash commands with glob patterns (e.g. ls *.ts) and commands starting with cd <project-dir> && no longer trigger a permission prompt` — DONE in 2396509
-- [ ] `Suggest the closest matching subcommand when claude <word> is invoked with a near-miss typo (e.g. claude udpate → "Did you mean claude update?")`
+- [x] `Suggest the closest matching subcommand when claude <word> is invoked with a near-miss typo (e.g. claude udpate → "Did you mean claude update?")` — DONE in 2396509
 - [x] `Plan files are now named after your prompt (e.g. fix-auth-race-snug-otter.md) instead of purely random words` — DONE in 2396509
 - [x] `Improved /setup-vertex and /setup-bedrock to show the actual settings.json path when CLAUDE_CONFIG_DIR is set, seed model candidates from existing pins on re-run, and offer a "with 1M context" option for supported models` — DONE in 2396509
 - [x] `/skills menu now supports sorting by estimated token count — press t to toggle` — DONE in 2396509
 - [x] `Ctrl+U now clears the entire input buffer (previously: delete to start of line); press Ctrl+Y to restore` — DONE in 2396509
 - [x] `Ctrl+L now forces a full screen redraw in addition to clearing the prompt input` — DONE in 2396509
-- [ ] `Transcript view footer now shows [ (dump to scrollback) and v (open in editor) shortcuts`
+- [x] `Transcript view footer now shows [ (dump to scrollback) and v (open in editor) shortcuts` — DONE in 2396509
 - [x] `The "+N lines" marker for truncated long pastes is now a full-width rule for easier scanning` — DONE in 2396509
 - [-] `Headless --output-format stream-json now includes plugin_errors on the init event when plugins are demoted for unsatisfied dependencies` — SKIP (headless plugin infra)
 - [x] `Added OTEL_LOG_RAW_API_BODIES environment variable to emit full API request and response bodies as OpenTelemetry log events for debugging` — DONE in 2396509
-- [ ] `Suppressed spurious decompression, network, and transient error messages that could appear in the TUI during normal operation`
+- [x] `Suppressed spurious decompression, network, and transient error messages that could appear in the TUI during normal operation` — DONE in 2396509
 - [x] `Reverted the v2.1.110 cap on non-streaming fallback retries — it traded long waits for more outright failures during API overload` — DONE in 2396509
 - [x] `Fixed terminal display tearing (random characters, drifting input) in iTerm2 + tmux setups when terminal notifications are sent` — DONE in 2396509
 - [x] `Fixed @ file suggestions re-scanning the entire project on every turn in non-git working directories, and showing only config files in freshly-initialized git repos with no tracked files` — DONE in 2396509
 - [x] `Fixed LSP diagnostics from before an edit appearing after it, causing the model to re-read files it just edited` — DONE in 2396509
-- [ ] `Fixed tab-completing /resume immediately resuming an arbitrary titled session instead of showing the session picker`
+- [x] `Fixed tab-completing /resume immediately resuming an arbitrary titled session instead of showing the session picker` — DONE in 2396509
 - [x] `Fixed /context grid rendering with extra blank lines between rows` — DONE in 2396509
 - [x] `Fixed /clear dropping the session name set by /rename, causing statusline output to lose session_name` — DONE in 2396509
 - [-] `Improved plugin error handling: dependency errors now distinguish conflicting, invalid, and overly complex version requirements; fixed stale resolved versions after plugin update; plugin install now recovers from interrupted prior installs` — SKIP (marketplace)

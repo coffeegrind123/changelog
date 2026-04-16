@@ -2,6 +2,7 @@
 
 ## 16.04.2026
 
+- `6053180` Added /ultrareview local multi-agent code review — 3 parallel reviewers (correctness, security, architecture) + synthesis agent, adapted from remote CCR to local forked agents. Added /less-permission-prompts skill for scanning transcripts and proposing settings.json allowlists
 - `d8bb862` Added xhigh effort level + interactive /effort slider (upstream 2.1.111) — xhigh between high and max, visual slider with track marker and arrow-key nav, system prompt fallback for non-Anthropic providers, welcome hint in condensed logo
 - `2396509` Backported 19 features/fixes from upstream 2.1.111 — /focus command, /setup-bedrock + /setup-vertex with 1M context, /skills sorting by token count, Ctrl+U/Ctrl+L keybindings, prompt-named plan files, bash glob auto-allow, OTEL_LOG_RAW_API_BODIES, includeLastResponseInEditor setting, Write tool IDE edit notification, paste marker full-width rule, reverted retry cap. Fixes: iTerm2+tmux tearing, @-file rescan, LSP diagnostics, /context grid, /clear session name, commit skill error, 429 error messages, URL clickability. Added feedNewestFirst setting (default true)
 - `4c51673` Added /tui command and tui setting — `/tui fullscreen` switches to flicker-free alt-screen rendering mid-session, `/tui default` switches back. Setting persists via `tui` in settings.json
