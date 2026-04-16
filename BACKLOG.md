@@ -21,30 +21,30 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Added /ultrareview for running comprehensive code review in the cloud using parallel multi-agent analysis and critique — invoke with no arguments to review your current branch, or /ultrareview <PR#> to fetch and review a specific GitHub PR`
 - [-] `Auto mode no longer requires --enable-auto-mode` — SKIP (already unrestricted in our fork)
 - [ ] `Windows: PowerShell tool is progressively rolling out. Opt in or out with CLAUDE_CODE_USE_POWERSHELL_TOOL. On Linux and macOS, enable with CLAUDE_CODE_USE_POWERSHELL_TOOL=1 (requires pwsh on PATH)`
-- [ ] `Read-only bash commands with glob patterns (e.g. ls *.ts) and commands starting with cd <project-dir> && no longer trigger a permission prompt`
+- [x] `Read-only bash commands with glob patterns (e.g. ls *.ts) and commands starting with cd <project-dir> && no longer trigger a permission prompt` — DONE in 2396509
 - [ ] `Suggest the closest matching subcommand when claude <word> is invoked with a near-miss typo (e.g. claude udpate → "Did you mean claude update?")`
-- [ ] `Plan files are now named after your prompt (e.g. fix-auth-race-snug-otter.md) instead of purely random words`
-- [ ] `Improved /setup-vertex and /setup-bedrock to show the actual settings.json path when CLAUDE_CONFIG_DIR is set, seed model candidates from existing pins on re-run, and offer a "with 1M context" option for supported models`
-- [ ] `/skills menu now supports sorting by estimated token count — press t to toggle`
-- [ ] `Ctrl+U now clears the entire input buffer (previously: delete to start of line); press Ctrl+Y to restore`
-- [ ] `Ctrl+L now forces a full screen redraw in addition to clearing the prompt input`
+- [x] `Plan files are now named after your prompt (e.g. fix-auth-race-snug-otter.md) instead of purely random words` — DONE in 2396509
+- [x] `Improved /setup-vertex and /setup-bedrock to show the actual settings.json path when CLAUDE_CONFIG_DIR is set, seed model candidates from existing pins on re-run, and offer a "with 1M context" option for supported models` — DONE in 2396509
+- [x] `/skills menu now supports sorting by estimated token count — press t to toggle` — DONE in 2396509
+- [x] `Ctrl+U now clears the entire input buffer (previously: delete to start of line); press Ctrl+Y to restore` — DONE in 2396509
+- [x] `Ctrl+L now forces a full screen redraw in addition to clearing the prompt input` — DONE in 2396509
 - [ ] `Transcript view footer now shows [ (dump to scrollback) and v (open in editor) shortcuts`
-- [ ] `The "+N lines" marker for truncated long pastes is now a full-width rule for easier scanning`
+- [x] `The "+N lines" marker for truncated long pastes is now a full-width rule for easier scanning` — DONE in 2396509
 - [-] `Headless --output-format stream-json now includes plugin_errors on the init event when plugins are demoted for unsatisfied dependencies` — SKIP (headless plugin infra)
-- [ ] `Added OTEL_LOG_RAW_API_BODIES environment variable to emit full API request and response bodies as OpenTelemetry log events for debugging`
+- [x] `Added OTEL_LOG_RAW_API_BODIES environment variable to emit full API request and response bodies as OpenTelemetry log events for debugging` — DONE in 2396509
 - [ ] `Suppressed spurious decompression, network, and transient error messages that could appear in the TUI during normal operation`
-- [ ] `Reverted the v2.1.110 cap on non-streaming fallback retries — it traded long waits for more outright failures during API overload`
-- [ ] `Fixed terminal display tearing (random characters, drifting input) in iTerm2 + tmux setups when terminal notifications are sent`
-- [ ] `Fixed @ file suggestions re-scanning the entire project on every turn in non-git working directories, and showing only config files in freshly-initialized git repos with no tracked files`
-- [ ] `Fixed LSP diagnostics from before an edit appearing after it, causing the model to re-read files it just edited`
+- [x] `Reverted the v2.1.110 cap on non-streaming fallback retries — it traded long waits for more outright failures during API overload` — DONE in 2396509
+- [x] `Fixed terminal display tearing (random characters, drifting input) in iTerm2 + tmux setups when terminal notifications are sent` — DONE in 2396509
+- [x] `Fixed @ file suggestions re-scanning the entire project on every turn in non-git working directories, and showing only config files in freshly-initialized git repos with no tracked files` — DONE in 2396509
+- [x] `Fixed LSP diagnostics from before an edit appearing after it, causing the model to re-read files it just edited` — DONE in 2396509
 - [ ] `Fixed tab-completing /resume immediately resuming an arbitrary titled session instead of showing the session picker`
-- [ ] `Fixed /context grid rendering with extra blank lines between rows`
-- [ ] `Fixed /clear dropping the session name set by /rename, causing statusline output to lose session_name`
+- [x] `Fixed /context grid rendering with extra blank lines between rows` — DONE in 2396509
+- [x] `Fixed /clear dropping the session name set by /rename, causing statusline output to lose session_name` — DONE in 2396509
 - [-] `Improved plugin error handling: dependency errors now distinguish conflicting, invalid, and overly complex version requirements; fixed stale resolved versions after plugin update; plugin install now recovers from interrupted prior installs` — SKIP (marketplace)
-- [ ] `Fixed Claude calling a non-existent commit skill and showing "Unknown skill: commit" for users without a custom /commit command`
-- [ ] `Fixed 429 rate-limit errors on Bedrock/Vertex/Foundry referencing status.claude.com (it only covers Anthropic-operated providers)`
+- [x] `Fixed Claude calling a non-existent commit skill and showing "Unknown skill: commit" for users without a custom /commit command` — DONE in 2396509
+- [x] `Fixed 429 rate-limit errors on Bedrock/Vertex/Foundry referencing status.claude.com (it only covers Anthropic-operated providers)` — DONE in 2396509
 - [-] `Fixed feedback surveys appearing back-to-back after dismissing one` — SKIP (feedback disabled)
-- [ ] `Fixed bare URLs in bash/PowerShell/MCP tool output being unclickable when the terminal wraps them across lines`
+- [x] `Fixed bare URLs in bash/PowerShell/MCP tool output being unclickable when the terminal wraps them across lines` — DONE in 2396509
 - [-] `Windows: CLAUDE_ENV_FILE and SessionStart hook environment files now apply (previously a no-op)` — SKIP (Linux container only)
 - [-] `Windows: permission rules with drive-letter paths are now correctly root-anchored, and paths differing only by drive-letter case are recognized as the same path` — SKIP (Linux container only)
 
@@ -52,14 +52,14 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 - [x] `Added /tui command and tui setting — run /tui fullscreen to switch to flicker-free rendering in the same conversation` — DONE in 4c51673
 - [-] `Added push notification tool — Claude can send mobile push notifications when Remote Control and "Push when Claude decides" config are enabled` — SKIP (Remote Control infra; we have our own PushNotificationTool)
-- [ ] `Changed Ctrl+O to toggle between normal and verbose transcript only; focus view is now toggled separately with the new /focus command`
+- [x] `Changed Ctrl+O to toggle between normal and verbose transcript only; focus view is now toggled separately with the new /focus command` — DONE in 2396509
 - [x] `Added autoScrollEnabled config to disable conversation auto-scroll in fullscreen mode` — DONE in 386b37a
-- [ ] `Added option to show Claude's last response as commented context in the Ctrl+G external editor (enable via /config)`
+- [x] `Added option to show Claude's last response as commented context in the Ctrl+G external editor (enable via /config)` — DONE in 2396509
 - [-] `Improved /plugin Installed tab — items needing attention and favorites appear at the top, disabled items are hidden behind a fold, and f favorites the selected item` — SKIP (marketplace/plugin UI)
 - [x] `Improved /doctor to warn when an MCP server is defined in multiple config scopes with different endpoints` — DONE in 386b37a
 - [x] `--resume/--continue now resurrects unexpired scheduled tasks` — DONE in 386b37a (touch cron file to trigger watcher reload)
 - [-] `/context, /exit, and /reload-plugins now work from Remote Control (mobile/web) clients` — SKIP (Remote Control infra)
-- [ ] `Write tool now informs the model when you edit the proposed content in the IDE diff before accepting`
+- [x] `Write tool now informs the model when you edit the proposed content in the IDE diff before accepting` — DONE in 2396509
 - [x] `Bash tool now enforces the documented maximum timeout instead of accepting arbitrarily large values` — DONE in ebc109a
 - [x] `SDK/headless sessions now read TRACEPARENT/TRACESTATE from the environment for distributed trace linking` — DONE in 386b37a
 - [x] `Session recap is now enabled for users with telemetry disabled (Bedrock, Vertex, Foundry, DISABLE_TELEMETRY). Opt out via /config or CLAUDE_CODE_ENABLE_AWAY_SUMMARY=0.` — DONE in 386b37a (enabled by default, opt-out via setting or env)

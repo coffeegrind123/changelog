@@ -2,6 +2,7 @@
 
 ## 16.04.2026
 
+- `2396509` Backported 19 features/fixes from upstream 2.1.111 — /focus command, /setup-bedrock + /setup-vertex with 1M context, /skills sorting by token count, Ctrl+U/Ctrl+L keybindings, prompt-named plan files, bash glob auto-allow, OTEL_LOG_RAW_API_BODIES, includeLastResponseInEditor setting, Write tool IDE edit notification, paste marker full-width rule, reverted retry cap. Fixes: iTerm2+tmux tearing, @-file rescan, LSP diagnostics, /context grid, /clear session name, commit skill error, 429 error messages, URL clickability. Added feedNewestFirst setting (default true)
 - `4c51673` Added /tui command and tui setting — `/tui fullscreen` switches to flicker-free alt-screen rendering mid-session, `/tui default` switches back. Setting persists via `tui` in settings.json
 - `386b37a` Backported 10 more upstream 2.1.110 fixes — /skills modal scroll, fullscreen CPU with text selection, garbled startup sync markers, dropped keystrokes after relaunch, autoScrollEnabled setting, /doctor MCP scope warning, TRACEPARENT/TRACESTATE tracing, recap enabled by default, scheduled task resurrection on --resume
 - `945309a` Improved .gitignore — added home dir dotfiles, caches, credentials, and unrelated project dirs (TrenchBroom, vhlt, workspace, Downloads) to prevent leaking into repo
