@@ -6,6 +6,7 @@
 - `5bc67b7` Added /fork, /peers, /remote-control-server commands — /fork spawns background fork agent with current context, /peers lists UDS sessions + pipes + LAN peers, /rcs starts local CCR server
 - `9670277` Fixed /rcs — rewired from Anthropic bridge (OAuth required) to local CCR server (works with any API provider, no subscription needed)
 - `40a1143` Fixed Anthropic gates blocking local features — baseline GrowthBook overrides at entrypoint (computer use, bridge, session memory work without /super), bridge bypasses OAuth for USER_TYPE=ant, super mode merges FC_OVERRIDES instead of clobbering
+- `61145d3` Added storyfox cheat sheet as upstream source #7 — scripts/fetch-cheatsheet.sh downloads cc.storyfox.cz and converts to markdown tables, integrated into upstream protocol as Step 1c. Backported /undo alias for /rewind (v2.1.108), fixed PermissionBehavior type to include 'defer', added forceRemoteSettingsFetchOnStartup setting + CLAUDE_FORCE_REMOTE_SETTINGS_FETCH env var
 
 ## 15.04.2026
 
