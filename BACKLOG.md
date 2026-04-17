@@ -9,40 +9,40 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 ## 2.1.113
 
 - [-] `Changed the CLI to spawn a native Claude Code binary (via a per-platform optional dependency) instead of bundled JavaScript` — SKIP (we build our own Bun-compiled binary; we don't use Anthropic's distribution pipeline)
-- [ ] `Added sandbox.network.deniedDomains setting to block specific domains even when a broader allowedDomains wildcard would otherwise permit them`
-- [ ] `Fullscreen mode: Shift+↑/↓ now scrolls the viewport when extending a selection past the visible edge`
-- [ ] `Ctrl+A and Ctrl+E now move to the start/end of the current logical line in multiline input, matching readline behavior`
+- [x] `Added sandbox.network.deniedDomains setting to block specific domains even when a broader allowedDomains wildcard would otherwise permit them` — DONE in 6c8092c
+- [x] `Fullscreen mode: Shift+↑/↓ now scrolls the viewport when extending a selection past the visible edge` — DONE in 6c8092c
+- [x] `Ctrl+A and Ctrl+E now move to the start/end of the current logical line in multiline input, matching readline behavior` — DONE in 6c8092c
 - [-] `Windows: Ctrl+Backspace now deletes the previous word` — SKIP (Linux container only)
-- [ ] `Long URLs in responses and bash output stay clickable when they wrap across lines (in terminals with OSC 8 hyperlinks)`
-- [ ] `Improved /loop: pressing Esc now cancels pending wakeups, and wakeups display as "Claude resuming /loop wakeup" for clarity`
+- [x] `Long URLs in responses and bash output stay clickable when they wrap across lines (in terminals with OSC 8 hyperlinks)` — DONE in 6c8092c
+- [-] `Improved /loop: pressing Esc now cancels pending wakeups, and wakeups display as "Claude resuming /loop wakeup" for clarity` — SKIP (our /loop is a static-cron skill; the dynamic /loop + ScheduleWakeup tool isn't in our fork, nothing to cancel)
 - [-] `/extra-usage now works from Remote Control (mobile/web) clients` — SKIP (Remote Control infra)
 - [-] `Remote Control clients can now query @-file autocomplete suggestions` — SKIP (Remote Control infra)
-- [ ] `Improved /ultrareview: faster launch with parallelized checks, diffstat in the launch dialog, and animated launching state`
-- [ ] `Subagents that stall mid-stream now fail with a clear error after 10 minutes instead of hanging silently`
-- [ ] `Bash tool: multi-line commands whose first line is a comment now show the full command in the transcript, closing a UI-spoofing vector`
-- [ ] `Running cd <current-directory> && git … no longer triggers a permission prompt when the cd is a no-op`
+- [~] `Improved /ultrareview: faster launch with parallelized checks, diffstat in the launch dialog, and animated launching state` — PARTIAL in 6c8092c (parallel agents were already in place via Promise.all; diffstat now shown in the launch dialog; animated launching state not ported — our /ultrareview is a background task with a single system-message launch line, no slider component)
+- [x] `Subagents that stall mid-stream now fail with a clear error after 10 minutes instead of hanging silently` — DONE in 6c8092c
+- [x] `Bash tool: multi-line commands whose first line is a comment now show the full command in the transcript, closing a UI-spoofing vector` — DONE in 6c8092c
+- [x] `Running cd <current-directory> && git … no longer triggers a permission prompt when the cd is a no-op` — DONE in 6c8092c
 - [-] `Security: on macOS, /private/{etc,var,tmp,home} paths are now treated as dangerous removal targets under Bash(rm:*) allow rules` — SKIP (macOS-specific path rules)
-- [ ] `Security: Bash deny rules now match commands wrapped in env/sudo/watch/ionice/setsid and similar exec wrappers`
-- [ ] `Security: Bash(find:*) allow rules no longer auto-approve find -exec/-delete`
-- [ ] `Fixed MCP concurrent-call timeout handling where a message for one tool call could silently disarm another call's watchdog`
-- [ ] `Fixed Cmd-backspace / Ctrl+U to once again delete from the cursor to the start of the line`
-- [ ] `Fixed markdown tables breaking when a cell contains an inline code span with a pipe character`
-- [ ] `Fixed session recap auto-firing while composing unsent text in the prompt`
-- [ ] `Fixed /copy "Full response" not aligning markdown table columns for pasting into GitHub, Notion, or Slack`
-- [ ] `Fixed messages typed while viewing a running subagent being hidden from its transcript and misattributed to the parent AI`
-- [ ] `Fixed Bash dangerouslyDisableSandbox running commands outside the sandbox without a permission prompt`
-- [ ] `Fixed /effort auto confirmation — now says "Effort level set to max" to match the status bar label`
-- [ ] `Fixed the "copied N chars" toast overcounting emoji and other multi-code-unit characters`
+- [x] `Security: Bash deny rules now match commands wrapped in env/sudo/watch/ionice/setsid and similar exec wrappers` — DONE in 6c8092c (also covers unshare, systemd-run, taskset, nocache, bwrap, chrt via stripLeadingExecWrapperForDeny)
+- [x] `Security: Bash(find:*) allow rules no longer auto-approve find -exec/-delete` — DONE in 6c8092c (also -execdir, -ok, -okdir, -fprint, -fprintf)
+- [-] `Fixed MCP concurrent-call timeout handling where a message for one tool call could silently disarm another call's watchdog` — SKIP (bug lives in @modelcontextprotocol/sdk's _onprogress/_cleanupTimeout; our outer wrapper in client.ts:3104-3156 already uses per-call Promise.race + independent setTimeout so concurrent calls don't share external watchdog state; a proper fix belongs upstream in the SDK package, patching node_modules is fragile)
+- [-] `Fixed Cmd-backspace / Ctrl+U to once again delete from the cursor to the start of the line` — SKIP (no-op — our fork never applied the 2.1.111 "clear entire buffer" change; `useTextInput.ts:236` still maps Ctrl+U → killToLineStart → deleteToLineStart, matching the 2.1.113 fix)
+- [x] `Fixed markdown tables breaking when a cell contains an inline code span with a pipe character` — DONE in 6c8092c
+- [x] `Fixed session recap auto-firing while composing unsent text in the prompt` — DONE in 6c8092c
+- [x] `Fixed /copy "Full response" not aligning markdown table columns for pasting into GitHub, Notion, or Slack` — DONE in 6c8092c
+- [-] `Fixed messages typed while viewing a running subagent being hidden from its transcript and misattributed to the parent AI` — SKIP (requires a subagent-messaging pipeline — no sendMessageToAgent/deliverToAgent plumbing in our codebase — a significant feature addition beyond a bug backport)
+- [x] `Fixed Bash dangerouslyDisableSandbox running commands outside the sandbox without a permission prompt` — DONE in 6c8092c
+- [x] `Fixed /effort auto confirmation — now says "Effort level set to max" to match the status bar label` — DONE in 6c8092c
+- [x] `Fixed the "copied N chars" toast overcounting emoji and other multi-code-unit characters` — DONE in 6c8092c
 - [-] `Fixed /insights crashing with EBUSY on Windows` — SKIP (Windows-specific)
-- [ ] `Fixed exit confirmation dialog mislabeling one-shot scheduled tasks as recurring — now shows a countdown`
-- [ ] `Fixed slash/@ completion menu not sitting flush against the prompt border in fullscreen mode`
-- [ ] `Fixed CLAUDE_CODE_EXTRA_BODY output_config.effort causing 400 errors on subagent calls to models that don't support effort and on Vertex AI`
-- [ ] `Fixed prompt cursor disappearing when NO_COLOR is set`
-- [ ] `Fixed ToolSearch ranking so pasted MCP tool names surface the actual tool instead of description-matching siblings`
-- [ ] `Fixed compacting a resumed long-context session failing with "Extra usage is required for long context requests"`
+- [-] `Fixed exit confirmation dialog mislabeling one-shot scheduled tasks as recurring — now shows a countdown` — SKIP (our ExitFlow/WorktreeExitDialog doesn't warn about scheduled tasks — this fix targets a UI feature not present in our fork)
+- [x] `Fixed slash/@ completion menu not sitting flush against the prompt border in fullscreen mode` — DONE in 6c8092c
+- [x] `Fixed CLAUDE_CODE_EXTRA_BODY output_config.effort causing 400 errors on subagent calls to models that don't support effort and on Vertex AI` — DONE in 6c8092c
+- [x] `Fixed prompt cursor disappearing when NO_COLOR is set` — DONE in 6c8092c
+- [x] `Fixed ToolSearch ranking so pasted MCP tool names surface the actual tool instead of description-matching siblings` — DONE in 6c8092c
+- [ ] `Fixed compacting a resumed long-context session failing with "Extra usage is required for long context requests"` — NEEDS INVESTIGATION (without upstream diff the root cause is speculative across several candidate paths: betas not re-added on resume, compact call not dynamically adding 1M beta, or 429 entitlement not handled with a fallback)
 - [-] `Fixed plugin install succeeding when a dependency version conflicts with an already-installed plugin — now reports range-conflict` — SKIP (marketplace/plugin infra)
 - [-] `Fixed "Refine with Ultraplan" not showing the remote session URL in the transcript` — SKIP (our ultraplan is local-only, no remote session URL)
-- [ ] `Fixed SDK image content blocks that fail to process crashing the session — now degrade to a text placeholder`
+- [x] `Fixed SDK image content blocks that fail to process crashing the session — now degrade to a text placeholder` — DONE in 6c8092c
 - [-] `Fixed Remote Control sessions not streaming subagent transcripts` — SKIP (Remote Control infra)
 - [-] `Fixed Remote Control sessions not being archived when Claude Code exits` — SKIP (Remote Control infra)
 - [-] `Fixed thinking.type.enabled is not supported 400 error when using Opus 4.7 via a Bedrock Application Inference Profile ARN` — SKIP (Bedrock-specific)
