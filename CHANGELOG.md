@@ -1,5 +1,9 @@
 # Changelog
 
+## 18.04.2026
+
+- `891b876` Fixed `/super` mode stalling the proactive tick loop when the assistant called `AskUserQuestion` or `ExitPlanMode`. Both tools' `requiresUserInteraction()` returned `true` unconditionally, so the permission pipeline's step 1e forced `'ask'` behavior **before** `bypassPermissions` could auto-allow at step 2a (`src/utils/permissions/permissions.ts:1246-1252`). The approval/interview UI opened mid-turn, `isQueryActive` stayed true, and `useProactive` never saw the `true→false` `isLoading` transition that injects a `<tick>`. From the user's viewpoint it looked like "the plan was laid out and then nothing" — in reality the turn never ended because the next tool call (interview or plan exit) was still pending approval. Now gated on `CLAUDE_CODE_SUPER_MODE`: both tools return `false` from `requiresUserInteraction()` in super mode so permission auto-allows, `call()` runs (AskUserQuestion auto-answers via `sideQuery` at lines 214-265; ExitPlanMode exits locally), the turn ends, and the tick fires. Plain `/proactive` without `/super` is unchanged
+
 ## 17.04.2026
 
 - `dbd148f` Refreshed `context/cheatsheet.md` to storyfox v2.1.112 (was v2.1.109) — covers xhigh effort slider, Auto theme, /ultrareview, /less-permission-prompts skill, Ctrl+U/Ctrl+Y, /tui fullscreen, and the 2.1.110-2.1.112 keyboard/shortcut reference. Also tracked 2.1.113 upstream entries in `coffeegrind123/changelog` BACKLOG (38 new bullets — sandbox.network.deniedDomains, Ctrl+A/E logical-line nav, /loop Esc cancel, subagent stall timeout, Bash find/env-wrap security, and fixes; none implemented yet)
