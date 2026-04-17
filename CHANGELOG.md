@@ -1,5 +1,17 @@
 # Changelog
 
+## 17.04.2026
+
+- `3ad5a0c` Fixed /buddy command not appearing — direct imports for 10 feature-gated commands (buddy, fork, peers, pipes, attach, detach, send, claim-main, pipe-status, remote-control-server) since Bun's `bun:bundle` build-time DCE was stripping every `feature() ? require(...) : null` ternary when running from source
+- `3ad5a0c` Fixed interactive REPL hang on startup — missing `initContextCollapse` export in contextCollapse stub was rejecting setup(). Restored and fleshed out stubs: contextCollapse (init + applyCollapsesIfNeeded returns `{messages, committed}` not null), skillSearch/prefetch (`startSkillDiscoveryPrefetch` + `collectSkillDiscoveryPrefetch` returning `[]`), skillSearch/featureCheck (`isSkillSearchEnabled`), skillSearch/localSearch (`clearSkillIndexCache`), compact/cachedMicrocompact (full state API), sessionTranscript (`writeSessionTranscriptSegment`), attributionTrailer (`buildPRTrailers`), skills/mcpSkills (`fetchMcpSkillsForClient` with `.cache.delete/.clear`)
+- `3ad5a0c` Fixed messages not getting responses — query loop was crashing on missing stub functions (`isCachedMicrocompactEnabled`, `startSkillDiscoveryPrefetch`, `applyCollapsesIfNeeded`) silently caught in error list. Run `-p "hi"` to surface the `errors:` field if interactive ever hangs again
+- `3ad5a0c` Fixed `/recap` boolean `isEnabled: true` crash — changed to `() => true`. `isCommandEnabled()` does `cmd.isEnabled?.()` which crashes when `isEnabled` is a boolean (treats it as a call on true)
+- `3ad5a0c` Fixed REPL fallback mode "Element type is invalid" — WebBrowserPanel had only default export but REPL referenced `WebBrowserPanelModule.WebBrowserPanel`; added named export. Also fixed ReviewArtifactTool and agents-platform `{}` exports → `null`
+- `3ad5a0c` Fixed tool API errors — ListPeersTool added `inputSchema: z.object({})` and `prompt()` (required by `utils/api.ts`). REPLTool added `prompt()` method (had only `description()`). Both failures surfaced as `"_idmap" in input` zod errors or `tool.prompt is not a function`
+- `3ad5a0c` Fixed `/buddy` throwing `undefined.toLowerCase()` on first invocation — `sideQuery()` was called without the required `model` param; now uses `getSmallFastModel()` in both hatch (buddy-impl.ts) and the observer (buddy/observer.ts)
+- `3ad5a0c` Fixed companion sprite not rendering next to REPL — `feature('BUDDY')` inside JSX ternaries was DCE'd to false by Bun. CompanionSprite.tsx now imports from `'bundle'` (runtime polyfill), REPL.tsx uses a local `buddyEnabledRuntime` via `require('bundle')` for the sprite render sites only
+- `3ad5a0c` Documented everything in CLAUDE.md — Bun `bun:bundle` DCE behavior section, stubs needing proper function exports table, command/tool shape requirements (`isEnabled` must be function, tools need both `inputSchema` AND `prompt()`), `sideQuery` model param requirement, expanded troubleshooting with exact error-signature → root-cause table
+
 ## 16.04.2026
 
 - `69d29ac` Hardened Bash tool security — new pipe-to-interpreter detection flags `curl|bash`, `wget|sh`, `cat|python` etc. patterns for user approval. Completes network redirect hardening from upstream 2.1.99
