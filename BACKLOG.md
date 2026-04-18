@@ -14,7 +14,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Ctrl+A and Ctrl+E now move to the start/end of the current logical line in multiline input, matching readline behavior` — DONE in 6c8092c
 - [-] `Windows: Ctrl+Backspace now deletes the previous word` — SKIP (Linux container only)
 - [x] `Long URLs in responses and bash output stay clickable when they wrap across lines (in terminals with OSC 8 hyperlinks)` — DONE in 6c8092c
-- [-] `Improved /loop: pressing Esc now cancels pending wakeups, and wakeups display as "Claude resuming /loop wakeup" for clarity` — SKIP (our /loop is a static-cron skill; the dynamic /loop + ScheduleWakeup tool isn't in our fork, nothing to cancel)
+- [x] `Improved /loop: pressing Esc now cancels pending wakeups, and wakeups display as "Claude resuming /loop wakeup" for clarity` — DONE in 9eca616 (built our own cron-backed self-pacing instead of porting the ScheduleWakeup tool: /loop without an interval triggers a dynamic prompt body that has the model compute now+N cron and schedule a one-shot with a `<<dynamic-loop-tick>>` sentinel; Esc on empty prompt sweeps every sentinel-tagged session cron in one keystroke)
 - [-] `/extra-usage now works from Remote Control (mobile/web) clients` — SKIP (Remote Control infra)
 - [-] `Remote Control clients can now query @-file autocomplete suggestions` — SKIP (Remote Control infra)
 - [~] `Improved /ultrareview: faster launch with parallelized checks, diffstat in the launch dialog, and animated launching state` — PARTIAL in 6c8092c (parallel agents were already in place via Promise.all; diffstat now shown in the launch dialog; animated launching state not ported — our /ultrareview is a background task with a single system-message launch line, no slider component)
