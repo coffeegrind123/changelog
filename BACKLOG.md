@@ -297,7 +297,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed rate-limit upsell text being hidden after message remounts` — DONE in 24c7f5b (module-level guard prevents re-opening menu for same resetsAt window)
 - [x] `Fixed MCP tools with _meta["anthropic/maxResultSizeChars"] not bypassing token-based persist layer` — DONE in 35a791c
 - [x] `Fixed voice mode leaking dozens of space characters into input when re-holding push-to-talk key` — DONE in c573e06
-- [-] `Fixed DISABLE_AUTOUPDATER not fully suppressing npm registry version check` — SKIP (we use GitHub Releases)
+- [x] `Fixed DISABLE_AUTOUPDATER not fully suppressing npm registry version check` — DONE in 057fead (adapted for GitHub Releases: `claude update` CLI now respects the env var and all npm-centric messaging swapped to GH)
 - [x] `Fixed memory leak where Remote Control permission handler entries were retained for lifetime of session` — DONE in 824cc2e
 - [x] `Fixed background subagents that fail with error not reporting partial progress to parent agent` — DONE in 35a791c
 - [x] `Fixed prompt-type Stop/SubagentStop hooks failing on long sessions, and hook evaluator API errors showing "JSON validation failed"` — DONE in defb61c (stderr included in error)
