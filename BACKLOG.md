@@ -6,6 +6,10 @@ Source: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 Only entries after v2.1.87 (our fork base). Refresh by fetching:
 `curl -fsSL https://raw.githubusercontent.com/anthropics/claude-code/refs/heads/main/CHANGELOG.md`
 
+## 2.1.114
+
+- [-] `Fixed a crash in the permission dialog when an agent teams teammate requested tool permission` — SKIP (agent teams is Ant-internal, stubbed in our fork)
+
 ## 2.1.113
 
 - [-] `Changed the CLI to spawn a native Claude Code binary (via a per-platform optional dependency) instead of bundled JavaScript` — SKIP (we build our own Bun-compiled binary; we don't use Anthropic's distribution pipeline)
