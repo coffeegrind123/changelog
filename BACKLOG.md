@@ -6,6 +6,33 @@ Source: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 Only entries after v2.1.87 (our fork base). Refresh by fetching:
 `curl -fsSL https://raw.githubusercontent.com/anthropics/claude-code/refs/heads/main/CHANGELOG.md`
 
+## 2.1.116
+
+- [ ] `/resume on large sessions is significantly faster (up to 67% on 40MB+ sessions) and handles sessions with many dead-fork entries more efficiently` — TODO (performance fix, investigate resume loader + dead-fork pruning)
+- [ ] `Faster MCP startup when multiple stdio servers are configured; resources/templates/list is now deferred to first @-mention` — TODO (relevant for our 3 bundled MCP servers — browser/ghidra/computer-use — defer resources/templates/list in services/mcp/client.ts)
+- [ ] `Smoother fullscreen scrolling in VS Code, Cursor, and Windsurf terminals — /terminal-setup now configures the editor's scroll sensitivity` — TODO (/terminal-setup present at src/commands/terminalSetup/)
+- [ ] `Thinking spinner now shows progress inline ("still thinking", "thinking more", "almost done thinking"), replacing the separate hint row` — TODO (UI polish in spinner component)
+- [ ] `/config search now matches option values (e.g. searching "vim" finds the Editor mode setting)` — TODO (extend /config fuzzy search to value fields)
+- [ ] `/doctor can now be opened while Claude is responding, without waiting for the current turn to finish` — TODO (lift in-turn gate on /doctor)
+- [-] `/reload-plugins and background plugin auto-update now auto-install missing plugin dependencies from marketplaces you've already added` — SKIP (plugin/marketplace infra — we don't ship marketplace dep resolution)
+- [ ] `Bash tool now surfaces a hint when gh commands hit GitHub's API rate limit, so agents can back off instead of retrying` — TODO (useful post-exec hint in BashTool for gh rate-limit detection)
+- [-] `The Usage tab in Settings now shows your 5-hour and weekly usage immediately and no longer fails when the usage endpoint is rate-limited` — SKIP (Anthropic-operated usage endpoint, not applicable to z.ai/DeepSeek/direct-Anthropic via our token path)
+- [-] `Agent frontmatter hooks: now fire when running as a main-thread agent via --agent` — SKIP (we don't ship a --agent main-thread flag; subagents go through Agent tool / /fork)
+- [ ] `Slash command menu now shows "No commands match" when your filter has zero results, instead of disappearing` — TODO (UI polish in slash menu component)
+- [ ] `Security: sandbox auto-allow no longer bypasses the dangerous-path safety check for rm/rmdir targeting /, $HOME, or other critical system directories` — TODO (security — re-run dangerous-path check after sandbox auto-allow)
+- [ ] `Fixed Devanagari and other Indic scripts rendering with broken column alignment in the terminal UI` — TODO (rendering / wcwidth for Indic)
+- [ ] `Fixed Ctrl+- not triggering undo in terminals using the Kitty keyboard protocol (iTerm2, Ghostty, kitty, WezTerm, Windows Terminal)` — TODO (Kitty protocol keybinding)
+- [ ] `Fixed Cmd+Left/Right not jumping to line start/end in terminals that use the Kitty keyboard protocol (Warp fullscreen, kitty, Ghostty, WezTerm)` — TODO (Kitty protocol keybinding)
+- [ ] `Fixed Ctrl+Z hanging the terminal when Claude Code is launched via a wrapper process (e.g. npx, bun run)` — TODO (IMPORTANT — we run via `bun run src/entrypoints/cli.tsx`, likely affects our interactive container)
+- [ ] `Fixed scrollback duplication in inline mode where resizing the terminal or large output bursts would repeat earlier conversation history` — TODO (inline-mode rendering fix)
+- [ ] `Fixed modal search dialogs overflowing the screen at short terminal heights, hiding the search box and keyboard hints` — TODO (modal layout fix)
+- [-] `Fixed scattered blank cells and disappearing composer chrome in the VS Code integrated terminal during scrolling` — SKIP (VS Code integrated terminal fork-specific behavior; our primary runtime is WSL/Docker terminal)
+- [ ] `Fixed an intermittent API 400 error related to cache control TTL ordering that could occur when a parallel request completed during request setup` — TODO (API bug — TTL ordering in cache_control blocks)
+- [ ] `Fixed /branch rejecting conversations with transcripts larger than 50MB` — TODO (raise / drop the 50MB cap in /branch)
+- [ ] `Fixed /resume silently showing an empty conversation on large session files instead of reporting the load error` — TODO (surface load errors in /resume)
+- [-] `Fixed /plugin Installed tab showing the same item twice when it appears under Needs attention or Favorites` — SKIP (plugin marketplace UI)
+- [~] `Fixed /update and /tui not working after entering a worktree mid-session` — PARTIAL (we have /tui at src/commands/tui/; `claude update` goes through our own GitHub Releases auto-updater not the upstream npm path — worktree re-entry fix for /tui still applies)
+
 ## 2.1.114
 
 - [-] `Fixed a crash in the permission dialog when an agent teams teammate requested tool permission` — SKIP (agent teams is Ant-internal, stubbed in our fork)
