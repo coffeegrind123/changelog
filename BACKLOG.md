@@ -46,32 +46,32 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed /usage dialog content being clipped when no-flicker mode is off`
 - [ ] `Fixed /focus showing "Unknown command" when the fullscreen renderer is off — now explains how to enable it`
 - [ ] `Fixed embedded grep/find/rg shell wrappers failing when the running binary is deleted mid-session — now falls back to installed tools`
-- [ ] `Reduced peak file descriptor usage during find in the Bash tool on large directory trees`
+- [-] `Reduced peak file descriptor usage during find in the Bash tool on large directory trees` — SKIP (paired with the 2.1.120 host-crash fix that's annotated "macOS/Linux native builds"; both target the embedded `find` shell wrapper that ships in Anthropic's compiled native binaries. Our fork runs from source under Bun and shells out to the installed `/usr/bin/find`, where the host kernel's per-process fd limits already bound usage. Not applicable)
 
 ## 2.1.120
 
-- [ ] `Windows: Git for Windows (Git Bash) is no longer required — when absent, Claude Code uses PowerShell as the shell tool`
+- [-] `Windows: Git for Windows (Git Bash) is no longer required — when absent, Claude Code uses PowerShell as the shell tool` — SKIP (Windows-specific shell-tool fallback. Our primary runtime is Linux/WSL; Windows users either use Git Bash or run inside WSL where `bash` is always available)
 - [ ] `Added claude ultrareview [target] subcommand to run /ultrareview non-interactively from CI or scripts — prints findings to stdout (--json for raw output) and exits 0 on completion or 1 on failure`
-- [ ] `Skills can now reference the current effort level with ${CLAUDE_EFFORT} in their content`
-- [ ] `Set AI_AGENT environment variable for subprocesses so gh can attribute traffic to Claude Code`
+- [x] `Skills can now reference the current effort level with ${CLAUDE_EFFORT} in their content` — DONE (`skills/loadSkillsDir.ts#getPromptForCommand` + `tools/SkillTool/SkillTool.ts` remote-skill loader — `${CLAUDE_EFFORT}` substitution chained after `${CLAUDE_SESSION_ID}`. Resolves via `getDisplayedEffortLevel(model, appState.effortValue)` so it matches the `/effort` status-bar value (precedence: env `CLAUDE_CODE_EFFORT_LEVEL` → AppState → model default). `includes()` guard skips the AppState read on skills that don't reference the var. Live-verified in container: skill body `**${CLAUDE_EFFORT}**` with `CLAUDE_CODE_EFFORT_LEVEL=high` → `**high**`)
+- [x] `Set AI_AGENT environment variable for subprocesses so gh can attribute traffic to Claude Code` — DONE (`utils/subprocessEnv.ts` — new `injectAiAgent` helper sets `AI_AGENT=claude-code` on the subprocess env unless already set; chained after `injectPluginBinPaths` in both the scrub and non-scrub branches of `subprocessEnv()`. Inherits to all five spawn sites — Bash/Shell, MCP stdio, LSP, hooks, ShellSnapshot. Live-verified in container: `Bash: env | grep AI_AGENT` → `AI_AGENT=claude-code`)
 - [ ] `Spinner tips that recommend installing the desktop app or creating skills/agents are now hidden when you already have them`
 - [ ] `Show a "use PgUp/PgDn to scroll" hint when the terminal sends arrow keys instead of scroll events`
-- [ ] `Faster session start when you have many claude.ai connectors configured but not authorized`
-- [ ] `The auto mode denial message now links to the configuration docs`
-- [ ] `claude plugin validate now accepts $schema, version, and description at the top level of marketplace.json and $schema in plugin.json`
-- [ ] `Auto-compact in auto mode now displays auto (lowercase, no token count) instead of a misleading token value`
+- [-] `Faster session start when you have many claude.ai connectors configured but not authorized` — SKIP (claude.ai-connector specific — the session-start latency they're optimizing comes from probing the user's claude.ai-account-attached MCP connectors. Our primary auth path is API tokens (z.ai/DeepSeek/NIM) and the claude.ai connector flow is rarely hit. Already covered by the existing `CLAUDE_AI_MCP_TIMEOUT_MS` lazy-dedup at `main.tsx:2842`)
+- [x] `The auto mode denial message now links to the configuration docs` — DONE (`hooks/useCanUseTool.tsx` — auto-mode denial notification now appends `https://docs.claude.com/en/docs/claude-code/iam` after the existing `· /permissions` shortcut. In-CLI navigation preserved; users with terminal hyperlink support get a clickable link to the IAM/auto-mode configuration page)
+- [-] `claude plugin validate now accepts $schema, version, and description at the top level of marketplace.json and $schema in plugin.json` — SKIP (plugin/marketplace infra)
+- [x] `Auto-compact in auto mode now displays auto (lowercase, no token count) instead of a misleading token value` — DONE (`components/TokenWarning.tsx` — when `isAutoModeActive()` from `utils/permissions/autoModeState.ts` is true, the autocompactLabel renders as the literal string `auto` instead of `${percent}% until auto-compact`. Reactive-only-mode label left alone (different counter, not driven by auto-mode). Rationale: in auto mode the user has no decision to make — compaction fires automatically — so a precise percentage misleadingly implies actionable state)
 - [ ] `Fixed pressing Esc during a stdio MCP tool call closing the entire server connection (regression in 2.1.105)`
 - [ ] `Fixed /rewind and other interactive overlays not responding to keyboard input after launching with claude --resume`
 - [ ] `Fixed terminal scrollback duplication in non-fullscreen mode (resize, dialog dismiss, long sessions)`
-- [ ] `Fixed DISABLE_TELEMETRY / CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC not suppressing usage metrics telemetry for API and enterprise users`
+- [-] `Fixed DISABLE_TELEMETRY / CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC not suppressing usage metrics telemetry for API and enterprise users` — SKIP (already neutralized in our fork — `src/services/analytics/` is fully stubbed (preserves API surface, all no-ops), `cli.tsx:37` sets `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1` unconditionally at entrypoint. The specific upstream regression where the env var didn't reach the usage-metrics emitter cannot manifest because the emitter itself is a no-op)
 - [ ] `Fixed false-positive "Dangerous rm operation" permission prompts in auto mode for multi-line bash commands containing both a pipe and a redirect`
 - [ ] `Fixed long selection menus clipping below the terminal in fullscreen mode — the focused option now stays on screen as you scroll`
 - [ ] `Fixed Write tool output collapsing instead of expanding when clicking "+N lines" in fullscreen`
 - [ ] `Fixed slash command picker jumping while typing, and improved highlight to only match contiguous substrings in blue`
-- [ ] `Fixed /plugin marketplace failing to load when one entry uses an unrecognized source format — that entry is shown but installing it prompts you to update`
-- [ ] `[VSCode] /usage now opens the native Account & Usage dialog instead of returning plain-text session cost`
-- [ ] `[VSCode] Voice dictation now respects the language setting in ~/.claude/settings.json`
-- [ ] `Fixed find in the Bash tool exhausting open file descriptors on large directory trees, causing host-wide crashes (macOS/Linux native builds)`
+- [-] `Fixed /plugin marketplace failing to load when one entry uses an unrecognized source format — that entry is shown but installing it prompts you to update` — SKIP (plugin/marketplace infra)
+- [-] `[VSCode] /usage now opens the native Account & Usage dialog instead of returning plain-text session cost` — SKIP (VSCode extension)
+- [-] `[VSCode] Voice dictation now respects the language setting in ~/.claude/settings.json` — SKIP (VSCode extension)
+- [-] `Fixed find in the Bash tool exhausting open file descriptors on large directory trees, causing host-wide crashes (macOS/Linux native builds)` — SKIP (parenthesized "macOS/Linux native builds" — the bug lives in Anthropic's compiled binary's embedded find wrapper; our fork shells to system `find` via Bun)
 
 ## 2.1.119
 
