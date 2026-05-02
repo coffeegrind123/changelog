@@ -43,7 +43,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 ## 2.1.123
 
-- [ ] `Fixed OAuth authentication failing with a 401 retry loop when CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1 is set`
+- [-] `Fixed OAuth authentication failing with a 401 retry loop when CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1 is set` — SKIP (our primary auth path is API tokens — `ANTHROPIC_AUTH_TOKEN` for z.ai/DeepSeek/NIM, `x-api-key` for Anthropic-direct. Anthropic OAuth (claude.ai accounts) is the secondary path. The bug requires (a) being on Anthropic OAuth AND (b) setting `CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1`. The interaction between disabled betas and OAuth refresh is upstream-specific — `services/oauth/client.ts#refreshOAuthToken` doesn't consult beta headers, so the 401 loop is presumably from the post-refresh API request hitting a beta-gated authorization path. Without an upstream-source diff or concrete repro of OUR fork's OAuth failing under that env var, blind fix risks breaking the working OAuth path. Worth revisiting if a claude.ai-OAuth user reports it)
 
 ## 2.1.122
 
