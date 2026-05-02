@@ -6,6 +6,66 @@ Source: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 Only entries after v2.1.87 (our fork base). Refresh by fetching:
 `curl -fsSL https://raw.githubusercontent.com/anthropics/claude-code/refs/heads/main/CHANGELOG.md`
 
+## 2.1.126
+
+- [ ] `The /model picker now lists models from your gateway's /v1/models endpoint when ANTHROPIC_BASE_URL points at an Anthropic-compatible gateway`
+- [ ] `Added claude project purge [path] to delete all Claude Code state for a project (transcripts, tasks, file history, config entry) — supports --dry-run, -y/--yes, -i/--interactive, and --all`
+- [ ] `--dangerously-skip-permissions now bypasses prompts for writes to .claude/, .git/, .vscode/, shell config files, and other previously-protected paths (catastrophic removal commands still prompt as a safety net)`
+- [ ] `claude auth login now accepts the OAuth code pasted into the terminal when the browser callback can't reach localhost (WSL2, SSH, containers)`
+- [ ] `claude_code.skill_activated OpenTelemetry event now fires for user-typed slash commands and carries a new invocation_trigger attribute ("user-slash", "claude-proactive", or "nested-skill")`
+- [ ] `Auto mode: the spinner now turns red when a permission check stalls, instead of looking like the tool is running`
+- [ ] `Host-managed deployments (CLAUDE_CODE_PROVIDER_MANAGED_BY_HOST) no longer auto-disable analytics on Bedrock/Vertex/Foundry`
+- [ ] `Windows: PowerShell 7 installed via the Microsoft Store, MSI without PATH, or .NET global tool is now detected`
+- [ ] `Windows: when the PowerShell tool is enabled, Claude now treats PowerShell as the primary shell instead of defaulting to Bash`
+- [ ] `Read tool: removed the per-file malware-assessment reminder that could cause spurious refusals and "this is not malware" commentary on legacy models`
+- [ ] `Security: Fixed allowManagedDomainsOnly / allowManagedReadPathsOnly being ignored when a higher-priority managed-settings source lacked a sandbox block`
+- [ ] `Fixed pasting an image larger than 2000px breaking the session — images are now downscaled on paste, and oversized images in history are automatically removed and the request retried`
+- [ ] `Fixed showing the login screen for "OAuth not allowed for organization" errors — now shows guidance to contact your admin`
+- [ ] `Fixed OAuth login failing with timeout on slow or proxied connections, in IPv6-only devcontainers, and when the browser callback can't reach localhost`
+- [ ] `Fixed a rare race where a concurrent credential write could clear a valid OAuth refresh token`
+- [ ] `Fixed API retry countdown sticking at "0s" instead of counting down between attempts`
+- [ ] `Fixed "Stream idle timeout" error after waking Mac from sleep mid-request`
+- [ ] `Fixed background and remote sessions falsely aborting with "Stream idle timeout" during long model thinking pauses`
+- [ ] `Fixed a hang where the assistant could finish thinking but show no output after a run of empty turns`
+- [ ] `Fixed overly fast trackpad scrolling in Cursor and VS Code 1.92–1.104 integrated terminals`
+- [ ] `Fixed claude.ai MCP connectors being suppressed by manual servers stuck in needs-auth state`
+- [ ] `Fixed Japanese/Korean/Chinese text rendering as garbled characters on Windows in no-flicker mode`
+- [ ] `Fixed Ctrl+L clearing the prompt input — it now only forces a screen redraw, matching readline behavior`
+- [ ] `Fixed deferred tools (WebSearch, WebFetch, etc.) not being available to skills with context: fork and other subagents on their first turn`
+- [ ] `Fixed plan-mode tools being unavailable in interactive sessions launched with --channels`
+- [ ] `Fixed /plugin Uninstall reporting "Enabled" instead of "Uninstalled"`
+- [ ] `Bounded total size of file-modified reminders when a linter touches many files at once`
+- [ ] `Fixed /remote-control retries appearing stuck on "connecting…" — each retry now shows its result`
+- [ ] `Fixed Remote Control failure notification not showing the error reason for initial connection failures`
+- [ ] `Windows: clipboard writes no longer expose copied content in process command-line arguments visible to EDR/SIEM telemetry; also fixes >22KB selections not reaching the clipboard`
+- [ ] `PowerShell tool: bare -- (e.g. git diff -- file) is no longer mis-flagged as the --% stop-parsing token`
+- [ ] `Fixed Agent SDK hang when the model emits a malformed tool name in a parallel tool call batch`
+
+## 2.1.123
+
+- [ ] `Fixed OAuth authentication failing with a 401 retry loop when CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1 is set`
+
+## 2.1.122
+
+- [ ] `Added ANTHROPIC_BEDROCK_SERVICE_TIER environment variable to select a Bedrock service tier (default, flex, or priority), sent as the X-Amzn-Bedrock-Service-Tier header`
+- [ ] `Pasting a PR URL into the /resume search box now finds the session that created that PR (GitHub, GitHub Enterprise, GitLab, and Bitbucket)`
+- [ ] `/mcp now shows claude.ai connectors hidden by a manually-added server with the same URL, with a hint to remove the duplicate`
+- [ ] `Clarified the /mcp message shown when an MCP server is still unauthorized after the browser sign-in flow`
+- [ ] `OpenTelemetry: numeric attributes on api_request/api_error log events are now emitted as numbers, not strings`
+- [ ] `OpenTelemetry: added claude_code.at_mention log event for @-mention resolution`
+- [ ] `Fixed /branch producing forks that fail with "tool_use ids were found without tool_result blocks" when the source session contained entries from rewound timelines`
+- [ ] `Fixed /model not showing the Effort option for Bedrock application inference profile ARNs, and those ARNs not receiving output_config.effort`
+- [ ] `Fixed Vertex AI / Bedrock returning invalid_request_error: output_config: Extra inputs are not permitted on session-title generation and other structured-output queries`
+- [ ] `Fixed Vertex AI count_tokens endpoint returning 400 errors for users behind proxy gateways`
+- [ ] `Fixed spinnerTipsOverride.excludeDefault not suppressing the time-based spinner tips`
+- [ ] `Fixed ToolSearch missing MCP tools that connected after session start in nonblocking mode`
+- [ ] `Fixed !exit / !quit in bash mode terminating the CLI instead of running as a shell command`
+- [ ] `Fixed images sent to newer models being resized to 2576px per side instead of the correct 2000px maximum`
+- [ ] `Fixed remote control session idle status redrawing twice per second, which could flood tmux -CC control pipes and pause the terminal`
+- [ ] `Fixed assistant messages appearing blank in some sessions due to a stale view preference`
+- [ ] `Fixed a malformed hooks entry in settings.json no longer invalidating the entire file`
+- [ ] `Voice mode: keybindings bound to Caps Lock now show an error since terminals don't deliver Caps Lock as a key event`
+
 ## 2.1.121
 
 - [x] `Added alwaysLoad option to MCP server config — when true, all tools from that server skip tool-search deferral and are always available` — DONE (`services/mcp/types.ts` — added `alwaysLoad: z.boolean().optional()` field via shared `McpAlwaysLoadConfigSchema` to `McpStdioServerConfigSchema`, `McpSSEServerConfigSchema`, `McpHTTPServerConfigSchema`, `McpWebSocketServerConfigSchema`. `services/mcp/client.ts:1822` — `fetchToolsForClient` now sets `alwaysLoad: tool._meta['anthropic/alwaysLoad'] === true || client.config.alwaysLoad === true` on each Tool, so the existing `isDeferredTool()` early-return at `ToolSearchTool/prompt.ts:65` flips off deferral. Per-tool `_meta` and per-server config are OR'd — either way wins. Live-builds clean, no schema regression on existing configs since the new field is optional)
