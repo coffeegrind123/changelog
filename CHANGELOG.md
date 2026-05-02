@@ -1,5 +1,10 @@
 # Changelog
 
+## 02.05.2026
+
+- `113a7a1` Backported 2.1.120 — slash command picker contiguous-substring highlighting + stable focus across keystrokes. Three changes: (1) `src/utils/suggestions/commandSuggestions.ts` — replaced Fuse-indices match computation (`computeDisplayTextMatches` / `computeDescriptionMatches`) with literal substring locators (`computeContiguousDisplayTextMatches` / `computeContiguousDescriptionMatches`). The query string is threaded through `createCommandSuggestionItem` instead of `result.r.matches`. Fuse fuzzy non-contiguous indices like `[[0,0],[2,2],[5,5]]` for "cmt" → "commit" no longer scatter bold characters across the row; only ranges where the literal query appears as a contiguous substring of `displayText` / `description` are highlighted. (2) `src/components/PromptInput/PromptInputFooterSuggestions.tsx` — `renderHighlighted` switches the matched-run rendering from `bold` to `color: 'suggestion'` (theme blue, `rgb(87,105,247)` in dark / `ansi:blue` in light) so the highlight pops against both selected and unselected rows. (3) `src/hooks/useTypeahead.tsx` — command-suggestions `setSuggestionsState` now compares the new `commandItems` list to the prior `selectedSuggestion`'s id and preserves focus on it when found; falls back to index 0 when the prior selection is gone. Without this, every keystroke reset focus to index 0, making the picker visually jump when the user was mid-navigation (Tab / ↓ to a deeper match) and then refined the query. Live-verified: `/co` → 2 hits (compact, commit) with `displayTextMatches=[[1,3]]` locating literal "co"; `/mit` → 1 hit (commit) with `[[4,7]]`; empty `/` query → all commands listed with no highlights as before.
+- `50335bb` Refreshed BACKLOG.md with 51 new entries from upstream 2.1.122 / 2.1.123 / 2.1.126 — to be triaged DONE/SKIP/PARTIAL during ongoing porting passes.
+
 ## 29.04.2026
 
 - `9f27a1f` Removed `TODO.md` — the BACKLOG SKIP re-evaluation notes have all been actioned (3435439 / ff91630 landed all 5 promotion candidates). File was empty; deleting now.
