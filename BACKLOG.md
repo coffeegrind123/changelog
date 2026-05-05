@@ -8,31 +8,31 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 ## 2.1.128
 
-- [ ] `Bare /color (no args) now picks a random session color`
-- [ ] `/mcp now shows the tool count for connected servers and flags servers that connected with 0 tools`
-- [ ] `--plugin-dir now accepts .zip plugin archives in addition to directories`
+- [x] `Bare /color (no args) now picks a random session color` — DONE in 9105243 (#32; `commands/color/color.ts` picks `AGENT_COLORS[Math.floor(Math.random() * AGENT_COLORS.length)]` when args is empty)
+- [x] `/mcp now shows the tool count for connected servers and flags servers that connected with 0 tools` — DONE in 9105243 (#31; `MCPSettings.tsx` populates `toolCount = filterToolsByServer(mcp.tools, name).length`, `MCPListPanel.tsx` renders `· N tools` or warning-color `· 0 tools (check server)`)
+- [x] `--plugin-dir now accepts .zip plugin archives in addition to directories` — DONE in 9105243 (#30; `pluginLoader.ts:loadSessionOnlyPlugins` extracts via existing `extractZip` to `getPluginCachePath()/inline-zip/<stem>-<ts>-<rand>/`, unwraps single-top-dir layouts)
 - [-] `--channels now works with console (API key) authentication — console orgs with managed settings must set channelsEnabled: true to enable` — SKIP (Anthropic console managed-settings infra; our fork doesn't ship the channels feature against any provider we route to)
 - [-] `Updated /model picker: collapsed duplicate Opus 4.7 entries, and current Opus now shows as "Opus" instead of "Opus 4.7"` — SKIP (cosmetic to Anthropic-direct model list; multi-provider picker pulls from `/v1/models` so display strings come from upstream gateways)
 - [x] `Subprocesses (Bash, hooks, MCP, LSP) no longer inherit OTEL_* environment variables, so OTEL-instrumented apps run via the Bash tool no longer pick up the CLI's own OTLP endpoint` — DONE in f6b4657 (#29; `utils/subprocessEnv.ts:scrubOtelVars` strips every `OTEL_*` key, not just the OTLP_HEADERS subset)
-- [ ] `MCP: workspace is now a reserved server name — existing servers with that name will be skipped with a warning`
-- [ ] `Reconnecting MCP servers no longer flood the conversation with full tool-name lists on every reconnect — re-announced tools are summarized by server prefix`
+- [x] `MCP: workspace is now a reserved server name — existing servers with that name will be skipped with a warning` — DONE in 9105243 (#28; `services/mcp/config.ts` blocks `addMcpConfig` for `workspace` and `stripReservedMcpServerNames` filters existing entries at load with a console warning)
+- [-] `Reconnecting MCP servers no longer flood the conversation with full tool-name lists on every reconnect — re-announced tools are summarized by server prefix` — SKIP (#27; our fork's `tools/list_changed` handler in `useManageMCPConnections.ts:618` updates cached state silently via `updateServer` — no per-reconnect tool announcement message reaches the conversation, nothing to summarize)
 - [-] `SDK hosts now receive a persistent localSettings suggestion for Bash permission prompts, so "Always allow" writes to .claude/settings.local.json` — SKIP (Claude Agent SDK host integration; we ship the CLI itself, not an SDK host)
-- [ ] `EnterWorktree now creates the new branch from local HEAD as documented, instead of origin/<default-branch> — unpushed commits are no longer dropped`
-- [ ] `Auto mode: when the classifier can't evaluate an action, the error now includes a hint (retry, /compact, or run with --debug)`
-- [ ] `Fixed focus mode briefly dimming the previous response when submitting a new prompt`
-- [ ] `Fixed stray "4;0;" desktop notification on every /exit in Kitty and other terminals that interpret OSC 9 as a notification`
+- [x] `EnterWorktree now creates the new branch from local HEAD as documented, instead of origin/<default-branch> — unpushed commits are no longer dropped` — DONE in 9105243 (#26; `worktree.ts:doCreateWorktreeLocked` non-PR path: HEAD → refs/heads/<branch> → origin/<branch> → fetch → HEAD fallback chain)
+- [x] `Auto mode: when the classifier can't evaluate an action, the error now includes a hint (retry, /compact, or run with --debug)` — DONE in 9105243 (#25; `messages.ts:buildClassifierUnavailableMessage` adds /compact + --debug paths to existing retry guidance)
+- [-] `Fixed focus mode briefly dimming the previous response when submitting a new prompt` — SKIP (#24; only `focusMode` reference in our fork is voice-anchor STT in `hooks/useVoice.ts`, unrelated to UI message dimming — feature appears to not exist in our codebase)
+- [x] `Fixed stray "4;0;" desktop notification on every /exit in Kitty and other terminals that interpret OSC 9 as a notification` — DONE in 9105243 (#23; `gracefulShutdown.ts` and `ink/ink.tsx` gate `writeSync(CLEAR_ITERM2_PROGRESS)` on `isProgressReportingAvailable()` — only emit on iTerm2/Ghostty/ConEmu)
 - [-] `Fixed Remote Control showing an empty "Opening your options…" message on rate limit instead of actionable upsell options` — SKIP (Anthropic Remote Control upsell flow; our `/remote-control-server` is our own bridge implementation)
-- [ ] `Fixed drag-and-drop image upload hanging on "Pasting text…" when the image read fails`
-- [ ] `Fixed crash loop when piping very large input (>10 MB) to claude -p via stdin`
-- [ ] `Fixed long URLs not being individually clickable on every wrapped row in fullscreen mode`
-- [ ] `Fixed /plugin Components panel showing "Marketplace 'inline' not found" for plugins loaded via --plugin-dir`
-- [ ] `Fixed MCP tool results dropping images when the server returns both structured content and content blocks`
-- [ ] `Fixed fenced code blocks inside list items carrying leading whitespace into the clipboard on copy-paste`
-- [ ] `Fixed tab navigation in /config stranding focus — the tab header now stays focused so arrows and Esc keep working`
-- [ ] `Fixed markdown link labels being lost on terminals without OSC 8 hyperlink support — links now render as label (url) instead of just the URL`
-- [ ] `Fixed sessions on 1M-context models with a smaller autocompact window being falsely blocked with "Prompt is too long" before reaching the actual API limit`
-- [ ] `Fixed parallel shell tool calls: a failing read-only command (grep, git diff, ls) no longer cancels sibling calls`
-- [ ] `Fixed banner showing "with X effort" on models that don't support effort`
+- [x] `Fixed drag-and-drop image upload hanging on "Pasting text…" when the image read fails` — DONE in 9105243 (#22; `usePasteHandler.ts` adds `.catch()` to `Promise.all(imagePaths.map(tryReadImageFromPath))` so rejected reads fall back to text paste instead of leaving isPasting true forever)
+- [x] `Fixed crash loop when piping very large input (>10 MB) to claude -p via stdin` — DONE in 9105243 (#21; `main.tsx:getInputPrompt` caps text-mode stdin at 8 MB with a clear truncation warning, prevents V8 heap OOM)
+- [-] `Fixed long URLs not being individually clickable on every wrapped row in fullscreen mode` — SKIP (#20; `applyStylesToWrappedText` in `render-node-to-output.ts:211-323` already wraps each post-wrap line in its own OSC 8 link per-run, single-segment fast path at 576-594 explicitly maps each line through `wrapWithOsc8Link`. Couldn't reproduce the fullscreen-specific failure mode — virtualScrollActive uses the same render pipeline)
+- [x] `Fixed /plugin Components panel showing "Marketplace 'inline' not found" for plugins loaded via --plugin-dir` — DONE in 9105243 (#19; `commands/plugin/ManagePlugins.tsx` adds `inline` branch alongside `builtin` — reads commandsPath/agentsPath/skills/hooks/mcpServers off LoadedPlugin directly, skips `getMarketplace('inline')` lookup)
+- [x] `Fixed MCP tool results dropping images when the server returns both structured content and content blocks` — DONE in 9105243 (#18; `services/mcp/client.ts:transformMCPResult` checks for non-text blocks in `content` before falling through to `structuredContent` — images survive)
+- [x] `Fixed fenced code blocks inside list items carrying leading whitespace into the clipboard on copy-paste` — DONE in 9105243 (#17; `utils/markdown.ts:list_item` skips the listDepth indent when child token is `code`)
+- [x] `Fixed tab navigation in /config stranding focus — the tab header now stays focused so arrows and Esc keep working` — DONE in 9105243 (#16; `Settings.tsx:t9` is now unconditionally true, header starts focused for all tabs including Config/Gates)
+- [x] `Fixed markdown link labels being lost on terminals without OSC 8 hyperlink support — links now render as label (url) instead of just the URL` — DONE in 9105243 (#15; `utils/hyperlink.ts:createHyperlink` returns `label (url)` when content differs from url and OSC 8 unsupported)
+- [x] `Fixed sessions on 1M-context models with a smaller autocompact window being falsely blocked with "Prompt is too long" before reaching the actual API limit` — DONE in 9105243 (#14; `autoCompact.ts:calculateTokenWarningState` blockingLimit uses full `getContextWindowForModel` minus reserved-summary, decoupled from autocompact-trimmed `getEffectiveContextWindowSize`)
+- [x] `Fixed parallel shell tool calls: a failing read-only command (grep, git diff, ls) no longer cancels sibling calls` — DONE in 9105243 (#13; `StreamingToolExecutor.ts:isReadOnlyBashBlock` allowlist + per-leg compound parse, sibling-abort path skips when failing Bash command is read-only)
+- [x] `Fixed banner showing "with X effort" on models that don't support effort` — DONE in 9105243 (#12; `utils/effort.ts:getEffortSuffix` returns `''` when `!modelSupportsEffort(model)`)
 - [x] `Fixed /fast on 3P providers fuzzy-matching to an unrelated skill instead of showing "not available"` — DONE in f6b4657 (#11; `commands.ts:isAvailabilityGatedCommandName` short-circuits the levenshtein suggester for the 7 known availability-gated names; `processSlashCommand.tsx` mirrors the gate)
 - [-] `Fixed Bedrock default model resolving to global.* instead of the region-appropriate prefix` — SKIP (Bedrock-specific)
 - [x] `Fixed vim mode: Space in NORMAL mode now moves the cursor right, matching standard vi/vim behavior` — DONE in f6b4657 (#10; `hooks/useVimInput.ts` maps `' '` → `'l'` motion in NORMAL + operator-pending states, ctrl/meta excluded)
