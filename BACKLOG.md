@@ -13,7 +13,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `--plugin-dir now accepts .zip plugin archives in addition to directories`
 - [-] `--channels now works with console (API key) authentication — console orgs with managed settings must set channelsEnabled: true to enable` — SKIP (Anthropic console managed-settings infra; our fork doesn't ship the channels feature against any provider we route to)
 - [-] `Updated /model picker: collapsed duplicate Opus 4.7 entries, and current Opus now shows as "Opus" instead of "Opus 4.7"` — SKIP (cosmetic to Anthropic-direct model list; multi-provider picker pulls from `/v1/models` so display strings come from upstream gateways)
-- [ ] `Subprocesses (Bash, hooks, MCP, LSP) no longer inherit OTEL_* environment variables, so OTEL-instrumented apps run via the Bash tool no longer pick up the CLI's own OTLP endpoint`
+- [x] `Subprocesses (Bash, hooks, MCP, LSP) no longer inherit OTEL_* environment variables, so OTEL-instrumented apps run via the Bash tool no longer pick up the CLI's own OTLP endpoint` — DONE in f6b4657 (#29; `utils/subprocessEnv.ts:scrubOtelVars` strips every `OTEL_*` key, not just the OTLP_HEADERS subset)
 - [ ] `MCP: workspace is now a reserved server name — existing servers with that name will be skipped with a warning`
 - [ ] `Reconnecting MCP servers no longer flood the conversation with full tool-name lists on every reconnect — re-announced tools are summarized by server prefix`
 - [-] `SDK hosts now receive a persistent localSettings suggestion for Bash permission prompts, so "Always allow" writes to .claude/settings.local.json` — SKIP (Claude Agent SDK host integration; we ship the CLI itself, not an SDK host)
@@ -33,18 +33,18 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed sessions on 1M-context models with a smaller autocompact window being falsely blocked with "Prompt is too long" before reaching the actual API limit`
 - [ ] `Fixed parallel shell tool calls: a failing read-only command (grep, git diff, ls) no longer cancels sibling calls`
 - [ ] `Fixed banner showing "with X effort" on models that don't support effort`
-- [ ] `Fixed /fast on 3P providers fuzzy-matching to an unrelated skill instead of showing "not available"`
+- [x] `Fixed /fast on 3P providers fuzzy-matching to an unrelated skill instead of showing "not available"` — DONE in f6b4657 (#11; `commands.ts:isAvailabilityGatedCommandName` short-circuits the levenshtein suggester for the 7 known availability-gated names; `processSlashCommand.tsx` mirrors the gate)
 - [-] `Fixed Bedrock default model resolving to global.* instead of the region-appropriate prefix` — SKIP (Bedrock-specific)
-- [ ] `Fixed vim mode: Space in NORMAL mode now moves the cursor right, matching standard vi/vim behavior`
-- [ ] `Fixed terminal progress indicator (OSC 9;4) flickering off between tool calls — stays visible across the full turn`
-- [ ] `Fixed /rename without args failing on resumed sessions whose last entry is a compact boundary`
-- [ ] `Fixed stale "remote-control is active" status lines from prior sessions appearing after --resume/--continue`
-- [ ] `Fixed stale installed_plugins.json entries pointing at deleted cache directories polluting PATH`
-- [ ] `Fixed MCP stdio servers receiving corrupted arguments when CLAUDE_CODE_SHELL_PREFIX is set and an argument contains spaces or shell metacharacters`
-- [ ] `Fixed sub-agent progress summaries missing the prompt cache (~3× cache_creation reduction)`
-- [ ] `Fixed /plugin update never detecting new versions of npm-sourced plugins`
-- [ ] `Fixed sub-agent summaries firing repeatedly while a sub-agent's transcript is static, capping worst-case token cost on idle sub-agents`
-- [ ] `Headless --output-format stream-json: init.plugin_errors now includes --plugin-dir load failures in addition to dependency demotions`
+- [x] `Fixed vim mode: Space in NORMAL mode now moves the cursor right, matching standard vi/vim behavior` — DONE in f6b4657 (#10; `hooks/useVimInput.ts` maps `' '` → `'l'` motion in NORMAL + operator-pending states, ctrl/meta excluded)
+- [x] `Fixed terminal progress indicator (OSC 9;4) flickering off between tool calls — stays visible across the full turn` — DONE in f6b4657 (#9; `components/Messages.tsx` gates state on `isLoading || hasToolsInProgress` instead of just hasToolsInProgress)
+- [x] `Fixed /rename without args failing on resumed sessions whose last entry is a compact boundary` — DONE in f6b4657 (#8; `commands/rename/rename.ts` falls back to full transcript when post-boundary slice is just the boundary itself)
+- [x] `Fixed stale "remote-control is active" status lines from prior sessions appearing after --resume/--continue` — DONE in f6b4657 (#7; `utils/conversationRecovery.ts:deserializeMessagesWithInterruptDetection` filters persisted `system/bridge_status` messages on resume)
+- [x] `Fixed stale installed_plugins.json entries pointing at deleted cache directories polluting PATH` — DONE in f6b4657 (#6; `utils/subprocessEnv.ts:registerPluginBinPaths` filters via `existsSync`)
+- [x] `Fixed MCP stdio servers receiving corrupted arguments when CLAUDE_CODE_SHELL_PREFIX is set and an argument contains spaces or shell metacharacters` — DONE in f6b4657 (#5; `services/mcp/client.ts` POSIX-quotes via `quote()` from `utils/bash/shellQuote.ts`)
+- [x] `Fixed sub-agent progress summaries missing the prompt cache (~3× cache_creation reduction)` — DONE in f6b4657 (#4; `services/AgentSummary/agentSummary.ts` passes `skipCacheWrite: true` to `runForkedAgent`)
+- [x] `Fixed /plugin update never detecting new versions of npm-sourced plugins` — DONE in f6b4657 (#3; `installFromNpm` accepts `force` option, `cachePlugin` accepts `forceFresh`, `performPluginUpdate` passes it to bypass node_modules cache)
+- [x] `Fixed sub-agent summaries firing repeatedly while a sub-agent's transcript is static, capping worst-case token cost on idle sub-agents` — DONE in f6b4657 (#2; `services/AgentSummary/agentSummary.ts` tracks `lastSummarizedLeafUuid` and skips when transcript hasn't advanced)
+- [x] `Headless --output-format stream-json: init.plugin_errors now includes --plugin-dir load failures in addition to dependency demotions` — DONE (#1; `loadSessionOnlyPlugins` already pushes `path-not-found` / `generic-error` into the same `errors` array `assemblePluginLoadResult` returns; verified end-to-end with `--plugin-dir /tmp/nonexistent-xyz` producing `"plugin_errors":[{"type":"path-not-found","source":"inline[0]",...}]` in the init message)
 
 ## 2.1.126
 
