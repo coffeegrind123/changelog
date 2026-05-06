@@ -8,38 +8,38 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 ## 2.1.131
 
-- [ ] `Fixed VS Code extension failing to activate on Windows due to a hardcoded build path in the bundled SDK (createRequire polyfill bug)`
-- [ ] `Fixed Mantle endpoint authentication failing with missing x-api-key header`
+- [-] `Fixed VS Code extension failing to activate on Windows due to a hardcoded build path in the bundled SDK (createRequire polyfill bug)` — SKIP (we don't ship a VS Code extension; use Emacs/ACP for IDE integration)
+- [-] `Fixed Mantle endpoint authentication failing with missing x-api-key header` — SKIP (Mantle isn't referenced in our codebase; first-party Anthropic gateway specific)
 
 ## 2.1.129
 
-- [ ] `Added --plugin-url <url> flag to fetch a plugin .zip archive from a URL for the current session`
-- [ ] `Added CLAUDE_CODE_FORCE_SYNC_OUTPUT=1 env var to force-enable synchronized output on terminals that auto-detection misses (e.g. Emacs eat)`
-- [ ] `Added CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE: when set on Homebrew or WinGet installations, Claude Code runs the upgrade command in the background and prompts to restart`
-- [ ] `Plugin manifests: themes and monitors should now be declared under "experimental": { ... }. Top-level declarations still work but claude plugin validate will warn`
-- [ ] `Gateway /v1/models discovery for the /model picker is now opt-in via CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1 (was automatic in 2.1.126–2.1.128)`
-- [ ] `Ctrl+R history picker now defaults to searching all prompts across all projects, matching pre-2.1.124 behavior. Press Ctrl+S to narrow to the current project or session`
-- [ ] `Third-party deployments (Bedrock, Vertex, Foundry, or ANTHROPIC_BASE_URL gateway) no longer see spinner tips pointing at first-party Anthropic surfaces`
-- [ ] `skillOverrides setting now works: off hides from model and /, user-invocable-only hides from model only, name-only collapses description`
-- [ ] `The claude_code.pull_request.count OTel metric now counts PRs/MRs created via MCP tools, not just shell commands`
-- [ ] `Policy refusal error messages now include the API Request ID for easier support debugging`
-- [ ] `Fixed API errors with unrecognized 400 status codes showing raw JSON instead of the underlying error message`
-- [ ] `Fixed /clear not resetting the terminal tab title after a conversation`
-- [ ] `Fixed session title chip from /rename disappearing while a permission or other dialog is active`
-- [ ] `Fixed agent panel below the prompt being hidden when subagents are running (regression in 2.1.122)`
-- [ ] `Fixed external-editor handoff (Ctrl+G) blanking the conversation history above the prompt`
-- [ ] `Fixed /context dumping its rendered ASCII visualization grid into the conversation, wasting ~1.6k tokens per call`
-- [ ] `Fixed /agents Library list arrow-key navigation: the highlighted agent now stays visible when the list exceeds the viewport`
-- [ ] `Fixed /branch success message not including the new branch's session id for /resume`
-- [ ] `Fixed bold headers with keycap/ZWJ/skin-tone emoji losing trailing characters in fullscreen mode`
-- [ ] `Fixed server-managed settings policy not applying for enterprise/team users whose stored OAuth credentials lacked the user:inference scope`
-- [ ] `Fixed OAuth refresh race after wake-from-sleep that could log out all running sessions`
-- [ ] `Fixed 1-hour prompt cache TTL being silently downgraded to 5 minutes`
-- [ ] `Fixed cache-miss warning appearing spuriously after /clear or compaction when changing /effort or /model`
-- [ ] `Fixed Bash(mkdir *), Bash(touch *) and similar allow rules not being honored for in-project paths`
-- [ ] `Fixed deniedMcpServers patterns with a *:// scheme wildcard not matching mixed-case hostnames`
-- [ ] `Fixed harmless WebSocket warning being logged as an error in --debug during voice mode`
-- [ ] `[VSCode] Fixed /clear not clearing the conversation context and displayed transcript`
+- [-] `Added --plugin-url <url> flag to fetch a plugin .zip archive from a URL for the current session` — SKIP (feature add — needs CLI option + URL fetch + temp dir + zip extraction wiring; deferred until requested)
+- [x] `Added CLAUDE_CODE_FORCE_SYNC_OUTPUT=1 env var to force-enable synchronized output on terminals that auto-detection misses (e.g. Emacs eat)` — DONE in 8ab8f07 (#17; `ink/terminal.ts:isSynchronizedOutputSupported` checks the env var first, returns true to force DEC mode 2026 BSU/ESU regardless of TERM/TERM_PROGRAM detection)
+- [-] `Added CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE: when set on Homebrew or WinGet installations, Claude Code runs the upgrade command in the background and prompts to restart` — SKIP (Homebrew/WinGet specific; our fork distributes via GitHub Releases with a custom auto-updater)
+- [x] `Plugin manifests: themes and monitors should now be declared under "experimental": { ... }. Top-level declarations still work but claude plugin validate will warn` — DONE in 8ab8f07 (#19; `schemas.ts` adds `PluginManifestExperimentalSchema` with themes+monitors, `pluginLoader.ts` reads `manifest.experimental.themes/monitors` first, falls back to top-level for back-compat)
+- [x] `Gateway /v1/models discovery for the /model picker is now opt-in via CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1 (was automatic in 2.1.126–2.1.128)` — DONE in 8ab8f07 (#20; `apiModels.ts:doFetch` short-circuits to `[]` for unknown gateways unless env var is set; known hosts — anthropic, deepseek, openrouter, z.ai, NVIDIA NIM — keep working without opt-in via `isKnownDiscoveryHost()`)
+- [~] `Ctrl+R history picker now defaults to searching all prompts across all projects, matching pre-2.1.124 behavior. Press Ctrl+S to narrow to the current project or session` — PARTIAL in 8ab8f07 (#21; `history.ts:getTimestampedHistory` defaults to `scope:'all'` cross-project, accepts `{scope:'currentProject'}` to narrow. Ctrl+S keybinding for runtime scope toggling NOT added — would need scope state in `HistorySearchDialog` + keybinding registration)
+- [x] `Third-party deployments (Bedrock, Vertex, Foundry, or ANTHROPIC_BASE_URL gateway) no longer see spinner tips pointing at first-party Anthropic surfaces` — DONE in 8ab8f07 (#22; `utils/auth.ts:is1PApiCustomer` returns false when `!isFirstPartyAnthropicBaseUrl()`, so z.ai/DeepSeek/OpenRouter/NIM users skip referrals/claude.ai-upgrade tips)
+- [-] `skillOverrides setting now works: off hides from model and /, user-invocable-only hides from model only, name-only collapses description` — SKIP (#23; feature add — new setting + 3-mode semantics; conflicts with our DiscoverSkillsTool + skill-search pipeline; would require coordinated changes across skills bundled/discovery/loader paths)
+- [-] `The claude_code.pull_request.count OTel metric now counts PRs/MRs created via MCP tools, not just shell commands` — SKIP (#24; our analytics layer is stubbed in `services/analytics/`, OTel metric flow doesn't run in our fork)
+- [x] `Policy refusal error messages now include the API Request ID for easier support debugging` — DONE in 8ab8f07 (#25; `errors.ts:getErrorMessageIfRefusal` accepts requestId param and appends `\n\nRequest ID: <id>` to the refusal message; `claude.ts` passes `streamRequestId` from the streaming response)
+- [x] `Fixed API errors with unrecognized 400 status codes showing raw JSON instead of the underlying error message` — DONE in 8ab8f07 (#26; `errors.ts:extractMessageFromRawJson` walks the parsed JSON for `message`/`error`/`detail`/`description`/`reason` fields plus nested Anthropic-style `{error: {message}}` and surfaces that instead of the raw body)
+- [x] `Fixed /clear not resetting the terminal tab title after a conversation` — DONE in 8ab8f07 (#27; new `useEffect` in `REPL.tsx` resets `haikuTitle` + `haikuTitleAttemptedRef` when `conversationId` changes — slash `/clear` calls `setConversationId(randomUUID())` so the React-state-only title now drops, letting the next user message regenerate it via Haiku)
+- [-] `Fixed session title chip from /rename disappearing while a permission or other dialog is active` — SKIP (#28; the `swarmBanner` is embedded in `PromptInput`'s `borderText` and disappears whenever `toolJSX.shouldHidePromptInput` is set; fix requires extracting it to render at REPL level above dialogs, which would risk regressing our own swarm-banner / standalone-agent layout work)
+- [-] `Fixed agent panel below the prompt being hidden when subagents are running (regression in 2.1.122)` — SKIP (#29; `CoordinatorTaskPanel` is `"external" === 'ant'`-gated DCE'd false in our build, and the non-ant `tasksFooterVisible` + `shouldHideTasksFooter` logic doesn't reproduce the symptom; without upstream diff a blind fix risks regressing our own task-panel display)
+- [x] `Fixed external-editor handoff (Ctrl+G) blanking the conversation history above the prompt` — DONE in 8ab8f07 (#30; `ink/ink.tsx:exitAlternateScreen` no longer runs `\x1b[2J` before `?1049l` in non-fullscreen mode — terminal editors' own rmcup already restores main with conversation visible, the 2J was wiping that restored screen)
+- [x] `Fixed /context dumping its rendered ASCII visualization grid into the conversation, wasting ~1.6k tokens per call` — DONE in 8ab8f07 (#31; `commands/context/context.tsx` calls `onDone(output, { display: 'system' })` so the grid renders as `type:system subtype:local_command` — user-visible in scrollback but NOT sent to the model)
+- [-] `Fixed /agents Library list arrow-key navigation: the highlighted agent now stays visible when the list exceeds the viewport` — SKIP (#32; `AgentsList.tsx` is React Compiler output with `_c` cache slots that break under direct edits; viewport-aware scrolling needs Ink-specific work outside the upstream changelog scope)
+- [x] `Fixed /branch success message not including the new branch's session id for /resume` — DONE in 8ab8f07 (#33; `commands/branch/branch.ts` success message now includes `\nTo resume this branch later: /resume <sessionId>` alongside the original-session resume hint)
+- [-] `Fixed bold headers with keycap/ZWJ/skin-tone emoji losing trailing characters in fullscreen mode` — SKIP (#34; our fork sets `CLAUDE_CODE_NO_FLICKER=0` to disable fullscreen by default — the bug only manifests in fullscreen mode; proper fix needs Unicode grapheme-cluster handling that's hard to get right without the upstream diff)
+- [-] `Fixed server-managed settings policy not applying for enterprise/team users whose stored OAuth credentials lacked the user:inference scope` — SKIP (#35; enterprise OAuth scope handling — we don't ship the enterprise OAuth flow, our auth is API-key based)
+- [-] `Fixed OAuth refresh race after wake-from-sleep that could log out all running sessions` — SKIP (#36; our existing `pendingRefreshCheck` in-process mutex + cross-process file lock in `utils/auth.ts:checkAndRefreshOAuthTokenIfNeeded` already serializes refreshes with post-lock token re-check; upstream's specific failure mode isn't reproducible without the diff, and OAuth isn't our primary auth path)
+- [x] `Fixed 1-hour prompt cache TTL being silently downgraded to 5 minutes` — DONE in 8ab8f07 (#37; `services/api/claude.ts:should1hCacheTTL` now defaults the GrowthBook allowlist to `['*']` when no allowlist field is returned. Our stubbed GrowthBook returns `{}` → empty allowlist → silent 5m downgrade for every querySource; `['*']` matches eligible users — ant or claude.ai non-overage)
+- [x] `Fixed cache-miss warning appearing spuriously after /clear or compaction when changing /effort or /model` — DONE in 8ab8f07 (#38; `commands/clear/conversation.ts` calls `setLastApiCompletionTimestamp(Date.now())` and `bootstrap/state.ts:resetCostState` clears `lastRequestInputTokens` so the cache-expiry hint at `REPL.tsx ~4220` reads fresh state after /clear)
+- [x] `Fixed Bash(mkdir *), Bash(touch *) and similar allow rules not being honored for in-project paths` — DONE in 8ab8f07 (#39; `tools/BashTool/bashPermissions.ts:bashToolHasPermission` — when `checkPathConstraints` returns `'ask'` with no rule-based decisionReason (the in-project create case where validatePath says "needs acceptEdits or FilePath rule"), a matching Bash allow rule now overrides. Compound-cd, validator failure, and dangerous-removal paths all carry a non-undefined `decisionReason.type === 'other'` so they still gate)
+- [x] `Fixed deniedMcpServers patterns with a *:// scheme wildcard not matching mixed-case hostnames` — DONE in 8ab8f07 (#40; `services/mcp/config.ts:urlPatternToRegex` adds `'i'` flag so the regex is case-insensitive, matching RFC 3986 host-name semantics)
+- [x] `Fixed harmless WebSocket warning being logged as an error in --debug during voice mode` — DONE in 8ab8f07 (#41; `services/voiceStreamSTT.ts` `ws.on('error')` handler now gates `logError(err)` on `!finalizing` so benign close-during-finalize errors fall to the `logForDebugging` path instead of error-level logging)
+- [-] `[VSCode] Fixed /clear not clearing the conversation context and displayed transcript` — SKIP (#42; we don't ship a VS Code extension)
 
 ## 2.1.128
 
