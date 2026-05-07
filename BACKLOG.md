@@ -14,33 +14,33 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 ## 2.1.132
 
-- [ ] `Added CLAUDE_CODE_SESSION_ID environment variable to the Bash tool subprocess environment, matching the session_id passed to hooks`
-- [ ] `Added CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1 env var to opt out of the fullscreen alternate-screen renderer and keep the conversation in the terminal's native scrollback`
-- [ ] `Added a "Pasting…" footer hint while a Ctrl+V image paste is being read from the clipboard`
-- [ ] `Fixed external SIGINT (e.g. IDE stop button, kill -INT) not running graceful shutdown — terminal modes are now restored and the --resume hint is printed instead of an abrupt exit`
+- [x] `Added CLAUDE_CODE_SESSION_ID environment variable to the Bash tool subprocess environment, matching the session_id passed to hooks` — DONE in 3237b90 (`subprocessEnv.ts` injectSessionId() lazily reads `getSessionId()` from bootstrap/state, threaded through the same chain as injectAiAgent/injectTraceparent)
+- [x] `Added CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1 env var to opt out of the fullscreen alternate-screen renderer and keep the conversation in the terminal's native scrollback` — DONE in 3237b90 (`fullscreen.ts` checks this env var BEFORE CLAUDE_CODE_NO_FLICKER and settings; highest precedence)
+- [x] `Added a "Pasting…" footer hint while a Ctrl+V image paste is being read from the clipboard` — DONE in 3237b90 (`PromptInput.tsx` handleImagePaste sets isPasting(true) before getImageFromClipboard, .finally(() => setIsPasting(false)))
+- [x] `Fixed external SIGINT (e.g. IDE stop button, kill -INT) not running graceful shutdown — terminal modes are now restored and the --resume hint is printed instead of an abrupt exit` — DONE in 3237b90 (`main.tsx:615` early-startup SIGINT handler now defers to gracefulShutdown's handler when isGracefulShutdownInitialized() returns true; new export added to gracefulShutdown.ts)
 - [-] `Fixed an uncaught exception when the terminal is closed or SSH disconnects mid-session under the native build` — SKIP (native build specific; we ship a Bun-compiled binary, not the native build path)
-- [ ] `Fixed --resume failing with "no low surrogate in string" when a tool error truncation split an emoji; pre-corrupted sessions are sanitized on load`
-- [ ] `Fixed --permission-mode flag being ignored when resuming a plan-mode session with -p --continue/--resume, and plan mode not being re-applied after ExitPlanMode within the same session`
-- [ ] `Fixed fullscreen mode showing a blank screen after laptop sleep/wake or Ctrl+Z/fg until the next keystroke or stream output`
+- [x] `Fixed --resume failing with "no low surrogate in string" when a tool error truncation split an emoji; pre-corrupted sessions are sanitized on load` — DONE in 3237b90 (`conversationRecovery.ts` sanitizeLoneSurrogates + sanitizeMessageSurrogates walk text/thinking/tool_result content blocks and replace lone surrogates with U+FFFD before any UTF-8 encoding can throw)
+- [ ] `Fixed --permission-mode flag being ignored when resuming a plan-mode session with -p --continue/--resume, and plan mode not being re-applied after ExitPlanMode within the same session` — DEFERRED (bug surface ambiguous without upstream source diff; multiple plausible state-machine fixes with different blast radii)
+- [x] `Fixed fullscreen mode showing a blank screen after laptop sleep/wake or Ctrl+Z/fg until the next keystroke or stream output` — DONE in 3237b90 (`ink.tsx` adds 1s event-loop stall detector — if wallclock advances >5s between ticks, reassertTerminalModes(true) + forceRedraw() on alt-screen)
 - [ ] `Fixed cursor landing mid-grapheme on Ctrl+E/A/K/U/arrow keys when an Indic conjunct or ZWJ emoji wraps across lines`
 - [ ] `Fixed vim operators corrupting text containing decomposed (NFD) accented characters`
-- [ ] `Fixed pasting text starting with / silently swallowing the input or triggering an unknown-command reply`
-- [ ] `Fixed pasting dumping stray escape sequences into the prompt when focus events or mouse-tracking reports interleave with the bracketed paste`
+- [x] `Fixed pasting text starting with / silently swallowing the input or triggering an unknown-command reply` — DONE in 3237b90 (`PromptInput.tsx` onTextPaste: looksLikePathPaste heuristic — input empty, starts with '/', length>1, has second separator before space — routes through paste-ref system so isSlashCommand check at REPL.tsx:3566 doesn't fire)
+- [x] `Fixed pasting dumping stray escape sequences into the prompt when focus events or mouse-tracking reports interleave with the bracketed paste` — DONE in 3237b90 (`parse-keypress.ts` filters focus events `\e[I`/`\e[O` and mouse SGR/X10 reports out of pasteBuffer when inPaste=true)
 - [ ] `Fixed mouse wheel scrolling being too fast in Cursor and VS Code 1.92–1.104 due to an upstream xterm.js bug`
 - [ ] `Fixed scroll-wheel handling in JetBrains IDE 2025.2 terminals (spurious arrow keys, wrong-direction events, runaway acceleration)`
 - [ ] `Fixed /usage Ctrl+S hanging when copying the stats screenshot to the clipboard on Linux/X11`
 - [-] `Fixed /terminal-setup showing a contradictory error in Windows Terminal — Shift+Enter is natively supported there` — SKIP (Windows Terminal specific)
-- [ ] `Fixed /effort picker not reflecting the CLAUDE_CODE_EFFORT_LEVEL env var override`
+- [x] `Fixed /effort picker not reflecting the CLAUDE_CODE_EFFORT_LEVEL env var override` — DONE in 3237b90 (already fixed in our fork — verified `EffortSlider` (effort.tsx:170) initializes from `getDisplayedEffortLevel(model, effortValue)` which calls `resolveAppliedEffort()` which prioritizes `getEffortEnvOverride()` over appState; env var has highest priority in the chain)
 - [ ] `Fixed /status showing the wrong default model for some users`
-- [ ] `Fixed slash command autocomplete popup being capped at ~3–5 visible commands instead of scaling with terminal height`
-- [ ] `Fixed statusline context_window token counts reflecting cumulative session totals instead of current context usage`
+- [x] `Fixed slash command autocomplete popup being capped at ~3–5 visible commands instead of scaling with terminal height` — DONE in 3237b90 (`PromptInputFooterSuggestions.tsx` adds computeMaxVisibleSuggestions(rows) — floor 5, ceil 15, scales with `rows - 6`; replaces the flat `Math.min(6, rows-3)` cap and the OVERLAY_MAX_ITEMS=5 constant)
+- [ ] `Fixed statusline context_window token counts reflecting cumulative session totals instead of current context usage` — DEFERRED (user-facing hook payload schema change; without upstream diff we'd risk breaking 3rd-party statusline scripts that consume the existing field semantics)
 - [-] `Fixed Alt+T (thinking toggle) not working on macOS terminals without "Option as Meta" enabled (iTerm2, Terminal.app defaults)` — SKIP (macOS terminal specific)
 - [-] `Fixed dead keyboard input on Windows after re-opening a background session from claude agents` — SKIP (Windows specific)
-- [ ] `Fixed unbounded memory growth (10GB+ RSS) when a stdio MCP server writes non-protocol data to stdout`
-- [ ] `Fixed MCP servers that connect but fail tools/list silently showing 0 tools — they now retry once and show "connected · tools fetch failed" in /mcp`
+- [ ] `Fixed unbounded memory growth (10GB+ RSS) when a stdio MCP server writes non-protocol data to stdout` — DEFERRED (bug lives in `@modelcontextprotocol/sdk@^1.29.0` ReadBuffer with no max-line-size cap; fix on next SDK upgrade per the MCP-SDK-internals convention)
+- [x] `Fixed MCP servers that connect but fail tools/list silently showing 0 tools — they now retry once and show "connected · tools fetch failed" in /mcp` — DONE in 3237b90 (`mcp/client.ts` fetchToolsForClient: try the request once, on error log + retry once; persist failures in the new module-level `_toolsFetchFailed` Set; `MCPListPanel.tsx` renders "tools fetch failed" pill via new `hasToolsFetchFailed(name)` helper)
 - [-] `Fixed unauthorized claude.ai MCP connectors showing as "failed" instead of "needs auth", and headless -p mode retrying non-transient 4xx connection failures` — SKIP (claude.ai MCP connector specific; we don't route through claude.ai OAuth)
 - [ ] `Improved visual consistency in slash command dialogs and /login, /upgrade, /extra-usage dialog spacing`
-- [ ] `Updated the /tui fullscreen startup banner to describe additional renderer benefits (lower memory usage, mouse support, auto-copy on select)`
+- [x] `Updated the /tui fullscreen startup banner to describe additional renderer benefits (lower memory usage, mouse support, auto-copy on select)` — DONE in 3237b90 (`tui.ts` expands fullscreen success message with a 4-bullet renderer-benefits block + CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN opt-out hint)
 - [-] `Fixed Bedrock and Vertex 400 errors when ENABLE_PROMPT_CACHING_1H is set` — SKIP (Bedrock/Vertex specific; we don't route through these providers)
 
 ## 2.1.131
