@@ -12,6 +12,37 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 - **2026-05-06** — Systematic re-evaluation of all 245 `[-]` SKIP items, excluding Windows/Mac/PowerShell/VSCode-specific entries (the user explicitly opted out of those). Categorization breakdown: 30 Windows/PowerShell, 16 Mac/iTerm2, 10 VSCode extension, 22 Bedrock/Vertex/Foundry/Mantle, 26 Remote Control Sessions / claude.ai cloud, 11 Anthropic OAuth, 8 MCP SDK internals (auto-fix on next SDK upgrade), 11 OTEL infra, 5 marketplace, 5 feedback survey (disabled in our fork), 2 sandbox, ~99 OTHER. Of the non-Win/Mac items, 9 had stale or incorrect rationales and were flipped: L137 `/branch tool_use orphan` → `[ ]` TODO (we DO ship `/branch`), L195 `claude ultrareview` CLI → `[x]` DONE (already in our entrypoint fast-path), L228 plugin version-constraint auto-update → `[ ]` TODO (we ship plugin auto-update), L317 `blockedMarketplaces` enforcement on 4 ops → `[~]` PARTIAL (hostPattern/pathPattern is DONE, per-op enforcement needs verification), L347 `/reload-plugins` auto-install missing deps → `[ ]` TODO (we ship the dep resolver), L350 agent frontmatter hooks for `--agent` → `[ ]` TODO (we DO ship `--agent`), L579 `OTEL_LOG_TOOL_DETAILS/TOOL_CONTENT` → `[~]` PARTIAL (USER_PROMPTS done), L621 `CLAUDE_CODE_CERT_STORE` → `[~]` PARTIAL (CERT_STORE done in cb7e5ca, OAUTH_REFRESH stays SKIP), L631+L729 W3C TRACEPARENT to Bash subprocesses → `[ ]` TODO (we DO ship observe tracing). The remaining ~180 non-Win/Mac SKIPs were verified to have rationales that hold: claude.ai-only OAuth flows, Remote Control Sessions (we have `claude ssh`/`acp-link`/CCR runner instead), `@modelcontextprotocol/sdk`-internal bugs (auto-fix on SDK upgrade), Anthropic-managed-settings remote sync (not our auth path), Bedrock/Vertex/Foundry/Mantle (we don't route through these), feedback survey (disabled), and "needs concrete repro" UI bugs in code paths whose structure is correct in our fork.
 
+## 2.1.132
+
+- [ ] `Added CLAUDE_CODE_SESSION_ID environment variable to the Bash tool subprocess environment, matching the session_id passed to hooks`
+- [ ] `Added CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1 env var to opt out of the fullscreen alternate-screen renderer and keep the conversation in the terminal's native scrollback`
+- [ ] `Added a "Pasting…" footer hint while a Ctrl+V image paste is being read from the clipboard`
+- [ ] `Fixed external SIGINT (e.g. IDE stop button, kill -INT) not running graceful shutdown — terminal modes are now restored and the --resume hint is printed instead of an abrupt exit`
+- [-] `Fixed an uncaught exception when the terminal is closed or SSH disconnects mid-session under the native build` — SKIP (native build specific; we ship a Bun-compiled binary, not the native build path)
+- [ ] `Fixed --resume failing with "no low surrogate in string" when a tool error truncation split an emoji; pre-corrupted sessions are sanitized on load`
+- [ ] `Fixed --permission-mode flag being ignored when resuming a plan-mode session with -p --continue/--resume, and plan mode not being re-applied after ExitPlanMode within the same session`
+- [ ] `Fixed fullscreen mode showing a blank screen after laptop sleep/wake or Ctrl+Z/fg until the next keystroke or stream output`
+- [ ] `Fixed cursor landing mid-grapheme on Ctrl+E/A/K/U/arrow keys when an Indic conjunct or ZWJ emoji wraps across lines`
+- [ ] `Fixed vim operators corrupting text containing decomposed (NFD) accented characters`
+- [ ] `Fixed pasting text starting with / silently swallowing the input or triggering an unknown-command reply`
+- [ ] `Fixed pasting dumping stray escape sequences into the prompt when focus events or mouse-tracking reports interleave with the bracketed paste`
+- [ ] `Fixed mouse wheel scrolling being too fast in Cursor and VS Code 1.92–1.104 due to an upstream xterm.js bug`
+- [ ] `Fixed scroll-wheel handling in JetBrains IDE 2025.2 terminals (spurious arrow keys, wrong-direction events, runaway acceleration)`
+- [ ] `Fixed /usage Ctrl+S hanging when copying the stats screenshot to the clipboard on Linux/X11`
+- [-] `Fixed /terminal-setup showing a contradictory error in Windows Terminal — Shift+Enter is natively supported there` — SKIP (Windows Terminal specific)
+- [ ] `Fixed /effort picker not reflecting the CLAUDE_CODE_EFFORT_LEVEL env var override`
+- [ ] `Fixed /status showing the wrong default model for some users`
+- [ ] `Fixed slash command autocomplete popup being capped at ~3–5 visible commands instead of scaling with terminal height`
+- [ ] `Fixed statusline context_window token counts reflecting cumulative session totals instead of current context usage`
+- [-] `Fixed Alt+T (thinking toggle) not working on macOS terminals without "Option as Meta" enabled (iTerm2, Terminal.app defaults)` — SKIP (macOS terminal specific)
+- [-] `Fixed dead keyboard input on Windows after re-opening a background session from claude agents` — SKIP (Windows specific)
+- [ ] `Fixed unbounded memory growth (10GB+ RSS) when a stdio MCP server writes non-protocol data to stdout`
+- [ ] `Fixed MCP servers that connect but fail tools/list silently showing 0 tools — they now retry once and show "connected · tools fetch failed" in /mcp`
+- [-] `Fixed unauthorized claude.ai MCP connectors showing as "failed" instead of "needs auth", and headless -p mode retrying non-transient 4xx connection failures` — SKIP (claude.ai MCP connector specific; we don't route through claude.ai OAuth)
+- [ ] `Improved visual consistency in slash command dialogs and /login, /upgrade, /extra-usage dialog spacing`
+- [ ] `Updated the /tui fullscreen startup banner to describe additional renderer benefits (lower memory usage, mouse support, auto-copy on select)`
+- [-] `Fixed Bedrock and Vertex 400 errors when ENABLE_PROMPT_CACHING_1H is set` — SKIP (Bedrock/Vertex specific; we don't route through these providers)
+
 ## 2.1.131
 
 - [-] `Fixed VS Code extension failing to activate on Windows due to a hardcoded build path in the bundled SDK (createRequire polyfill bug)` — SKIP (we don't ship a VS Code extension; use Emacs/ACP for IDE integration)
