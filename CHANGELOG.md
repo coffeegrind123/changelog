@@ -2,6 +2,8 @@
 
 ## 10.05.2026
 
+- `2acd702` Backported paste expansion fix from upstream 2.1.136. `history.ts expandPastedTextRefs`: iterate up to 8 expansion passes instead of one. A long prompt that auto-truncates, where the truncated middle ALSO contained a `[Pasted text #X]` placeholder, used to drop the inner pasted text — only the outer `[Truncated text #N]` was expanded once, leaving the inner ref unexpanded. Bounded to 8 passes so a self-referential cycle in pastedContents can't loop forever. Backlog: 34/47 actionable 2.1.136 entries flipped TODO → DONE.
+
 - `366968d` Backported Bash permission user-readable diagnostic from upstream 2.1.136. `tools/BashTool/bashPermissions.ts bashToolHasPermission` shell-quote parse-failure path: log raw parser diagnostic to debug only and surface a user-readable rejection reason instead of "Command contains malformed syntax that cannot be parsed: `<raw shell-quote error>`". Backlog: 33/47 actionable 2.1.136 entries flipped TODO → DONE.
 
 - `46b1553` Backported ReasonML diff fix from upstream 2.1.136. `native-ts/color-diff/index.ts asTerminalEscaped`: skips Block entries where `text == null` (was `out += text` which JavaScript coerces undefined to the literal string `'undefined'`). ReasonML's hljs lexer can produce partial nodes at word-diff boundaries where `wordDiffStrings`' tokenizer disagrees with hljs' segmentation, leaving undefined text in some Blocks. Defensive null-check eliminates the artifact. Backlog: 32/47 actionable 2.1.136 entries flipped TODO → DONE.
