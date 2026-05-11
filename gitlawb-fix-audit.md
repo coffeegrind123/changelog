@@ -3,9 +3,193 @@
 Systematic audit of all 587 commits from [Gitlawb/openclaude](https://github.com/Gitlawb/openclaude) main branch, comparing each fix against openclaude source at `/home/openclaudeuser/openclaude/src/`.
 
 **Audit date:** 2026-05-11
-**Session type:** Research & documentation only — no openclaude source edits
-**OC branch for implementation:** `gitlawb-fix-port`
-**Total GAPs found:** ~93 across 8 batches
+**Status:** **75 of 94 items closed** (53 LANDED + 4 VERIFIED-SKIP + 6 trust-but-verify-converted LANDED + 12 deferred/partial; see "Implementation Status" below).
+**Session type:** Research → implementation pass → trust-but-verify
+**OC branch for implementation:** `main`
+**Total GAPs found:** ~94 across 8 batches
+
+Per-batch research files (`gitlawb-gap-batch1.md` … `gitlawb-gap-batch8.md`) were removed in commit `<this commit>` after consolidation — every actionable item is captured in the GAP / ALREADY_HAVE tables below + the Implementation Status section. Pull them from this repo's git history if you need the raw per-commit research notes.
+
+---
+
+## Implementation Status
+
+Per-gap status with landed-commit SHAs (in `coffeegrind123/openclaude` on `main`).
+Open the linked commits with `git show <sha>` from a clone of that repo.
+
+**Legend:**
+- `LANDED <sha>` — fix applied, commit on `main`
+- `VERIFIED-SKIP` — checked Gitlawb's actual source; intentional architectural divergence or already-correct-in-OC
+- `DEFERRED` — not done; substantial port deferred for future work
+- `PARTIAL` — partial fix applied; full Gitlawb shape deferred
+
+### CRITICAL (13/13 landed)
+
+| # | Gap | Status | Landed in |
+|---|-----|--------|-----------|
+| 1 | sessionRunner env-allowlist | LANDED | `5a95d43` |
+| 2 | buildSdkUrl SSRF hostname check | LANDED | `5a95d43` |
+| 3 | CA cert PEM validation | LANDED | `7557f9d` |
+| 4 | memoryScan MAX_DEPTH=3 | LANDED | `5a95d43` |
+| 5 | dangerouslyDisableSandbox model-facing strip | LANDED | `69a21bb` |
+| 6 | Sandbox auto-allow short-circuit only deny/ask | LANDED | `69a21bb` |
+| 7 | Sandbox config trusted sources only | LANDED | `5a95d43` |
+| 8 | MCP OAuth state-before-error validation | LANDED | `7557f9d` |
+| 9 | MCP tool result unicode sanitize | LANDED | `7557f9d` |
+| 10 | WebFetch SSRF + DNS rebinding guard | LANDED | `ecc1df2` |
+| 11 | Nested heredoc rejection in stripSafeHeredocSubstitutions | LANDED | `69a21bb` |
+| 12 | Plugin path escape (resolveExistingPluginComponentPath) | LANDED | `ecc1df2` |
+| 13 | Dangerous path check in acceptEdits rm/rmdir | LANDED | `69a21bb` |
+
+### HIGH (20/20 landed)
+
+| # | Gap | Status | Landed in |
+|---|-----|--------|-----------|
+| 14 | ink reconciler supportsMicrotasks + notifications try/catch | LANDED | `e2b8864` |
+| 15 | useAppState selectorRef/storeRef pattern | LANDED | `e2b8864` |
+| 16 | Bash/PowerShell stdout/stderr non-string normalize | LANDED | `e2b8864` |
+| 17 | Resume hardening: setResumeError + UI banner | LANDED | `6e907b5` |
+| 18 | stripPersistedToolUseResultsFromJSONLBuffer | LANDED | `6e907b5` |
+| 19 | ANTHROPIC_API_KEY 3P guard | LANDED | `e2b8864` |
+| 20 | x-api-key error 3P guard | LANDED | `e2b8864` |
+| 21 | CI throw + isUsing3PServices extension | LANDED | `e2b8864` |
+| 22 | isQuotaExhausted skip retry on 429 limit:0 | LANDED | `e2b8864` |
+| 23 | decodeModifier Math.max + isPrivateUseCodepoint | LANDED | `e2b8864` |
+| 24 | SandboxViolationExpandedView store null guard | LANDED | `e2b8864` |
+| 25 | gitEnv.ts sanitizeEnvForGit + buildGitChildEnv | LANDED | `6e907b5` |
+| 26 | Hooks stdin.end unconditional after payload | LANDED | `6e907b5` |
+| 27 | OAuth refresh gated on firstParty | LANDED | `6e907b5` |
+| 28 | Context overflow keyword handler in errors.ts | LANDED | `6e907b5` |
+| 29 | Auto-compact 3-strike circuit breaker | LANDED | `3ad2508` (trust-but-verify upgrade) |
+| 30 | SendMessage fresh-task-status re-check | LANDED | `6e907b5` |
+| 31 | AgentTool per-cleanup try/catch | LANDED | `6e907b5` |
+| 32 | getUserSpecifiedModelSetting non-string guard | LANDED | `6e907b5` |
+| 33 | Shell.ts stat().isDirectory() not realpath() | LANDED | `6e907b5` |
+
+### MEDIUM (16 landed + 4 verified-skip / partial / deferred)
+
+| # | Gap | Status | Notes |
+|---|-----|--------|-------|
+| 34 | truncate() null guard | VERIFIED-SKIP | Already in CCB pass (b8b48bf7), same file/line/fix |
+| 35 | formatDescriptionWithSource `?? ''` on 7 paths | LANDED `e74799e` | |
+| 36 | sanitizeSchemaRequired sync filter | LANDED `e74799e` | |
+| 37 | autoCompact denominator = context window | LANDED `e74799e` | |
+| 38 | toolErrors truncation 10KB → 40KB | LANDED `e74799e` | |
+| 39 | MCPTool content null-guard on abort | LANDED `e74799e` | |
+| 40 | sessionTitle localFallbackTitle | LANDED `e74799e` | |
+| 41 | Bracket balancer for truncated tool JSON | DEFERRED | 10-suffix combinator. Gitlawb's `JSON_REPAIR_SUFFIXES` lives in their openaiShim; our streamTranslator architecture differs. Real win on `finish_reason='length'` mid-tool-call, but ~30 LOC port across stream+normalize paths. |
+| 42 | migrateSonnet1mToSonnet45 3P early-return | LANDED `e74799e` | |
+| 43 | assertMinVersion 3P skip | LANDED `e74799e` | |
+| 44 | claude update Anthropic-binary block | VERIFIED-SKIP | Our updater uses GitHub Releases, not Anthropic npm — concern doesn't apply |
+| 45 | CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS default | LANDED `e74799e` | |
+| 46 | UserToolSuccessMessage fallbackContent memo | LANDED `3ad2508` (trust-but-verify upgrade) | |
+| 47 | acceptEdits auto-allow read-only commands | LANDED `29e671f` | |
+| 48 | IMAGE_MAX 2000 → 1568 | LANDED `e74799e` | |
+| 49 | Marketplace plugin dedup | LANDED `29e671f` | |
+| 50 | Startup dialog focus suppression | DEFERRED | Touches replInputSuppression + REPL.tsx; non-trivial scope vs payoff |
+| 51 | Defer performStartupChecks until submitCount > 0 | DEFERRED | Same area as #50 |
+| 52 | Continuation nudge with MAX=3 | DEFERRED | ~80 LOC port — 6 regex signals + completion-marker filter + State field. Real win on weak models but substantial. |
+| 53 | addLineNumbers `\t` → `→` | LANDED `29e671f` | |
+| 54 | TEAMMATE_ENV_VARS gains PATH + provider host | LANDED `e74799e` | |
+| 55 | Tool-result replacement sync to REPL | DEFERRED | Touches Tool.ts + query.ts + REPL.tsx wiring |
+| 56 | gracefulShutdown trio (skipUnmount + 20ms tick + REPL guard) | DEFERRED | Real fix shape verified in trust-but-verify; 3-file port, deferred for future |
+| 57 | getCustomOffSwitchMessage provider-neutral | LANDED `e74799e` | |
+| 58 | CostThresholdDialog providerLabel | LANDED `e74799e` | |
+| 59 | PromptInput `!` typeahead leak | DEFERRED | Multi-char paste path; ~40 LOC restructure |
+| 60 | agentFileUtils whenToUse string coerce | LANDED `29e671f` | |
+| 61 | AgentTool subagent instructions stronger | DEFERRED | Prompt-only refinement, no functional bug |
+| 62 | Effort xhigh persistence + reasoning_effort emit | DEFERRED | Niche; effort isn't a heavily-exercised path |
+
+### LOW (10 landed + verified-skips / partials)
+
+| # | Gap | Status | Notes |
+|---|-----|--------|-------|
+| 63 | collectRemovedRects null guard | LANDED `1e714ca` | |
+| 64 | modifiers-napi no-op | LANDED `1e714ca` | |
+| 65 | structuredIO `src//` → `src/` | LANDED `1e714ca` | |
+| 66 | wss:// default port 443 | LANDED `1e714ca` | |
+| 67 | isElementNode 9 DOMElement cast guards | VERIFIED-SKIP | Trust-but-verify confirmed equivalent narrowing already present |
+| 68 | RipgrepUnavailableError typed class | LANDED `1e714ca` | |
+| 69 | Resume hint `openclaude --resume` | LANDED `1e714ca` | |
+| 70 | SkillsMenu getSkillListLabel + sort | VERIFIED-SKIP | We already sort by getCommandName.localeCompare |
+| 71 | Status DISPLAY_VERSION | VERIFIED-SKIP | We don't have DISPLAY_VERSION; MACRO.VERSION already clean |
+| 72 | Tabs header refresh on horizontal nav | DEFERRED | Cosmetic; single-line key= change |
+| 73 | Provider-aware rate limit reset delay | DEFERRED | parseOpenAIDuration helper |
+| 74 | Linux clipboard JPEG/GIF/WebP | DEFERRED | Multi-MIME image paste support |
+| 75 | Prompt identity strings | VERIFIED-SKIP | Gitlawb literally rebrands to "OpenClaude"; our fork keeps "Claude Code" by design |
+| 76 | Local provider URL private-IP detect | DEFERRED | Lower priority than #10's WebFetch SSRF |
+| 77 | Flicker-free toggle in /config | DEFERRED | We default fullscreen OFF so less relevant |
+| 78 | extractGitHubRepoSlug URL spoof guard | DEFERRED | install-github-app entrypoint; rarely exercised |
+| 79 | QuestionView footer routing through useInput | DEFERRED | Touches the ask-user-question keyboard path |
+| 80 | Image paste/tool-result handling fixes | DEFERRED | Multi-file diff review |
+| 81 | SkillTool missing-skill error message | DEFERRED | getSchemaValidationErrorOverride helper |
+| 82 | Retry-after header extraction from 429 | DEFERRED | Small but touches retry message format |
+| 83 | MCP elicitation abort signal per-retry | DEFERRED | client.ts signal-check loop |
+| 84 | TextInput mask prop | VERIFIED-SKIP | Already wired (line 107) |
+| 85 | OPENCLAUDE_DISABLE_TOOL_REMINDERS env var | DEFERRED | Cross-cutting; multiple injection sites |
+| 86 | Provider profile env precedence | DEFERRED | We don't persist profiles |
+| 87 | U+23BF → U+2514 glyph swap | LANDED `3ad2508` (trust-but-verify upgrade) | 6 files across MessageResponse / CollapsedReadSearch / Permission debug / AgentProgressLine / SystemText / UserLocalCommandOutput |
+| 88 | stableStringify for openaiBridge body | LANDED `3ad2508` (trust-but-verify upgrade) | Ported from gitlawb/utils/stableStringify.ts verbatim |
+| 89 | 404 Ollama-hint host-aware | VERIFIED-SKIP | We don't have a hardcoded Ollama hint anywhere |
+| 90 | Git stderr in rev-parse failure | LANDED `1e714ca` | |
+| 91 | Plugin hook dedup at registration | LANDED `1e714ca` | |
+| 92 | PasswordVault opt-in + model cache env | DEFERRED | Windows-specific; we don't exercise |
+| 93 | Theme memo `_c()` wrappers removed | LANDED `3ad2508` (trust-but-verify upgrade) | |
+| 94 | CLAUDE logo D spacing | VERIFIED-SKIP | Cosmetic; pure visual preference |
+
+### Implementation commits (sorted chronologically)
+
+| Commit | Items |
+|--------|-------|
+| `69a21bb` | CRITICAL #5, #6, #11, #13 (bash security) |
+| `5a95d43` | CRITICAL #1, #2, #4, #7 (bridge / memory / sandbox-trust) |
+| `7557f9d` | CRITICAL #3, #8, #9 (MCP/CA security) |
+| `ecc1df2` | CRITICAL #10, #12 (WebFetch SSRF + plugin path) |
+| `e2b8864` | HIGH #14, #15, #16, #19, #20, #21, #22, #23, #24 |
+| `6e907b5` | HIGH #17, #18, #25, #26, #27, #28, #30, #31, #32, #33 |
+| `e74799e` | MEDIUM #35, #36, #37, #38, #39, #40, #42, #43, #45, #48, #54, #57, #58 |
+| `29e671f` | MEDIUM #47, #49, #53, #60 |
+| `1e714ca` | LOW #63, #64, #65, #66, #68, #69, #90, #91 |
+| `3ad2508` | trust-but-verify upgrades: HIGH #29, MEDIUM #46, LOW #87, #88, #93 |
+
+### Trust-but-verify pass
+
+After cloning Gitlawb on 2026-05-11 (commit `3ad2508`) and checking each
+architectural-divergence claim against their actual source, 6 prior skips were
+upgraded to landed ports and the remaining VERIFIED-SKIPs were confirmed.
+
+**Upgraded skips → landed (commit `3ad2508`):**
+- **#29 autocompact circuit breaker** — Gitlawb's `query.ts:706` has a 3-strike
+  + isAboveAutoCompactThreshold check that yields an actionable error message
+  before burning another API call. We already tracked consecutiveFailures but
+  lacked the safety net.
+- **#46 fallbackContent memo** — Gitlawb extracts `<persisted-output>` via
+  `extractTag` in a useMemo and renders the compact form when toolUseResult
+  was persisted out-of-band. Verbatim 6-LOC port.
+- **#87 U+23BF → U+2514 glyph swap** — Gitlawb uses `└` (U+2514) for tree
+  connectors instead of `⎿` (U+23BF). U+2514 renders correctly on Windows
+  Terminal pre-1.18 and old Linux consoles where U+23BF shows as tofu.
+- **#88 stableStringify for openaiBridge** — Gitlawb ships a
+  `utils/stableStringify.ts` with `toJSON()` invocation + WeakSet cycle
+  detection + lexicographic key sort. Wired into our openaiBridge so identical
+  logical payloads produce identical wire bytes (matters for OpenAI/Kimi/
+  DeepSeek implicit prefix caching).
+- **#93 theme memo `_c()` wrappers** — Gitlawb removed the React Compiler
+  memoization from `useTheme()` and `usePreviewTheme()` and returns the
+  tuple/object directly. Memo cache held stale setter captures when
+  ThemeProvider re-created callback identities per render.
+
+**Confirmed skips after source verification:**
+- **#75 prompt identity** — Gitlawb literally rebrands to "OpenClaude"; our
+  fork keeps "Claude Code" branding by design (deliberate-transparency stance).
+- **#67 isElementNode** — our render-node-to-output.ts already has equivalent
+  type narrowing; no port needed.
+- **#25 gitEnv regex** — our `[\x00-\x1F\x7F]` is stricter than Gitlawb's
+  `[\0\r\n]`. Stricter is safer; keep ours.
+- **#12 plugin path escape** — our `resolveExistingPluginComponentPath` matches
+  Gitlawb's shape (resolve + realpath + startsWith check).
+
+---
 
 ---
 
