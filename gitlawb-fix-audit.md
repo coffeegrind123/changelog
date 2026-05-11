@@ -86,7 +86,7 @@ Systematic audit of all 587 commits from [Gitlawb/openclaude](https://github.com
 
 | # | SHA | B | Subject | OC File(s) | What to fix |
 |---|-----|---|---------|------------|-------------|
-| 34 | eed77e6 | 6 | `truncate()` crashes when command description is undefined | `src/utils/truncate.ts:140` | Add early return for falsy values at top of `truncate(str, maxWidth, singleLine)` |
+| 34 | eed77e6 | 6 | `truncate()` crashes when command description is undefined | `src/utils/truncate.ts:140` | Add early return for falsy values. ⚠️ **Also in CCB audit (#11, b8b48bf7)** — same file/line/fix |
 | 35 | 3d1979f | 7 | `/help` tab crashes from undefined command descriptions (7 return paths) | `src/commands.ts:910-934` | Add `?? ''` on all 7 return paths in `formatDescriptionWithSource()` |
 | 36 | 002a8f1 | 7 | MCP tool schema `required` array not synced after properties filtered → API 400 | `src/utils/api.ts:97-118` | Add `sanitizeSchemaRequired()` to sync `required` with filtered `properties` |
 | 37 | 55c5f26 | 7 | Auto-compact % uses threshold as denominator — shows 16% when actual is 30% for DeepSeek | `src/services/compact/autoCompact.ts:127-129` | Use `getContextWindowForModel()` as denominator for display percentage |
@@ -202,3 +202,26 @@ The 94 GAPs are organized by priority tier above. Recommended fix order:
 **Fourth pass (polish):** Items 63-94 (LOW) — cosmetic, minor UX, command branding.
 
 **Batch files:** `/tmp/gitlawb-gap-batch1.md` through `batch8.md` contain full per-commit detail.
+
+---
+
+## Cross-Reference: CCB Audit Overlap
+
+Cross-referenced against `coffeegrind123/changelog:ccb-fix-audit.md` (66 GAPs across 648 CCB commits). Full CCB batch files at `/tmp/changelog-repo/ccb-gap-batch{1-8}.md`.
+
+### Exact duplicate (same file, same line, same fix)
+
+| Gitlawb # | CCB # | File | Bug |
+|-----------|-------|------|-----|
+| #34 (eed77e6) | #11 (b8b48bf7) | `src/utils/truncate.ts:140` | truncate() null/undefined crash — add early return guard |
+
+### Related but different fix sites (both audits apply)
+
+| Gitlawb # | CCB # | Relationship |
+|-----------|-------|-------------|
+| #35 (3d1979f) | #46 (562e9daa) | Same symptom (undefined command names crash UI) — Gitlawb fixes `formatDescriptionWithSource()` consumer, CCB fixes `getCommandName()` getter. Fix both. |
+| #45 (70cfa61) | #1 (d136872c) | Same goal (prevent Anthropic headers on 3P APIs) — Gitlawb adds global env var `DISABLE_EXPERIMENTAL_BETAS`, CCB fixes specific function guards. Complementary. |
+
+### Unique to Gitlawb audit (no CCB equivalent)
+
+The remaining 87 GAPs in this audit have no CCB overlap. They cover Gitlawb-specific fix domains: bash security (nested heredoc, sandbox auto-allow, acceptEdits path guard), MCP security (OAuth CSRF, Unicode sanitization, SSRF), provider-guard gaps (auth.ts, model migration, update.ts, CostThreshold), and Bash/Shell fixes (stdout null normalization, ENOTDIR recovery, error truncation).
