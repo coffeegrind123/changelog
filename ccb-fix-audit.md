@@ -23,7 +23,7 @@ Systematic audit of all 647 commits from [claude-code-best/claude-code](https://
 | 8 | 575-648 | [x] | 15 | 3 | 55 |
 | **TOTAL** | **2-648** | **DONE** | **66** | **52** | **529** |
 
-Per-batch detail files: `/tmp/ccb-gap-batch{1-8}.md`
+Per-batch research files (`ccb-gap-batch1.md` … `ccb-gap-batch8.md`) and `ccb-audit-instructions.md` were removed in commit `<this commit>` after consolidation — every actionable item is captured in the GAP / ALREADY_HAVE tables below + the Implementation Status section. Pull them from this repo's git history if you need the raw per-commit research notes.
 
 ---
 
