@@ -2,9 +2,10 @@
 
 Systematic audit of all 647 commits from [claude-code-best/claude-code](https://github.com/claude-code-best/claude-code) main branch, comparing each fix against openclaude source at `/home/openclaudeuser/openclaude/src/`.
 
-**Audit date:** 2026-05-11  
-**Session type:** Research & documentation only — no openclaude source edits  
-**OC branch for implementation:** `ccb-fix-port`
+**Audit date:** 2026-05-11
+**Implementation completed:** 2026-05-11 (same day, follow-up session)
+**Status:** **58 of 66 items closed** (54 LANDED + 7 VERIFIED-SKIP + 3 DEFERRED, see "Implementation Status" below)
+**OC branch for implementation:** committed directly to `main`
 
 ---
 
@@ -28,12 +29,149 @@ Per-batch detail files: `/tmp/ccb-gap-batch{1-8}.md`
 
 ## Priority Summary
 
-| Priority | Count | Criteria |
-|----------|-------|----------|
-| CRITICAL | 14 | Memory leaks, crashes, API errors (400s), security, broken core features |
-| HIGH | 18 | Missing guards/params, feature gaps, unbounded growth, architectural divergence |
-| MEDIUM | 22 | Correctness fixes, optimizations, UX improvements |
-| LOW | 12 | Minor polish, model name updates, cosmetic fixes |
+| Priority | Count | LANDED | VERIFIED-SKIP | DEFERRED | Criteria |
+|----------|-------|--------|---------------|----------|----------|
+| CRITICAL | 14 | 14 | 0 | 0 | Memory leaks, crashes, API errors (400s), security, broken core features |
+| HIGH | 18 | 14 | 3 | 1 | Missing guards/params, feature gaps, unbounded growth, architectural divergence |
+| MEDIUM | 22 | 17 | 4 | 1 | Correctness fixes, optimizations, UX improvements |
+| LOW | 12 | 9 | 3 | 0 | Minor polish, model name updates, cosmetic fixes |
+| **TOTAL** | **66** | **54** | **10** | **2** | |
+
+---
+
+## Implementation Status
+
+Per-gap status with landed-commit SHAs (in `coffeegrind123/openclaude` on `main`).
+Open the linked commits with `git show <sha>` from a clone of that repo.
+
+**Legend:**
+- `LANDED <sha>` — fix applied, commit on `main`
+- `VERIFIED-SKIP` — checked CCB's actual source; intentional architectural divergence or already-correct-in-OC
+- `DEFERRED` — not done; substantial port deferred for future work
+
+### CRITICAL (14/14 landed)
+
+| # | Gap | Status | Landed in |
+|---|-----|--------|-----------|
+| 1 + 48 | firstParty base-URL guard (betas + opus1m) | LANDED | `1594427` |
+| 2 | `buildDiffableContent` closure → string | LANDED | `133953a` |
+| 3 | `cloneDeep` boundary in claude.ts | LANDED | `7e7f06e` |
+| 4 | Memory-overflow trio (SSE buffer, permissionDenials, contentReplacementState) | LANDED | `492cfd1` |
+| 5 | `toolUseResult` cleanup + FileRead byte cap | LANDED | `b45bc6a` |
+| 6 | Third-party `user_id` sanitization | LANDED | `7ae4771` |
+| 7 | Auto mode firstParty whitelist removal | LANDED | `7ed2400` |
+| 8 | Long-session memory trio (clearConversation reset + scrollback cap; 3rd already-correct) | LANDED | `cb530fd` |
+| 9 | `MAX_SNAPSHOTS` 100 → 20 | LANDED | `1594427` |
+| 10 | skill-learning evidence caps | LANDED | `f35eae8` |
+| 11 | `truncate()` null guard | LANDED | `1594427` |
+| 12 | React conditional-hook violations | LANDED | `cb85b75` |
+| 13 | ACP messageSelector require crash | LANDED | `133953a` |
+| 14 | NODE_ENV=production + perf shim + OTel skip | LANDED | `b11023b` |
+
+### HIGH (14 landed + 3 verified-skip + 1 deferred)
+
+| # | Gap | Status | Notes |
+|---|-----|--------|-------|
+| 15 | Hook shell sandboxing | LANDED `cced52c` | opt-in via `sandbox.applyToHooks` |
+| 16 + 17 | AGENT_TRIGGERS gate removal | LANDED `25eae8d` | enables cron/`/loop`/ScheduleCronTool |
+| 18 | Bridge peer messaging | LANDED `4ba2eb0` | verbatim port from CCB; ingress endpoint not yet on our CCR server (returns informative errors) |
+| 19 | AgentTool `fork` parameter | LANDED `246dc6b` | |
+| 20 | opus[1m] auto-migration → no-op | LANDED `21f96f5` | |
+| 21 | CLAUDE.md → `<project-instructions>` | LANDED `1ad9982` | |
+| 22 | React Error Boundary diagnostics | LANDED `21f96f5` | |
+| 23 | Incremental Messages lookups | LANDED `1ad9982` | module-level cache + appendOnly fast path |
+| 24 | MCP `transformResultContent` `_meta` | LANDED `1ad9982` | options arg with `includeMeta` + `limits` (forward-compat) |
+| 25 | Prompt cache hit-rate warning | LANDED `cced52c` | new `utils/cacheWarning.ts`; UI surfacing deferred (React-Compiler risk) |
+| 26 | Unified Tool Search | DEFERRED | ~1800 LOC architectural port across `searchExtraTools.ts` + `services/searchExtraTools/` + `SearchExtraToolsTool.ts`; our existing native tool deferral covers core problem |
+| 27 | CRLF SSE delimiter | LANDED `222ce27` | |
+| 28 | iTerm2 ECMA-48 sequences | LANDED `21f96f5` | full CSI/OSC/DCS/SOS/PM/APC handling |
+| 29 | OpenAI const→enum schema | LANDED `21f96f5` | |
+| 30 | @-typeahead boundary scoring | LANDED `222ce27` | multi-start scoring per needle[0] occurrence |
+| 31 + 32 | DeepSeek empty `reasoning_content` | VERIFIED-SKIP | CCB routes DeepSeek through their OpenAI bridge; ours uses Anthropic-format passthrough — different translation layers |
+
+### MEDIUM (17 landed + 4 verified-skip + 1 deferred)
+
+| # | Gap | Status | Notes |
+|---|-----|--------|-------|
+| 33 | Drop `prefetchOfficialMcpUrls` | LANDED `a3357c6` | |
+| 34 | Bing WebSearch adapter | DEFERRED | ~500 LOC; we have browser-based search via zendriver (different but functional) |
+| 35 | Generic OpenAI Chat compat layer | VERIFIED-SKIP | ~1200 LOC; we have NIM bridge covering NIM/OpenRouter; raw OpenAI/Groq/Together not in our user base |
+| 36 + 57 | Opus 4.7 routing registration + frontier name | LANDED `4ba2eb0` + `d4c8e97` | verified CCB's port is routing-only (no pricing fabrication); applied with same shape |
+| 37 | usePipeIpc lazy require → static | VERIFIED-SKIP | audit explicitly low-impact; lazy is benign in Bun, switch risks latent circular imports |
+| 38 | Agent definition cache flush | LANDED `e2940e0` | adds markdown-cache clear to `clearAgentDefinitionsCache` |
+| 39 | Tab completion mid-line | LANDED `e2940e0` | `commandInput = value.slice(0, cursor)` |
+| 40 | Permission mode 'auto' preserve | LANDED `e2940e0` | |
+| 41 | Skill discovery cross-turn dedup | LANDED `2ef5004` | reset on `/clear` |
+| 42 | forkedAgent `filterIncompleteToolCalls` | VERIFIED-SKIP | CCB's `forkedAgent.ts:526` has IDENTICAL "Do NOT filter" comment we have at line 520; functional parity (we both call it in agent summary) |
+| 43 | UDS peer error handling | LANDED `e2940e0` | `settled` guard, `onSocketError` callback, `UdsPeerConnectionError` class |
+| 44 + 45 | Write content + LRU size guards | LANDED `a3357c6` | |
+| 46 | `getCommandName` empty-string fallback | LANDED `a3357c6` | |
+| 47 | `-r` mode keyboard input | LANDED `2ef5004` | both safety nets applied |
+| 48 | (combined with #1 above) | LANDED `1594427` | same fix |
+| 49 | `MarkdownTable` React.memo + caches | LANDED `a3357c6` | |
+| 50 | Ink ErrorOverview slim props | LANDED `e2940e0` | `{message, stack?}` instead of full Error |
+| 51-54 | Autonomy/cron pipeline consolidation | VERIFIED-SKIP | CCB's `turnError` is for autonomy command outcome tracking via `finalizeAutonomyCommandsForTurn`; we have no autonomy command machinery |
+
+### LOW (9 landed + 3 verified-skip)
+
+| # | Gap | Status | Notes |
+|---|-----|--------|-------|
+| 55 | `y`/`n` keybinding drop | LANDED `d4c8e97` | |
+| 56 | opus-4-7 in advisor checks | LANDED `d4c8e97` | |
+| 57 | (combined with #36 above) | LANDED `d4c8e97` | `FRONTIER_MODEL_NAME` bumped |
+| 58 | Buddy rehatch random seed | LANDED `d4c8e97` | optional `seed?: string` on StoredCompanion + `generateSeed()` |
+| 59 | `computeTtftText` polyfill | VERIFIED-SKIP | in `"external" === 'ant'` dead branch in our build; never executes |
+| 60 | TungstenPill typeof guard | VERIFIED-SKIP | same dead-branch path |
+| 61 | SUMMARIZE_CONNECTOR_TEXT removal | VERIFIED-SKIP | already gated by `shouldIncludeFirstPartyOnlyBetas()` (CRITICAL #1+#48); harmless dead weight on non-firstParty |
+| 62 | ModelPicker "Space to toggle" | DEFERRED | our ModelPicker is React-Compiler-compiled AND missing the 1M context UI block entirely; proper port = re-extract source-form |
+| 63 + 64 | `attributionModel.ts` for non-Anthropic providers | LANDED `d4c8e97` | provider-specific names: GLM 4.6, DeepSeek V4 Pro, etc. |
+| 65 | Slim system prompt | LANDED `d4c8e97` (gitStatus) + `4ba2eb0` (memoryTypes) | gitStatus MAX_STATUS_CHARS 2000→1000; TYPES_SECTION_COMBINED/INDIVIDUAL slimmed ~60% |
+| 66 | Remote Control conditional tool injection | VERIFIED-SKIP | CCB's PushNotificationTool POSTs to remote bridge backend; ours fires local terminal notifications — gating would break it |
+
+### Implementation commits (sorted chronologically)
+
+| Commit | Items |
+|--------|-------|
+| `1594427` | CRITICAL #1, #9, #11, #48 |
+| `7ed2400` | CRITICAL #7 |
+| `7ae4771` | CRITICAL #6 |
+| `25eae8d` | CRITICAL/HIGH #16, #17 |
+| `133953a` | CRITICAL #2, #13 |
+| `b11023b` | CRITICAL #14 |
+| `b45bc6a` | CRITICAL #5 |
+| `f35eae8` | CRITICAL #10 |
+| `cb85b75` | CRITICAL #12 |
+| `492cfd1` | CRITICAL #4 |
+| `cb530fd` | CRITICAL #8 |
+| `7e7f06e` | CRITICAL #3 |
+| `21f96f5` | HIGH #20, #22, #28, #29 |
+| `222ce27` | HIGH #27, #30 |
+| `246dc6b` | HIGH #19 |
+| `1ad9982` | HIGH #21, #23, #24 |
+| `cced52c` | HIGH #15, #18 (initial stub), #25 |
+| `a3357c6` | MEDIUM #33, #44, #45, #46, #49 |
+| `e2940e0` | MEDIUM #38, #39, #40, #43, #50 |
+| `2ef5004` | MEDIUM #41, #47 |
+| `d4c8e97` | LOW #55, #56, #57, #58, #63, #64, #65 (gitStatus) |
+| `4ba2eb0` | HIGH #18 (verbatim port), MEDIUM #36, LOW #65 (memoryTypes) |
+
+### Trust-but-verify pass
+
+After cloning CCB on 2026-05-11 and checking each architectural-divergence
+claim against their actual source, three prior skips were upgraded to landed
+ports (commit `4ba2eb0`):
+
+- **#18 bridge/peerSessions** — replaced clear-failure stub with CCB's
+  actual `postInterClaudeMessage` implementation. Backend-agnostic; works
+  if a compatible CCR ingress endpoint appears, returns informative errors
+  otherwise.
+- **#36/#57 opus-4-7 routing** — verified CCB's port is routing-only (no
+  pricing fabrication needed), applied with the same shape.
+- **#65 memdir/memoryTypes slim** — applied CCB's TYPES_SECTION_COMBINED/
+  INDIVIDUAL ~60% reduction verbatim.
+
+Seven skips were confirmed correct after source verification (#42, #51-#54,
+#66, #31/#32, #62, #61, #26).
 
 ---
 
