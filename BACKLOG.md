@@ -93,8 +93,8 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed pressing Enter while a permission/dialog prompt is open also submitting text in the input box` — TODO (we ship permission dialogs + input; Enter should be consumed by the dialog)
 - [ ] `Fixed hooks receiving a non-existent transcript_path after EnterWorktree switches the working directory` — TODO (we ship hooks + worktree; transcript_path needs to update on cwd change)
 - [ ] `Fixed markdown tables with cell wrapping falling back to the vertical key-value layout instead of rendering as a bordered grid (regression in 2.1.136)` — TODO (markdown table renderer regression)
-- [ ] `Fixed cancelled prompts being removed from Up-arrow history when auto-restored into the input box, avoiding duplicate entries` — TODO (we ship prompt history)
-- [ ] `Fixed prompts cancelled with Ctrl+C/Esc before any response being dropped from Up-arrow history` — TODO (we ship prompt history)
+- [x] `Fixed cancelled prompts being removed from Up-arrow history when auto-restored into the input box, avoiding duplicate entries` — DONE (`098a560`) Both 2.1.141 entries are the same fix — auto-restore-on-interrupt path in `REPL.tsx` no longer calls `removeLastFromHistory()`. Trade-off resolved in favor of retrieval (the duplicate on next Up-arrow is dismissable; history loss was permanent).
+- [x] `Fixed prompts cancelled with Ctrl+C/Esc before any response being dropped from Up-arrow history` — DONE (`098a560`) See above — same fix.
 - [ ] `Fixed Ctrl+C not interrupting a running turn while in vim INSERT/VISUAL mode` — TODO (we ship vim mode in prompt input)
 - [ ] `Fixed alternative chat:submit keybindings (e.g. meta+enter, ctrl+enter) not working when enter is rebound to chat:newline` — TODO (we ship keybindings.json — see keybindings-help skill)
 - [ ] `Fixed prompt suggestions being silently disabled when an output style was configured` — TODO (we ship prompt suggestions)
