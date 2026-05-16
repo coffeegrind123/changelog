@@ -1,5 +1,9 @@
 # Changelog
 
+## 17.05.2026
+
+- `902fb46` Upstream 2.1.139 — typing cursor no longer blinks on list pointers, select rows, tab grid (`components/design-system/ListItem.tsx` + `components/CustomSelect/select.tsx`). `useDeclaredCursor` parks the terminal cursor at the declared (line, column) so IME preedit text renders inline and screen readers track the caret — but `ListItem` and select.tsx's `TwoColumnRow` declared the cursor on every focused row, even though list pointers, select rows, and tab grids contain no text input. Terminals that don't fully respect DECSET ?25l (cursor hide) showed a blinking outline at the row's leading column. Flipped `declareCursor` to opt-in by default in `ListItem` (callers that need cursor-on-row for a11y can pass `declareCursor={true}`). Forced `active: false` in `TwoColumnRow` since it never contains a text input. Text inputs nested inside `SelectInputOption` already declare their own cursor at the caret position via `BaseTextInput` — those are unaffected and IME still works.
+
 ## 16.05.2026
 
 - `4dd0536` Upstream 2.1.139 — fuzzy-match highlighting no longer splits surrogate pairs (`utils/highlightMatch.tsx`). `highlightMatch` sliced text using indexes from `textLower.indexOf`. For glyphs whose lowercase form has a different code-unit length (Turkish İ→i̇ adds a combining mark) the reported offset could land in the middle of a UTF-16 surrogate pair in the original text — leaving the slice with a lone high surrogate (rendered as garbage) and a stray low surrogate elsewhere. New `snapToGraphemeBoundary()` snaps slice start back / end forward when the index lands on a low surrogate, so the slice spans complete pairs and emoji/astral glyphs render correctly.
