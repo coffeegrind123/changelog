@@ -107,7 +107,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 ## 2.1.140
 
-- [ ] `Improved Agent tool subagent_type matching to accept case- and separator-insensitive values (e.g. "Code Reviewer" resolves to code-reviewer)` — TODO (we ship Agent tool with subagent_type; case/separator-insensitive lookup is straightforward)
+- [x] `Improved Agent tool subagent_type matching to accept case- and separator-insensitive values (e.g. "Code Reviewer" resolves to code-reviewer)` — DONE (`tools/AgentTool/AgentTool.tsx`: after the existing exact-match `.find(agent.agentType === effectiveType)` lookup, falls back to a normalized comparison (`.toLowerCase().replace(/[\s_]+/g, '-')`). Same fallback applied to the deny-rule check below so error messages name the right agent. Exact match still wins so existing registrations are unaffected.)
 - [ ] `Updated agent color palette` — TODO (cosmetic; likely already matches)
 - [-] `Fixed /goal silently hanging when disableAllHooks or allowManagedHooksOnly is set — now shows a clear message instead of an indicator that never resolves` — SKIP (we don't ship /goal yet — 2.1.139 L2 feature)
 - [ ] `Fixed a regression in settings hot-reload where symlinked settings files caused misattributed change events and spurious ConfigChange hooks` — TODO (we ship settings hot-reload; symlinked-file change-event misattribution)
@@ -115,9 +115,9 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed background service startup failing on machines with enterprise endpoint security by allowing more time` — TODO (we ship daemon mode; startup timeout should be generous)
 - [-] `Fixed remote managed settings not retrying on 401 — now retries once with a force-refreshed token` — SKIP (Anthropic managed-settings remote-sync layer)
 - [ ] `Fixed managed extraKnownMarketplaces auto-update policy not being persisted to known_marketplaces.json` — TODO (we ship marketplace)
-- [ ] `Fixed /loop scheduling redundant wakeups to poll for background tasks that already notify on completion` — TODO (we ship /loop via skill — should skip wakeup when harness will notify)
+- [-] `Fixed /loop scheduling redundant wakeups to poll for background tasks that already notify on completion` — SKIP (our `/loop` uses `ScheduleCronTool` rather than the upstream `ScheduleWakeup` mechanism the fix targeted. The cron-based path is one-shot via `recurring: false` for self-paced loops and doesn't have the same redundant-poll surface — the harness-notify-via-ScheduleWakeup pattern is documented in our system-tool prompt but isn't load-bearing for /loop itself.)
 - [-] `Fixed a recurring event-loop stall on Windows when a missing executable (e.g. gh) triggered synchronous where.exe re-spawns on every check` — SKIP (Windows where.exe)
-- [ ] `Fixed Read tool calls failing validation when offset is passed as a whitespace-padded or +-prefixed string` — TODO (we ship Read; loosen offset parsing)
+- [x] `Fixed Read tool calls failing validation when offset is passed as a whitespace-padded or +-prefixed string` — DONE (`utils/semanticNumber.ts`: preprocess now trims whitespace and accepts `+` prefix in addition to `-`. `" 30 "` → 30, `"+30"` → 30, `"\t-5"` → -5 (still rejected by the `nonnegative()` inner schema as expected). All other reject paths (empty string, `"foo"`) preserved.)
 - [ ] `Fixed native terminal cursor not staying at the input caret when the terminal loses focus` — TODO (we ship terminal focus tracking; cursor position on focus loss)
 - [ ] `Plugins now warn when a default component folder (e.g. commands/) is silently ignored because plugin.json sets the matching key. Shown in /doctor, claude plugin list, and /plugin.` — TODO (related to 2.1.136 L49 plugin skills fix — same family of advisories)
 
