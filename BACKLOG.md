@@ -104,6 +104,34 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [x] `Fixed multi-line statusline output dropping or corrupting rows when any line exceeds terminal width` — DONE (already-mitigated: our fuelgauge `components/FuelgaugeStatusLine.tsx` uses single-`<Text wrap="truncate">` per row (3 rows: folder/branch/model/ctx-bar / 5h-bar / 7d-bar). Each row is one Text node so Yoga measures the whole line and the truncate point follows the parent column's width. User-configured `statusLine` shell-out paths still hit the upstream hook-based renderer, which we don't separately ship.)
 - [ ] `Fixed light-ansi theme using invisible white for diff context lines on light backgrounds — now uses black` — DEFERRED (the diff context-line color likely comes from `getSyntaxTheme(themeName)` syntax-highlighting tokens at `components/StructuredDiff/colorDiff.ts:33`, which routes into native Rust code. Without an upstream source diff showing which token color got swapped to black, blindly editing native theme tokens has high regression risk. Light-ansi users on dark terminals would also be the rare overlap.)
 - [-] `Fixed error overlay dumping minified bundle source that hid the original error message` — SKIP (already-compliant: our `components/SentryErrorBoundary.ts` renders only `error.message` + a "See stderr for full stack trace" hint. The componentStack goes to stderr (which Ink's `patchStderr` redirects to the debug log). No minified bundle source is rendered in the overlay.)
+- [ ] `Fixed pressing Enter after typing a feedback survey rating digit submitting it as a chat message instead of the rating`
+- [ ] `Fixed pressing x on a selected subagent in the agent panel typing into the prompt instead of stopping the agent`
+- [ ] `Fixed session title being derived from plugin monitor notifications before the user's first prompt`
+- [ ] `Fixed "Allowed by PermissionRequest hook" repeating once per tool call under a collapsed read/search group`
+- [ ] `Fixed /tui silently dropping running background shells and subagents — now refuses and asks to wait for them to finish`
+- [ ] `Fixed welcome banner showing "API Usage Billing" on Bedrock, Vertex, Foundry, and other third-party providers — now shows the provider name`
+- [ ] `Fixed /mcp server list not keeping the focused server visible in short terminals in fullscreen mode`
+- [ ] `Fixed redaction in /feedback bundles producing invalid JSON for quoted values like session IDs`
+- [ ] `Fixed desktop and third-party provider sessions incorrectly inheriting apiKeyHelper/ANTHROPIC_AUTH_TOKEN from host managed-settings`
+- [ ] `Fixed early analytics events being silently dropped when fired before logger initialization`
+- [ ] `Fixed claude plugin install failing for plugins whose marketplace ref no longer exists upstream when a sha is also pinned`
+- [ ] `Fixed plugin details pane showing 0 MCP servers for plugins that declare them via .mcp.json`
+- [ ] `Fixed plugin MCP servers with unset config variables showing a generic connection failure instead of a "config issue" message with a fix-it hint; malformed .mcp.json entries no longer drop other MCP servers`
+- [ ] `Fixed MCP server configs using POSIX shell parameter expansions (e.g. ${var%pattern}) being incorrectly flagged as missing environment variables`
+- [ ] `Fixed MCP HTTP/SSE servers returning 403 on connect showing as "failed" instead of "needs auth"`
+- [ ] `Fixed remote MCP servers disconnecting unnecessarily when the optional server-events stream failed to reconnect — tool calls continue over POST`
+- [ ] `Fixed Remote Control MCP connectors all failing with 401 when the worker session token rotated mid-session`
+- [ ] `Fixed Remote Control automatically re-enrolling a trusted device when the server rejects a stale token, instead of looping through /login`
+- [ ] `Fixed a race where early OTel spans could be silently dropped in SDK/headless mode with beta tracing enabled`
+- [ ] `Fixed custom voice:pushToTalk keybindings and "space": null unbinds being silently ignored`
+- [ ] `Fixed Windows Alt+V image paste reporting "no image found" when the clipboard contains a screenshot`
+- [ ] `Fixed SDK "Claude Code native binary not found" on Linux when both glibc and musl platform packages are installed`
+- [ ] `Bedrock: awsCredentialExport now always runs when configured instead of being skipped when ambient AWS credentials resolve, fixing auth for cross-account access`
+- [ ] `[VSCode] Fixed in-chat mic showing no feedback when the microphone produced only silence — now shows "No audio detected"`
+- [ ] `[VSCode] Voice mode: the WSL error now suggests installing sox libsox-fmt-pulse for WSLg users`
+- [ ] `claude agents: launching a session no longer fails when the pre-warmed background worker is unhealthy — now falls back to a fresh launch`
+- [ ] `claude agents no longer shows empty placeholder sessions left over from backgrounding a fresh REPL, and shows onboarding text when entered via ← with no other agents`
+- [ ] `Empty idle background sessions left over from ← are now automatically retired by the daemon after 5 minutes`
 
 ## 2.1.140
 
