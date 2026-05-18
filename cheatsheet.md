@@ -463,10 +463,40 @@
 | Key / Command | Description |
 |---|---|
 | `/dump-prompt` | Show the full system prompt |
-| `/distill [stats\|discover\|7d\|30d\|binlog <f>\|trx <f>\|format-report <f>\|deps [dir]\|read <f> [level]]` | Output-compaction savings + file parsers |
+| `/distill` | Output-compaction stats + file parsers (see Distill Reference below for subcommands) |
 | `/budget <name> <amount>` (+ `switch`, `list`, `update`, `reset`, `delete`, `on`, `off`) | Per-task USD spend tracker rendered in fuelgauge status line |
 | `/monitor <command>` | Spawn long-running shell as background task (Shift+Down to view) |
 | `/job [list\|new\|reply\|status]` | REPL dispatcher for the templates / jobs backend |
+| `/force-snip` | Manually truncate old messages (faster than `/compact`) |
+
+### Identity & Personas
+
+| Key / Command | Description |
+|---|---|
+| `/identity` (alias `/persona`) | Open the persona panel — select from `~/.claude/identities/` or import a chara_card_v2 JSON. Active persona persisted to `~/.claude/IDENTITY.md` |
+
+The active persona is injected at the END of the first user message (not in the system prompt). On DeepSeek-V4, a Chinese `【角色沉浸要求】` marker routes the model's thinking-mode into in-character monologue — see `personaImmersionMode` setting (`auto`/`immersion`/`analysis`/`off`).
+
+### Workflows
+
+| Key / Command | Description |
+|---|---|
+| `/workflows` | List available workflows (built-in + global + project-local) |
+
+Workflows are `.md` files with optional YAML frontmatter at:
+- Built-in: `test-and-fix`, `lint-fix`
+- Global: `~/.claude/workflows/`
+- Project-local: `.claude/workflows/`
+
+```markdown
+---
+name: my-workflow
+description: Brief one-liner
+---
+# Body — instructions for the background agent
+```
+
+Invoke via the `Workflow` tool (model-facing) with `{workflow: "name", args?: "..."}`; runs up to 50 turns with full tool access.
 
 ### Code Knowledge Graph
 
@@ -512,16 +542,46 @@
 | `/memory-eval` | Score feedback memories by behavioral influence via ablation |
 | `/dream` | Manual memory consolidation (4-phase) |
 
-### Bundled Skills (Fork-Only)
+### Bundled Skills (Full Enumeration)
 
-| Trigger / Skill | Description |
-|---|---|
-| `/voice-gen` | VoxCPM2 TTS — voice design, controllable cloning, ultimate cloning, ASR |
-| `/claude-design` | Anthropic Labs Claude Design — decks, slides, landing pages, prototypes via 113 workflows + 27 brand systems |
-| `/ghidra-re` | Ghidra reverse engineering — decompile, document, struct creation, call-graph analysis |
-| `/sbox-live` | s&box (Facepunch Source 2) live editor — components, Razor panels, scene inspection |
-| `/browser-automation` | Zendriver browser MCP — scrape, fill forms, screenshot, audit, network monitor |
-| `/teach-me <topic>` | 1-on-1 AI tutor — diagnose level, build path, teach via guided questions |
+`F` = fork-introduced, `S` = stock upstream Claude Code shipping in our build.
+
+| Skill | Src | Description |
+|---|---|---|
+| `/browser-automation` | F | 50+ Zendriver browser tools — scrape, click, fill, screenshot, audit, network monitor |
+| `/ghidra-re` | F | 158+ Ghidra MCP tools — decompile, document, structs, call-graphs, malware analysis |
+| `/sbox-live` | F | s&box (Facepunch Source 2) live editor — components, Razor panels, scenes |
+| `/voice-gen` | F | VoxCPM2 TTS — voice design, controllable cloning, ultimate cloning, ASR |
+| `/claude-design` | F | Anthropic Labs Claude Design — decks, slides, landing pages, 113 workflows + 27 brand systems + 36 deck themes |
+| `/bug-hunter` | F | Adversarial 4-agent pipeline (recon → hunter → skeptic → referee → fixer) |
+| `/autofix-pr` | F | Read failing CI checks on a PR, diagnose, push fixes |
+| `/dream` | F | Manual memory consolidation — review daily logs / session transcripts, merge, prune, re-index |
+| `/memory-lint` | F | Audit memdir for stale paths, broken `[[wiki-links]]`, orphans, >90-day-old entries |
+| `/memory-eval` | F | Ablate each feedback memory with forked agents; score behavioral influence; suggest retirements |
+| `/remember` | F | Review auto-memory entries; propose promotions to `CLAUDE.md` / `CLAUDE.local.md` / shared |
+| `/handoff` | F | Compact current conversation into a handoff doc for a fresh agent |
+| `/skillify` | F | Capture this session's repeatable process into a new skill (with optional description) |
+| `/less-permission-prompts` | F | Scan transcript for repeated permission prompts; propose allowlist for `.claude/settings.json` |
+| `/build-graph` | F | Build or update the code knowledge graph (first-time init) |
+| `/review-pr` | F | Review a PR/branch diff with full knowledge-graph context + blast-radius |
+| `/review-delta` | F | Review only uncommitted changes — token-efficient delta with blast-radius |
+| `/review-changes` | F | Structured review using change-detection + impact analysis; risk-scored + test-gap checks |
+| `/debug-issue` | F | Debug bugs using graph-powered navigation — call chains, recent changes, impact |
+| `/explore-codebase` | F | Navigate codebase structure via the knowledge graph — broad → specific |
+| `/refactor-safely` | F | Plan + execute refactors using dependency analysis; preview blast radius |
+| `/batch` | F | Plan a large change then execute across 5–30 isolated worktree agents (one PR each) |
+| `/lorem-ipsum <N>` | F | Generate filler text of N tokens for long-context testing (ant-only) |
+| `/stuck` | F | Diagnose frozen/stuck sessions; post report to `#claude-code-feedback` (ant-only) |
+| `/debug` | S | Read session debug log with full event traces (ant-only) |
+| `/teach-me <topic>` | F | 1-on-1 AI tutor — diagnose level, build path, teach via guided questions |
+| `/keybindings-help` | S | Customize `~/.claude/keybindings.json` |
+| `/update-config` | S | Configure `settings.json`, permissions, env vars, hooks via the harness |
+| `/simplify` | S | Review changed code for reuse, quality, efficiency; fix issues found |
+| `/humanizer` | S | Remove AI-writing markers — no args = toggle session mode; with args = one-shot |
+| `/claude-api` | S | Build apps with the Claude API / Anthropic SDK |
+| `/verify` / `/runtime-verification` | S | Verify a code change does what it should by running the app |
+| `/loop <interval> <cmd>` | S | Run a prompt or slash command on a recurring interval (omit interval for self-pacing) |
+| `/schedule` | S | Create/update/list scheduled remote agents on a cron schedule |
 
 ## CLI Subcommands (Fork-Only)
 
@@ -576,6 +636,27 @@
 | `claude subagents` (alias `claude agents-definitions`) | List configured subagent definitions |
 | `claude mcp doctor [name]` | Diagnose MCP config, precedence, disabled/pending state, health (`--scope` `--config-only` `--json`) |
 
+### In-Chat Bot Commands (Telegram & Matrix)
+
+Commands you type into Telegram / Matrix once a bot is running. Any text NOT starting with one of these is forwarded to `QueryEngine.submitMessage()` — so all openclaude slash commands (`/super`, `/buddy`, `/graph`, etc.) work inline.
+
+| Key / Command | Description |
+|---|---|
+| `/start` | Greet user, claim ownership on first chat |
+| `/help` | List bot commands + available openclaude slash commands |
+| `/status` | Show cwd, session state, model, permission mode, run status |
+| `/stop` | Interrupt the currently running turn |
+| `/clear` | Destroy this chat/room's session — next message starts fresh |
+| `/cwd <path>` | Change working directory (resets session) |
+| `/model <name>` | Change model for this chat/room (resets session) |
+| `/sessions` | (owner only) List active chats/rooms with model + idle time + run status |
+| `/allow <chatId\|@user:homeserver>` | (owner only) Add to allowlist |
+| `/deny <chatId\|@user:homeserver>` | (owner only) Remove from allowlist |
+| `/admins` | (owner only) Show owner + allowed users/chats |
+| `/refresh` | (Telegram only) Re-scan openclaude commands; re-register menu |
+
+TUI-only commands like `/identity`, `/config`, `/help`, `/model` (the REPL ones) are rejected by the bot bridge with a message pointing back at the REPL.
+
 ## Built-in MCP Servers (Fork-Only)
 
 | Server | Tools | Description |
@@ -586,6 +667,120 @@
 | `sbox` | dynamic (`mcp__sbox__*`) | s&box editor introspection + scene mutation via the in-editor MCP host |
 | `voxcpm` | 5 | VoxCPM2 TTS bridge (`generate`, `run_asr`, `toggle_ultimate_cloning`, `list_voice_presets`, `ping`) |
 | `cheatengine` | 175+ (`mcp__cheatengine__*`) | Cheat Engine HTTP bridge — memory r/w, AOB scan, breakpoints, code injection, DBVM ring -1 ops |
+
+## LSP Plugin Marketplaces (Fork-Only)
+
+OpenClaude ships `LSPTool` (9 LSP operations) but bundles **zero** language servers — install from a plugin marketplace.
+
+### Piebald-AI/claude-code-lsps (single monorepo, 25 plugins)
+
+```bash
+claude plugin marketplace add Piebald-AI/claude-code-lsps
+claude plugin install vtsls          # TypeScript / JavaScript
+claude plugin install rust-analyzer  # Rust
+claude plugin install pyright        # Python (also: basedpyright, ty)
+claude plugin install gopls          # Go
+claude plugin install jdtls          # Java
+claude plugin install clangd         # C / C++
+claude plugin install ruby-lsp       # Ruby
+# Also bundled: vscode-langservers (CSS/Sass/SCSS/HTML/JSON), phpactor, omnisharp (C#),
+# powershell-editor-services, kotlin-lsp, texlab (LaTeX), bsl-lsp, julia-lsp,
+# vue-volar, ocaml-lsp, ada-language-server, dart, solidity-language-server,
+# metals (Scala), mdbase-lsp (Markdown)
+```
+
+The language-server binary (`vtsls`, `rust-analyzer`, etc.) must still be on `PATH` separately.
+
+### zircote/lsp-marketplace (multi-repo, 29 plugins with enforcement hooks)
+
+```bash
+claude plugin install zircote/bash-lsp
+claude plugin install zircote/cpp-lsp
+claude plugin install zircote/python-lsp
+# ... one repo per language. 29 plugins covering bash, C++, C#, Docker, Elixir,
+# Go, GraphQL, Haskell, HTML/CSS, Java, JSON, Kotlin, LaTeX, Lua, Markdown,
+# PHP, Python, Ruby, Rust, Scala, SQL, Svelte, Swift, Terraform, TypeScript,
+# Vue, YAML, Zig + a top-level lsp-tools enforcement plugin.
+```
+
+### Plugin / marketplace commands
+
+| Key / Command | Description |
+|---|---|
+| `claude plugin marketplace add <source>` | Add marketplace (`owner/repo`, URL, or local path); `--sparse <paths...>` for monorepos |
+| `claude plugin marketplace list` | List configured marketplaces |
+| `claude plugin marketplace remove <name>` | Remove a marketplace |
+| `claude plugin marketplace update [name]` | Pull latest from source(s) |
+| `claude plugin list [--available]` | List installed (or available) plugins |
+| `claude plugin install <name>` | Install from any configured marketplace |
+| `claude plugin enable <name>` / `disable <name>` | Toggle (v2.1.143: enable force-enables transitive deps; disable refuses with hint if depended-on) |
+| `claude plugin update <name>` | Update one plugin |
+| `claude plugin prune` | Remove unused/orphaned plugins |
+
+## Native Model-Facing Tools (Fork-Only)
+
+Tools the LLM picks from its tool list — distinct from slash commands the user types. Stock tools (Read/Write/Edit/Bash/Grep/Glob/WebFetch/WebSearch/TodoWrite/Agent/Task/ExitPlanMode) excluded.
+
+### Code Intelligence
+
+| Tool | Operations / Key Params | Description |
+|---|---|---|
+| `LSP` | `goToDefinition`, `findReferences`, `hover`, `documentSymbol`, `workspaceSymbol`, `goToImplementation`, `prepareCallHierarchy`, `incomingCalls`, `outgoingCalls` | Language Server Protocol — definitions, references, type info, symbols, call hierarchies. Requires plugin install (see above) + `ENABLE_LSP_TOOL=1` |
+| `CodeGraph` | 28 ops: `build_or_update_graph`, `list_graph_stats`, `get_minimal_context`, `get_impact_radius`, `get_review_context`, `query_graph`, `traverse_graph`, `detect_changes`, `find_large_functions`, `semantic_search_nodes`, `get_hub_nodes`, `get_bridge_nodes`, `get_knowledge_gaps`, `get_surprising_connections`, `get_suggested_questions`, `list_flows`, `get_flow`, `get_affected_flows`, `list_communities`, `get_community`, `get_architecture_overview`, `refactor`, `apply_refactor`, `generate_wiki`, `get_wiki_page`, `get_docs_section`, `list_repos`, `cross_repo_search`, `embed_graph` | Tree-sitter AST knowledge graph at `.code-review-graph/graph.db` — impact radius, PR risk, refactor candidates, communities, flows |
+
+### Memory & Skills
+
+| Tool | Operations / Key Params | Description |
+|---|---|---|
+| `MemorySearch` | `query`, `query_neighbors`, `stats`, `rebuild` | SQLite + FTS5 over the auto-memory directory — keyword search with bm25 ranking and `«»` snippets |
+| `DiscoverMemories` | `description`, `limit` (≤20) | Semantic memory search via Sonnet relevance ranking — for topic queries when keyword search isn't enough |
+| `DiscoverSkills` | `description`, `limit` | TF-IDF skill search across `~/.claude/skills` — model self-discovers relevant skills |
+
+### Context & Verification
+
+| Tool | Operations / Key Params | Description |
+|---|---|---|
+| `CtxInspect` | (no params) | Inspect current context: token usage, message count, cache status, session memory, collapse stats |
+| `TerminalCapture` | `panel_id`, `lines` | Tail stdout of a running `Monitor` task; lists all running monitors if `panel_id` omitted |
+| `ReviewArtifact` | `artifact`, `title`, `annotations[]` (line/message/severity), `summary` | Emit per-line code-review annotations (info/warning/error/suggestion) |
+| `VerifyPlanExecution` | (no params) | Spawn background verification agent — runs `git diff` against approved plan, reports pass/fail/partial |
+| `Snip` | (no params) | Truncate old conversation history to free context — faster than compaction, removes outright |
+| `ToolSearch` | `query` (keyword or `select:<name>`), `max_results` | Fetch schemas for deferred (not-yet-loaded) tools |
+
+### Background & Async
+
+| Tool | Operations / Key Params | Description |
+|---|---|---|
+| `Monitor` | `command`, `description`, `timeout_ms`, `persistent`, `idle_time`, `max_events_per_minute` | Spawn long-running shell as background task — each stdout line emits a notification (200ms batching) |
+| `Workflow` | `workflow` (name), `args` (optional) | Spawn a forked background agent from `~/.claude/workflows/<name>.md` (or built-in `test-and-fix` / `lint-fix`) |
+| `PushNotification` | `message`, `title` | Terminal notification — bell, iTerm2, Kitty, Ghostty escape sequences |
+| `SubscribePR` | `pr` (number), `repo` (optional) | Watch a GitHub PR via `gh` CLI polling — checks, reviews, merge state |
+| `ScheduleWakeup` | `delaySeconds`, `reason`, `prompt` | Self-pace `/loop` dynamic mode — schedule next re-fire of the same prompt |
+| `RemoteTrigger` | `action` (list/get/create/update/run), `trigger_id`, `body` | Manage scheduled remote-agent cron routines via `claude.ai` API |
+
+### Multi-Instance & Worktrees
+
+| Tool | Operations / Key Params | Description |
+|---|---|---|
+| `ListPeers` | (no params) | List active openclaude peers — UDS sessions, alive pipes, LAN peers |
+| `EnterWorktree` | `name` (optional), `path` (optional) | Create or enter an isolated git worktree; switches session into it |
+| `ExitWorktree` | `action` (keep/remove), `discard_changes` | Exit worktree — keep on disk or delete worktree + branch |
+
+### MCP Resources
+
+| Tool | Operations / Key Params | Description |
+|---|---|---|
+| `ListMcpResources` | `server` (optional filter) | List resources offered by connected MCP servers — URI, name, MIME type |
+| `ReadMcpResource` | `server`, `uri` | Read a specific MCP resource by URI |
+
+### KAIROS / Ant-only
+
+| Tool | Gate | Description |
+|---|---|---|
+| `Brief` | `KAIROS` | Send a message with attachments to user (file paths, photos, diffs); `proactive` mode = unsolicited update |
+| `SendUserFile` | `KAIROS` (stubbed) | File-transfer tool — currently returns null |
+| `REPL` | `USER_TYPE=ant` | In-process JS REPL with all openclaude tools as async functions |
+| `NativeAdvisor` | `getInitialAdvisorModeSetting() === 'native'` | Consult lower-cost advisor model for strategic guidance |
 
 ## Environment Variables (Fork-Only)
 
@@ -709,6 +904,44 @@
 | `Shift+Up` | Toggle pipe-broadcast target selector |
 | `←` (empty input) | Open `/agents` cross-session dashboard |
 
+## `/distill` Reference
+
+`/distill` shows output-compaction stats and parses common build/test artifact formats so the model doesn't burn tokens reading raw output.
+
+| Subcommand | Description |
+|---|---|
+| `/distill` (or `/distill stats`) | 7-day savings — events, in/out tokens, top commands by savings |
+| `/distill discover` | Find high-volume commands WITHOUT a filter — suggests entries for `.distill/filters.toml` |
+| `/distill 7d` / `/distill 30d` | Stats window override |
+| `/distill binlog <file.binlog> [build\|test\|restore]` | Parse MSBuild `.binlog` (gzipped) — errors, warnings, failed tests |
+| `/distill trx <file.trx>` | Parse Visual Studio `.trx` XML test results — passed/failed/skipped + failed test names |
+| `/distill format-report <report.json>` | Parse dotnet-format report JSON — per-file + per-rule changes |
+| `/distill deps [dir]` | Scan for `Cargo.toml` / `package.json` / `pyproject.toml` / `requirements.txt` / `Gemfile` / `go.mod` / `composer.json` and list runtime + dev deps |
+| `/distill read <file> [none\|minimal\|aggressive]` | Read a source file at filter level — `aggressive` strips function bodies; language detected by extension |
+
+Custom filters: `.distill/filters.toml` (project) → `~/.config/openclaude/distill.toml` (global). Toggle via `distillEnabled` setting.
+
+## Container Environment
+
+Required env for the interactive Docker container (`docker-compose.interactive.yml`) so default `bypassPermissions` activates and providers connect:
+
+| Var | Default / Value | Notes |
+|---|---|---|
+| `ANTHROPIC_AUTH_TOKEN` | **required** | z.ai / DeepSeek / NIM / Anthropic token |
+| `ANTHROPIC_BASE_URL` | `https://api.anthropic.com` | Override per provider — e.g. `https://api.z.ai/api/anthropic` |
+| `ANTHROPIC_MODEL` | (provider default) | e.g. `deepseek-v4-pro`, `glm-4.6` |
+| `ANTHROPIC_DEFAULT_HAIKU_MODEL` | matches `ANTHROPIC_MODEL` | Small/fast model for side-queries |
+| `API_TIMEOUT_MS` | `600000` | 10 minutes |
+| `GITHUB_TOKEN` | (unset) | Required for `/ultrareview` + PR context |
+| `WORKSPACE_MOUNT` | `./data` | Host path mounted at the container HOME |
+| `IS_SANDBOX` | `1` (set in Dockerfile) | Sandbox marker — required for default `bypassPermissions` |
+| `USER_TYPE` | `ant` (set at entrypoint) | Feature-unlock marker — forced unconditionally |
+| `CLAUDE_AUTO_TRUST` | `1` | Auto-accept trust + API-key prompts |
+| `CLAUDE_CODE_NO_FLICKER` | `0` | `1` disables alt-screen; compose sets `0` for the interactive container |
+| `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` | `1` | Suppress telemetry/version checks |
+
+Default-bypass activation requires `USER_TYPE=ant` + sandbox marker (`IS_SANDBOX=1` OR Docker/Bubblewrap auto-detected). Opt out with `OPENCLAUDE_DEFAULT_BYPASS_DISABLED=1`; re-enable upstream no-internet strictness with `OPENCLAUDE_BYPASS_REQUIRE_NO_INTERNET=1`.
+
 ## Quickstart Recipes
 
 ### Run with z.ai (zero-config RPM throttling)
@@ -729,20 +962,56 @@ export ANTHROPIC_DEFAULT_HAIKU_MODEL=deepseek-v4-pro
 claude
 ```
 
+### NVIDIA NIM (130-model auto-catalog, OpenAI↔Anthropic bridge)
+
+```bash
+export ANTHROPIC_AUTH_TOKEN=<NIM API key>
+export ANTHROPIC_BASE_URL=https://integrate.api.nvidia.com/v1
+# Or self-hosted:
+# export ANTHROPIC_BASE_URL=https://nim-host.local:8000/v1
+export ANTHROPIC_MODEL=nvidia/llama-3.3-nemotron-super-49b-v1
+claude
+```
+
+The fork's `openaiBridge` registers the host pattern, translates request bodies + SSE streams, and pulls context windows from a baked-in 130-model catalog. Optional: `NVIDIA_NIM_API_KEY` to use a different token than `ANTHROPIC_AUTH_TOKEN`.
+
 ### Connect a Telegram bot
 
 ```bash
-claude telegram setup           # interactive wizard
-claude telegram start           # foreground
+claude telegram setup           # interactive wizard (token, mode, model, permission)
+claude telegram start           # foreground; polling mode by default
+# Owner-bootstrap: first chat to message the bot claims ownership and is allowlisted
+# Inside Telegram: /allow <id>  /deny <id>  /admins  /sessions  /cwd <path>  /model <name>
 ```
+
+For webhook mode: `claude telegram start --mode webhook --webhook-url https://your.domain/webhook`.
 
 ### Drive openclaude from Zed/Cursor (ACP)
 
+Two paths:
+
+**Auto-launch (preferred)** — point Zed at the binary; it spawns `claude --acp` over stdio and speaks the Agent Client Protocol directly.
+
+**Bridge mode** — run the WebSocket→stdio proxy when the client lives on a different machine:
+
 ```bash
-# In Zed: point at the binary; it auto-launches with --acp
-# Manual:
-claude acp-link --host 127.0.0.1 --port 9315
+claude acp-link --host 127.0.0.1 --port 9315 --https --permission-mode bypassPermissions
+# Token auto-generated (set ACP_AUTH_TOKEN env or --token <t> to override; --no-auth to disable)
+# Zed settings:  serverUrl: "wss://127.0.0.1:9315", token: "<from stdout>"
 ```
+
+### Ghidra MCP for binary analysis
+
+```bash
+# Auto-installs on first /ghidra-re invocation. Manual override:
+export GHIDRA_HOME=/opt/ghidra_12.0.3_PUBLIC
+export GHIDRA_MCP_DIR=/opt/ghidra-mcp
+export GHIDRA_MCP_PORT=8089
+# Then in REPL:
+/ghidra-re                       # 158+ Ghidra tools wired into the model
+```
+
+Prereqs: Java 21 (JDK auto-installed in the interactive container). On a host install, the setup helper at `src/utils/ghidraMcp/setup.ts` clones GhidraMCP v4.2.0 + builds the JAR.
 
 ### Spawn background session + dashboard
 
