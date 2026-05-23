@@ -14,7 +14,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 - [ ] `/usage now shows a per-category breakdown of what's driving your limits usage — skills, subagents, plugins, and per-MCP-server cost`
 - [ ] `/diff detail view can now be scrolled with the keyboard (arrows, j/k, PgUp/PgDn, Space, Home/End)`
-- [ ] `Markdown output now renders GFM task list checkboxes (- [ ] todo / - [x] done) instead of plain bullets`
+- [x] `Markdown output now renders GFM task list checkboxes (- [ ] todo / - [x] done) instead of plain bullets` — 0c28a97 (src/utils/markdown.ts: new `case 'checkbox'` emits ☐/☑ glyphs; `text` handler suppresses `- ` bullet when parent list_item is a task; `list_item` handler skips per-child indent for non-first children of task items so glyph + text share one line)
 - [-] `Enterprise: added the allowAllClaudeAiMcps managed setting to load claude.ai cloud MCP connectors alongside managed-mcp.json` — SKIP (enterprise managed-settings + claude.ai cloud MCPs we don't load)
 - [-] `Fixed a PowerShell permission bypass: built-in cd functions (cd.., cd\, cd~, X:) changed the working directory undetected, letting a later command read outside the workspace` — SKIP (PowerShell tool, Windows)
 - [ ] `Fixed the sandbox write allowlist in git worktrees covering the entire main repository root instead of only the shared .git directory (with hooks/ and config denied)`
@@ -93,7 +93,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed the spinner and elapsed-time display freezing until a keypress after the terminal was resized or refocused`
 - [-] `Fixed the cross-project resume hint failing in default Windows PowerShell 5.1 — Windows now uses ; as the command separator` — SKIP (Windows PowerShell 5.1)
 - [ ] `Fixed voice push-to-talk not working in the agent view's reply pane`
-- [ ] `Fixed task lists rendering in random order when several tasks are created at once`
+- [x] `Fixed task lists rendering in random order when several tasks are created at once` — DONE (`b865796`) `TaskCreateTool.isConcurrencySafe()` was returning `true`, so when the model emitted multiple `TaskCreate` blocks in one assistant turn, `toolOrchestration.partitionToolCalls` batched them and dispatched via `runToolsConcurrently → all()`. `createTask` serializes ID allocation through a lockfile (5-100ms exponential backoff), but the order in which parallel promises win the lock is non-deterministic — so `subj-2` could get id 1 while `subj-1` got id 5. `TaskListV2` sorts by numeric id, producing the random visible order. Flipping `isConcurrencySafe()` to `false` forces serial dispatch via `runToolsSerially` which iterates the input array in order, so id N → Nth tool_use block. Smoke-tested 10× direct against `createTask`: pre-fix parallel produced 0/10 stable orderings; post-fix serial produces 10/10 stable orderings.
 - [-] `Fixed stale "Failed to install Anthropic marketplace" banner showing when the marketplace is already installed` — SKIP (Anthropic-owned marketplace)
 - [ ] `Fixed the PR badge in the footer not updating immediately after gh pr create and other PR-state-changing commands run in-session`
 - [-] `Fixed Agent Teams teammates with non-ASCII names failing every API call due to invalid header encoding` — SKIP (Agent Teams; see 2.1.147 entry above)
