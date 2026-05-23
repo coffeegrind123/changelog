@@ -81,7 +81,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 ## 2.1.145
 
-- [ ] `Added claude agents --json to list live Claude sessions as JSON for scripting (tmux-resurrect, status bars, session pickers)`
+- [x] `Added claude agents --json to list live Claude sessions as JSON for scripting (tmux-resurrect, status bars, session pickers)` — DONE (`c459e46`) `cli/handlers/agentsView.tsx` short-circuits BEFORE the Ink mount when `opts.json` is set — reuses `getMergedSessions(cwdFilter)` from `agents/sessionMerge.ts`, maps each `MergedAgentRow` to a public JSON shape (id/pid/name/cwd/status/startedAt/lastUpdated/lastMessage/turnCount + optional jobId/prUrl), emits via `console.log(JSON.stringify(out, null, 2))`, exits 0. `main.tsx` commander registration extended with `.option('--json', ...)`. Composes with `--cwd` (2.1.141) so callers can scope. The MergedAgentRow shape was already a clean public schema (no internal-only fields), so the mapping is straight passthrough — only stripping the type discriminator. Live-verified in container: `claude agents --json | jq 'type, length'` → `"array", 0` (well-formed, empty in container with no live sessions). Cheatsheet updated.
 - [ ] `Added agent_id and parent_agent_id attributes to claude_code.tool OTEL spans, and fixed trace parenting so background subagent spans nest under the dispatching Agent tool span`
 - [ ] `Status line JSON input now includes GitHub repo and PR information when detected`
 - [ ] `/plugin Discover and Browse screens now show a plugin's commands, agents, skills, hooks, and MCP/LSP servers before installation`
