@@ -97,7 +97,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [-] `Fixed stale "Failed to install Anthropic marketplace" banner showing when the marketplace is already installed` — SKIP (Anthropic-owned marketplace)
 - [ ] `Fixed the PR badge in the footer not updating immediately after gh pr create and other PR-state-changing commands run in-session`
 - [-] `Fixed Agent Teams teammates with non-ASCII names failing every API call due to invalid header encoding` — SKIP (Agent Teams; see 2.1.147 entry above)
-- [ ] `Fixed /review using a deprecated projectCards GraphQL query that errored on repos with Classic Projects`
+- [-] `Fixed /review using a deprecated projectCards GraphQL query that errored on repos with Classic Projects` — SKIP (not applicable). Our `/review` (`src/commands/review.ts`) is a plain-prompt command that shells out to `gh pr view/diff/list` only — no GraphQL. The bundled `/code-review` plugin skill (`work/.claude/plugins/marketplaces/claude-plugins-official/plugins/code-review/commands/code-review.md`) likewise uses only `gh pr view/diff/comment/list` — no GraphQL. Exhaustive grep across `src/` for `projectCards` / `projectsV2` / `gh api graphql` returned zero matches. Nothing to fix in our fork.
 - [ ] `Fixed claude plugin validate not flagging skills: entries that point at a file instead of a directory — the error now suggests the parent directory`
 - [ ] `Fixed an infinite loop where a skill using context: fork could repeatedly re-invoke itself instead of running`
 - [ ] `Improved the Read tool to return a truncated first page with a "PARTIAL view" notice instead of a hard error when a whole-file read exceeds the token limit`
