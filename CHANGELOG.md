@@ -2,6 +2,10 @@
 
 
 
+## 29.05.2026
+
+- `451a0f2` Backlog batch (upstream 2.1.x): **(1)** Fixed API 400 errors on models that don't support the effort parameter when `CLAUDE_CODE_ALWAYS_ENABLE_EFFORT` is set — `modelSupportsEffort` no longer force-enables the field on models the API hard-rejects (legacy haiku + pre-4.6 opus/sonnet), so a Haiku subagent call with the override on no longer 400s with "unexpected field 'effort'"; the env var stays a force-on escape hatch for new/unknown models (+3 unit tests). **(2)** Renamed the `/effort` slider labels from "Speed"/"Intelligence" to "Faster"/"Smarter". **(3)** Stdio MCP server subprocesses now receive `CLAUDECODE=1` in their environment (`CLAUDE_CODE_SESSION_ID` already arrives via `subprocessEnv()`), matching the Bash-tool subprocess convention. **(4)** Removed the stale "& for background" hint from the prompt help menu (the `&` background syntax is deprecated). The `/effort xhigh` tier referenced in the same upstream release was already present in the fork.
+
 ## 28.05.2026
 
 - `1253217` Improved the Humanizer feature — added four rhetorical "AI smell" patterns (30-33) to the `/humanizer` skill and the session-wide `CLAUDE_CODE_HUMANIZER` system-prompt section, covering the tells that survive a clean-vocabulary pass: aphoristic punchlines (profound-sounding one-liners engineered as paragraph closers), staccato fragment stacking for fake gravitas ("No aesthetic prior. No instinct to preserve harmony."), "X is the Y of Z" metaphor-equations, and engineered profundity (sentences whose deletion loses no information). Also extended pattern #9 to flag the "not merely X but Y" negation variant. Pattern count 29 → 33.
