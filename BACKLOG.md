@@ -28,7 +28,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Added Claude Opus 4.8 support and 4.7 → 4.8 migration guidance to the /claude-api skill` — TODO (skill doc update)
 - [-] `Deprecated CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE (will be removed on 06/01)` — SKIP (Anthropic Opus fast-mode env var)
 - [ ] `Improved the auto-mode classifier's detection of data exfiltration, particularly bulk transfers of repository contents` — TODO (auto-mode safety classifier)
-- [ ] `Fixed rm -rf $HOME not being blocked as a dangerous path when HOME has a trailing slash` — TODO (bash dangerous-path security fix; worth backporting into our dangerous-path matcher)
+- [x] `Fixed rm -rf $HOME not being blocked as a dangerous path when HOME has a trailing slash` — TODO (bash dangerous-path security fix; worth backporting into our dangerous-path matcher) — DONE 20b87c4 (isDangerousRemovalPath now strips a trailing slash from the home dir before comparison, same as the target path; +5 tests via an injectable homeDir param since os.homedir() ignores process.env.HOME in Bun)
 - [ ] `Fixed $TMPDIR resolving to different directories in sandboxed vs unsandboxed Bash commands within the same session` — TODO (sandbox/bash env consistency)
 - [ ] `Fixed unreadable highlighted-row text in claude agents when the Claude Code theme doesn't match the terminal background` — TODO (agents view theming)
 - [ ] `Fixed background-agent completion notifications triggering premature "out of context" behavior on some 1M-context models` — TODO (RELEVANT — we run 1M-context models on z.ai/DeepSeek)
