@@ -4,6 +4,7 @@
 
 ## 29.05.2026
 
+- `c09a4c2` Added an idle-reaper for background sessions — a session stuck in a working state (`claude agents`/`claude ps` showing it as "working" forever because its process hung or its turn loop stalled) is now retired to `timeout` once it hasn't advanced for the idle grace period (default 30 min; override with `CLAUDE_CODE_BG_IDLE_GRACE_MS`). It drops out of the active list + "N working" counts. `awaiting_input` sessions (you still need to answer them) and pinned sessions are exempt, and the process isn't killed — you can `claude kill` a retired session. Backport of upstream 2.1.x.
 - `da05182` Added a `skipLfs` option to `github`/`git` plugin marketplace sources — set `skipLfs: true` to skip Git LFS object downloads during clone and update (sets `GIT_LFS_SKIP_SMUDGE=1`). Useful for marketplace repos that carry large LFS-tracked assets the plugin loader doesn't need. Backport of upstream 2.1.x.
 - `e7bf44d` Fixed background-session jobs writing temp files under `$CLAUDE_JOB_DIR` (`~/.claude/jobs/<id>/`) triggering a "sensitive file" permission prompt — that path is now exempt from the dangerous-directory guard like `.claude/worktrees/`, while real config paths (`settings`, `commands`, `agents`, `skills`) stay guarded.
 - `b1d9ea9` Fixed `/rename` in a background session not updating the name shown by `claude agents` / `claude ps` until the session exited — it now writes the new name to the session's `~/.claude/sessions/<pid>.json` immediately. Both backports of upstream 2.1.x.
