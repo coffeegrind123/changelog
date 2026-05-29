@@ -4,6 +4,8 @@
 
 ## 29.05.2026
 
+- `e7bf44d` Fixed background-session jobs writing temp files under `$CLAUDE_JOB_DIR` (`~/.claude/jobs/<id>/`) triggering a "sensitive file" permission prompt — that path is now exempt from the dangerous-directory guard like `.claude/worktrees/`, while real config paths (`settings`, `commands`, `agents`, `skills`) stay guarded.
+- `b1d9ea9` Fixed `/rename` in a background session not updating the name shown by `claude agents` / `claude ps` until the session exited — it now writes the new name to the session's `~/.claude/sessions/<pid>.json` immediately. Both backports of upstream 2.1.x.
 - `1a619ce` Fixed `worktree.baseRef: "head"` resolving to the main checkout's HEAD instead of the current worktree's HEAD when creating a worktree or spawning a subagent from inside a linked worktree — the base ref is now resolved from the current working directory's gitdir (shared refs still fall back to the common dir). Backport of upstream 2.1.x.
 - `c83f64d` Plugins can now declare `defaultEnabled: false` in `plugin.json` or a marketplace entry — the plugin is installed but not enabled, and you turn it on explicitly with `/plugin` or `claude plugin enable`. Dependencies of enabled plugins are still enabled automatically (a dependency's own `defaultEnabled:false` is overridden when its parent is enabled). Backport of upstream 2.1.x.
 - `6e9968e` Fixed plan-mode plan filenames including `[Image #N]` / `[Pasted text #N]` placeholders when the prompt starts with a pasted image or text — `generatePromptSlug` now strips those (and truncated-text) placeholders before deriving the slug, so a plan led by an attachment no longer produces filenames like `image-1-…` or `pasted-text-1-…`. Backport of upstream 2.1.x.
