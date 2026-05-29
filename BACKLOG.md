@@ -55,7 +55,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 ## 2.1.153
 
-- [ ] `Added skipLfs option to github/git plugin marketplace sources to skip Git LFS downloads during clone and update` — TODO (plugin marketplace)
+- [x] `Added skipLfs option to github/git plugin marketplace sources to skip Git LFS downloads during clone and update` — TODO (plugin marketplace) — DONE da05182 (skipLfs added to github+git MarketplaceSourceSchema; shared buildGitEnv(skipLfs) sets GIT_LFS_SKIP_SMUDGE=1, threaded through gitClone/gitPull/reconcileSparseCheckout/cacheMarketplaceFromGit and wired at all 9 call sites (load + install/update). +3 buildGitEnv tests)
 - [-] `Claude Code now shows a one-time notice when your npm global install can't auto-update; /doctor lists the fixes` — SKIP (npm global install / auto-update; we use GitHub Releases + source-mode disables updater)
 - [x] `Status line commands now receive COLUMNS and LINES environment variables so scripts can size output to the terminal width` — TODO (status line; we ship fuelgauge + statusLine hook) — DONE acbdfbe (execCommandHook injects COLUMNS/LINES into the child env scoped to hookEvent==='StatusLine', read from process.stdout.columns/rows, skipped when not a tty)
 - [ ] `claude agents: autocomplete in the dispatch input now suggests native slash commands and bundled skills, not just project skills` — TODO (agents view dispatch autocomplete)

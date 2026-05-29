@@ -4,6 +4,7 @@
 
 ## 29.05.2026
 
+- `da05182` Added a `skipLfs` option to `github`/`git` plugin marketplace sources — set `skipLfs: true` to skip Git LFS object downloads during clone and update (sets `GIT_LFS_SKIP_SMUDGE=1`). Useful for marketplace repos that carry large LFS-tracked assets the plugin loader doesn't need. Backport of upstream 2.1.x.
 - `e7bf44d` Fixed background-session jobs writing temp files under `$CLAUDE_JOB_DIR` (`~/.claude/jobs/<id>/`) triggering a "sensitive file" permission prompt — that path is now exempt from the dangerous-directory guard like `.claude/worktrees/`, while real config paths (`settings`, `commands`, `agents`, `skills`) stay guarded.
 - `b1d9ea9` Fixed `/rename` in a background session not updating the name shown by `claude agents` / `claude ps` until the session exited — it now writes the new name to the session's `~/.claude/sessions/<pid>.json` immediately. Both backports of upstream 2.1.x.
 - `1a619ce` Fixed `worktree.baseRef: "head"` resolving to the main checkout's HEAD instead of the current worktree's HEAD when creating a worktree or spawning a subagent from inside a linked worktree — the base ref is now resolved from the current working directory's gitdir (shared refs still fall back to the common dir). Backport of upstream 2.1.x.
