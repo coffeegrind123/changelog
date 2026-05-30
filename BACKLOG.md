@@ -8,7 +8,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 
 ## 2.1.158
 
-- [ ] `Auto mode is now available on Bedrock, Vertex, and Foundry for Opus 4.7 and Opus 4.8. Opt in by setting CLAUDE_CODE_ENABLE_AUTO_MODE=1` — TODO
+- [-] `Auto mode is now available on Bedrock, Vertex, and Foundry for Opus 4.7 and Opus 4.8. Opt in by setting CLAUDE_CODE_ENABLE_AUTO_MODE=1` — SKIP (provider-specific: Bedrock/Vertex/Foundry, which this fork does not run)
 
 ## 2.1.157
 
@@ -17,7 +17,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Added autocomplete for /plugin arguments: subcommands, installed plugin names, and plugins from known marketplaces` — TODO
 - [ ] `claude agents: the agent field in settings.json is now honored for dispatched sessions, with --agent <name> to override it` — TODO
 - [ ] `EnterWorktree can now switch between Claude-managed worktrees mid-session` — TODO
-- [ ] `tool_decision telemetry events now include tool_parameters (bash commands, MCP/skill names) when OTEL_LOG_TOOL_DETAILS=1` — TODO
+- [-] `tool_decision telemetry events now include tool_parameters (bash commands, MCP/skill names) when OTEL_LOG_TOOL_DETAILS=1` — SKIP (telemetry neutralized in this fork; tool_decision events aren't emitted to Anthropic's pipeline)
 - [ ] `Worktrees managed by Claude are now left unlocked when the agent finishes, so git worktree remove/prune can clean them up` — TODO
 - [ ] `Fixed unprocessable images (zero-byte, corrupt) attached via paste, MCP, or dialog crashing the request instead of becoming a text placeholder` — TODO
 - [ ] `Fixed sandbox network permission prompts appearing in auto and bypass-permissions mode when using the desktop app, IDE extensions, or SDK` — TODO
@@ -29,7 +29,7 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `Fixed --resume not reporting background subagents that were running when the previous Claude Code process exited` — TODO
 - [ ] `Fixed the --resume session picker leaving its contents on the terminal after exiting in fullscreen mode` — TODO
 - [ ] `Fixed --worktree and --worktree --tmux returning to the canonical repo root instead of the current linked worktree` — TODO
-- [ ] `Fixed the /model picker showing an incorrect "Newer version available" hint when the selected model is already the newest in its family; the pinned-model row now shows the model's description instead of its raw ID` — TODO
+- [x] `Fixed the /model picker showing an incorrect "Newer version available" hint when the selected model is already the newest in its family; the pinned-model row now shows the model's description instead of its raw ID` — DONE (pending commit, 2026-05-30). Root cause in `getKnownModelOption` (modelOptions.ts): it showed the upgrade hint whenever the pinned model's marketing name `!==` the alias's currently-resolved name — flagging a model that is NEWER than a lagging alias default (e.g. pinned Opus 4.8 while `getDefaultOpusModel()` still returns 4.7) and telling the user to "select Opus for Opus 4.7" (a downgrade). Fix: added `modelVersionTuple()`/`isStrictlyNewer()` (extract ordered numeric version from the canonical name; same-family recency compare) and gated the hint on `isStrictlyNewer(aliasDefault, pinnedModel)`; otherwise show `getPublicModelDisplayName(model) ?? marketingName` instead of the raw model ID. Required adding the missing `claude-opus-4-8` case to `firstPartyNameToCanonical` (it collapsed to `claude-opus-4`, erasing the "8" so ordering was wrong) + `claude-opus-4-8`/`claude-opus-4-7` cases to `getMarketingNameForModel` (4.7 previously fell through to "Opus 4"). 6 unit tests in `modelVersionCompare.test.ts`. Note: the exact upstream trigger (Opus 4.8 in catalog) isn't fully reachable here since `getModelStrings()` tops out at opus47, but the latent `!==`-vs-ordering bug + raw-ID display are fixed and future-proofed against the next model launch.
 - [ ] `Fixed literal markdown markers (backticks, asterisks) appearing in the in-progress message text in fullscreen mode` — TODO
 - [ ] `Fixed the terminal freezing after approving the managed-settings security dialog at startup` — TODO
 - [ ] `Fixed a rare duplicate line appearing in scrollback after the terminal UI redraws` — TODO
@@ -39,12 +39,12 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 - [ ] `/terminal-setup now disables GPU acceleration in VS Code/Cursor/Windsurf integrated terminals to prevent garbled-text rendering` — TODO
 - [ ] `The Feature of the Week credit-claim status now appears as a notification in the status area instead of a line above the prompt` — TODO
 - [ ] `claude agents: slash-command autocomplete in the dispatch input now matches substrings` — TODO
-- [ ] `Removed the "bash commands will be sandboxed" startup banner — sandbox status still shows in /status and when a command is blocked` — TODO
-- [ ] `Removed the "/ide for …" startup hint toast` — TODO
+- [x] `Removed the "bash commands will be sandboxed" startup banner — sandbox status still shows in /status and when a command is blocked` — DONE (pending commit, 2026-05-30). LogoV2.tsx rendered the warning banner ("Your bash commands will be sandboxed. Disable with /sandbox.") at 3 sites gated on `showSandboxStatus = SandboxManager.isSandboxingEnabled()`. Forced `showSandboxStatus = false` (the var is used only by the banner). Verified sandbox status still surfaces in /status via `buildSandboxProperties()` ("Bash Sandbox: Enabled/Disabled") — unaffected.
+- [-] `Removed the "/ide for …" startup hint toast` — SKIP (N/A — no such startup hint toast exists in this fork; grepped REPL.tsx + components + Notifications for a "/ide for"/"use /ide" startup toast and found none. Nothing to remove)
 - [ ] `[IDE] Fixed clicking Stop while a background subagent is running not actually stopping it` — TODO
 - [ ] `[VSCode] Fixed the fast mode indicator not appearing on Opus 4.8` — TODO
-- [ ] `Pressing backspace right after a workflow trigger keyword now dismisses the workflow request (same as alt+w) instead of deleting a character` — TODO
-- [ ] `Added a "Workflow keyword trigger" setting in /config to stop the word "workflow" in a prompt from triggering a dynamic workflow` — TODO
+- [-] `Pressing backspace right after a workflow trigger keyword now dismisses the workflow request (same as alt+w) instead of deleting a character` — SKIP (N/A — our dynamic-workflows engine is model-invoked via the `Workflow` tool; the fork has no "type the word workflow in the prompt → auto-suggest a dynamic workflow" keyword-trigger UX. Confirmed: no workflow-keyword-trigger detection or alt+w dismiss handler anywhere in src/. Nothing to dismiss)
+- [-] `Added a "Workflow keyword trigger" setting in /config to stop the word "workflow" in a prompt from triggering a dynamic workflow` — SKIP (N/A — same root as the backspace-dismiss item above: there is no prompt-keyword trigger for dynamic workflows in this fork (the `Workflow` tool is model-invoked), so there is no keyword-trigger behavior for a /config setting to gate)
 
 ## 2.1.156
 
