@@ -2,6 +2,11 @@
 
 
 
+## 30.05.2026
+
+- `af5387b` Fixed the `/model` picker showing an incorrect "Newer version available · select Opus for …" hint on a model that's already the newest in its family — it compared marketing-name strings for inequality, so a model one version *ahead* of a lagging alias default (e.g. a pinned Opus 4.8 while the Opus alias still resolves to 4.7 on a provider that lags) was wrongly told to "upgrade" to the older version. The hint now only shows when the alias genuinely resolves to a newer model (version-aware comparison), and the pinned-model row shows the model's description instead of its raw ID. Backlog 2.1.157 (upstream).
+- `af5387b` Removed the "Your bash commands will be sandboxed. Disable with /sandbox." startup banner — sandbox status still shows in `/status` (Bash Sandbox: Enabled/Disabled) and when a command is blocked. Backlog 2.1.157 (upstream).
+
 ## 29.05.2026
 
 - `2b2401c` Fixed a single bad tool-result render collapsing your **entire session** into "restored fallback mode" — a tool whose result rendered a stray `undefined` (manifesting as `Text string "undefined" must be rendered inside <Text>`) used to take down the whole REPL, because the existing guard only caught synchronous throws from the render *call*, not errors thrown when Ink draws the *returned* tree. Bad tool renders are now contained to a single "Render error: …" row and the session keeps going (self-healing), the same resilience goal as upstream's self-healing sessions.
