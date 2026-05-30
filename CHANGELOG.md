@@ -8,6 +8,7 @@
 - `af5387b` Removed the "Your bash commands will be sandboxed. Disable with /sandbox." startup banner — sandbox status still shows in `/status` (Bash Sandbox: Enabled/Disabled) and when a command is blocked. Backlog 2.1.157 (upstream).
 - `3eca27b` Improved **EnterWorktree**: you can now switch *between* Claude-managed worktrees mid-session by passing `path` to an existing worktree — previously the tool refused with "Already in a worktree session" whenever you were already inside one. Switching preserves the original pre-worktree directory so `ExitWorktree` returns you all the way back, and a path-switched worktree can now actually be exited mid-session (it wasn't being tracked in memory before). Backlog 2.1.157 (upstream).
 - `b1a92a1` Fixed an unprocessable image (zero-byte or corrupt) attached via paste/dialog or returned by an MCP tool **crashing the whole request** — it now degrades to a `[Unprocessable image: …]` text placeholder so the rest of your message (and any other images/tool output) still goes through. Backlog 2.1.157 (upstream).
+- `63c6c89` Fixed `--worktree` / `--worktree --tmux` with `worktree.baseRef: "head"`: when launched from inside an existing linked worktree, the new worktree branched from the **main checkout's HEAD instead of the worktree you launched from**. It now resolves HEAD against the current worktree. Only affects the non-default `baseRef: "head"` setting. Backlog 2.1.157 (upstream).
 
 ## 29.05.2026
 
