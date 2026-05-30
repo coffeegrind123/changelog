@@ -6,6 +6,7 @@
 
 - `af5387b` Fixed the `/model` picker showing an incorrect "Newer version available · select Opus for …" hint on a model that's already the newest in its family — it compared marketing-name strings for inequality, so a model one version *ahead* of a lagging alias default (e.g. a pinned Opus 4.8 while the Opus alias still resolves to 4.7 on a provider that lags) was wrongly told to "upgrade" to the older version. The hint now only shows when the alias genuinely resolves to a newer model (version-aware comparison), and the pinned-model row shows the model's description instead of its raw ID. Backlog 2.1.157 (upstream).
 - `af5387b` Removed the "Your bash commands will be sandboxed. Disable with /sandbox." startup banner — sandbox status still shows in `/status` (Bash Sandbox: Enabled/Disabled) and when a command is blocked. Backlog 2.1.157 (upstream).
+- `3eca27b` Improved **EnterWorktree**: you can now switch *between* Claude-managed worktrees mid-session by passing `path` to an existing worktree — previously the tool refused with "Already in a worktree session" whenever you were already inside one. Switching preserves the original pre-worktree directory so `ExitWorktree` returns you all the way back, and a path-switched worktree can now actually be exited mid-session (it wasn't being tracked in memory before). Backlog 2.1.157 (upstream).
 
 ## 29.05.2026
 
