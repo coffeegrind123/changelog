@@ -6,6 +6,46 @@ Source: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 Only entries after v2.1.87 (our fork base). Refresh by fetching:
 `curl -fsSL https://raw.githubusercontent.com/anthropics/claude-code/refs/heads/main/CHANGELOG.md`
 
+## 2.1.158
+
+- [ ] `Auto mode is now available on Bedrock, Vertex, and Foundry for Opus 4.7 and Opus 4.8. Opt in by setting CLAUDE_CODE_ENABLE_AUTO_MODE=1` — TODO
+
+## 2.1.157
+
+- [ ] `Plugins in .claude/skills directories are now automatically loaded, no marketplace required` — TODO
+- [ ] `Added claude plugin init <name> to scaffold a new plugin in .claude/skills` — TODO
+- [ ] `Added autocomplete for /plugin arguments: subcommands, installed plugin names, and plugins from known marketplaces` — TODO
+- [ ] `claude agents: the agent field in settings.json is now honored for dispatched sessions, with --agent <name> to override it` — TODO
+- [ ] `EnterWorktree can now switch between Claude-managed worktrees mid-session` — TODO
+- [ ] `tool_decision telemetry events now include tool_parameters (bash commands, MCP/skill names) when OTEL_LOG_TOOL_DETAILS=1` — TODO
+- [ ] `Worktrees managed by Claude are now left unlocked when the agent finishes, so git worktree remove/prune can clean them up` — TODO
+- [ ] `Fixed unprocessable images (zero-byte, corrupt) attached via paste, MCP, or dialog crashing the request instead of becoming a text placeholder` — TODO
+- [ ] `Fixed sandbox network permission prompts appearing in auto and bypass-permissions mode when using the desktop app, IDE extensions, or SDK` — TODO
+- [ ] `Fixed claude agents completed sessions not retiring when an idle subagent was still parked or had leaked a backgrounded shell` — TODO
+- [ ] `Fixed claude agents pressing Esc not cancelling a slow "opening…", leaving the list unresponsive` — TODO
+- [ ] `Fixed background agent worktrees under .claude/worktrees/ being orphaned after the 30-day job retention sweep` — TODO
+- [ ] `Fixed background sessions re-attached after a sleep/wake not telling the model the correct date` — TODO
+- [ ] `Fixed copy-on-select in claude agents not reaching the system clipboard inside tmux with set-clipboard on (regression in 2.1.153)` — TODO
+- [ ] `Fixed --resume not reporting background subagents that were running when the previous Claude Code process exited` — TODO
+- [ ] `Fixed the --resume session picker leaving its contents on the terminal after exiting in fullscreen mode` — TODO
+- [ ] `Fixed --worktree and --worktree --tmux returning to the canonical repo root instead of the current linked worktree` — TODO
+- [ ] `Fixed the /model picker showing an incorrect "Newer version available" hint when the selected model is already the newest in its family; the pinned-model row now shows the model's description instead of its raw ID` — TODO
+- [ ] `Fixed literal markdown markers (backticks, asterisks) appearing in the in-progress message text in fullscreen mode` — TODO
+- [ ] `Fixed the terminal freezing after approving the managed-settings security dialog at startup` — TODO
+- [ ] `Fixed a rare duplicate line appearing in scrollback after the terminal UI redraws` — TODO
+- [ ] `Fixed right-click paste duplicating the clipboard in the VS Code, Cursor, and Windsurf integrated terminals` — TODO
+- [ ] `WSL: fixed image paste (alt+v keybinding), screenshot paste on Windows 11, and added support for dragging images from Windows Explorer` — TODO
+- [ ] `Improved performance of long and resumed conversations by eliminating redundant message-rendering recomputations` — TODO
+- [ ] `/terminal-setup now disables GPU acceleration in VS Code/Cursor/Windsurf integrated terminals to prevent garbled-text rendering` — TODO
+- [ ] `The Feature of the Week credit-claim status now appears as a notification in the status area instead of a line above the prompt` — TODO
+- [ ] `claude agents: slash-command autocomplete in the dispatch input now matches substrings` — TODO
+- [ ] `Removed the "bash commands will be sandboxed" startup banner — sandbox status still shows in /status and when a command is blocked` — TODO
+- [ ] `Removed the "/ide for …" startup hint toast` — TODO
+- [ ] `[IDE] Fixed clicking Stop while a background subagent is running not actually stopping it` — TODO
+- [ ] `[VSCode] Fixed the fast mode indicator not appearing on Opus 4.8` — TODO
+- [ ] `Pressing backspace right after a workflow trigger keyword now dismisses the workflow request (same as alt+w) instead of deleting a character` — TODO
+- [ ] `Added a "Workflow keyword trigger" setting in /config to stop the word "workflow" in a prompt from triggering a dynamic workflow` — TODO
+
 ## 2.1.156
 
 - [-] `Fixed an issue when using Opus 4.8 where thinking blocks were modified, leading to API errors.` — SKIP (assessed 2026-05-29: upstream hotfix for a regression they introduced in their 2.1.154 Opus-4.8 normalization rewrite (lean-prompt-default + effort-param paths). Our message-normalization is a different lineage — 2.1.88 base + selective backports incl. the 2.1.136 trailing-thinking reorder — and does not share that code path. Verified our paths never mutate a thinking block's `.thinking`/`.signature`: (1) for Anthropic/Opus 4.8 the client-side thinking pruner is disabled — `keepTurns = -1` in `normalizeMessagesForAPI` (messages.ts:2516-2528) since `isFirstPartyAnthropicBaseUrl()` is true; (2) assistant-message serialization spreads each block verbatim via `..._` and explicitly skips appending `cache_control` to `thinking`/`redacted_thinking` blocks (claude.ts:716-727); (3) `reorderTrailingThinkingInMiddleAssistants` (2.1.136 backport) + `filterTrailingThinkingFromLastAssistant` (messages.ts:5056-5145) only MOVE or DROP whole blocks by reference — stable-partition / slice — never rewrite block content or signature; (4) `filterOrphanedThinkingOnlyMessages` already drops mismatched-signature orphans that would otherwise 400. No equivalent "thinking blocks modified" defect exists. Minor adjacent finding (not this bug, not fixed this pass to keep blast radius zero): `getCachedSignature` is imported in claude.ts:65 but never called — dead import, harmless.)
