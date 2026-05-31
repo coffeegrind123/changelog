@@ -1,6 +1,6 @@
 # Claude Code Cheat Sheet
 
-> **2.1.143** — May 15, 2026
+> **2.1.158** — May 30, 2026
 >
 > Source: <https://cc.storyfox.cz/>
 >
@@ -8,12 +8,10 @@
 
 ## Recent Changes
 
-- `claude plugin disable` now refuses when another enabled plugin depends on target (disable-chain hint shown); `claude plugin enable` force-enables transitive dependencies (v2.1.143)
-- Projected context cost (per-turn token estimates) shown in `/plugin` marketplace browse pane (v2.1.143)
-- Background sessions now preserve model and effort level after waking from idle (v2.1.143)
-- `claude agents` now accepts session config flags (`--add-dir`, `--settings`, `--mcp-config`, `--plugin-dir`, `--model`, `--effort`) for dispatched background sessions (v2.1.142)
-- Fast mode now defaults to Opus 4.7 (v2.1.142)
-- Fixed `MCP_TOOL_TIMEOUT` not applying to remote HTTP/SSE MCP servers (v2.1.142)
+- Auto mode available on Bedrock, Vertex, and Foundry for Opus 4.7 & 4.8 — opt in with `CLAUDE_CODE_ENABLE_AUTO_MODE=1` (v2.1.158)
+- Plugins auto-load from `.claude/skills` directories — no marketplace required (v2.1.157)
+- `claude plugin init <name>` scaffolds new plugins (v2.1.157)
+- `EnterWorktree` can now switch between Claude-managed worktrees mid-session (v2.1.157)
 
 ## Keyboard Shortcuts
 
@@ -137,7 +135,9 @@
 | `/mcp` | Manage MCP servers |
 | `/hooks` | Manage hooks |
 | `/skills` | List available skills |
+| `/reload-skills` | Reload skills without restarting |
 | `/agents` | Manage agent configurations |
+| `/workflows` | View and manage background multi-agent workflow runs |
 | `/review [PR]` | Review PR locally |
 | `/ultrareview [PR#]` | Cloud code review — parallel multi-agent analysis |
 | `/security-review` | Scan diff for vulnerabilities |
@@ -259,6 +259,7 @@
 |---|---|
 | `/loop 5m msg` | Recurring task |
 | `--remote` | Web session on claude.ai |
+| `! <cmd>` | Run shell cmd as background session |
 
 ## Config &amp; Env
 
@@ -301,7 +302,6 @@
 | `ANTHROPIC_CUSTOM_MODEL_OPTION` | Custom /model entry |
 | `MAX_THINKING_TOKENS` | 0=off |
 | `ENABLE_PROMPT_CACHING_1H` | Opt into 1h prompt cache TTL |
-| `FORCE_PROMPT_CACHING_5M` | Force 5-min prompt cache TTL |
 | `CLAUDE_CODE_ENABLE_AWAY_SUMMARY` | Force recap when telemetry disabled |
 | `CLAUDECODE` | Detect CC shell (=1) |
 | `CLAUDE_CODE_DISABLE_CRON` | Disable scheduled tasks |
@@ -314,6 +314,7 @@
 | `CLAUDE_CODE_DISABLE_AUTO_MEMORY` |  |
 | `CLAUDE_CODE_DISABLE_1M_CONTEXT` |  |
 | `CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE` | Auto-upgrade via Homebrew/WinGet |
+| `CLAUDE_CODE_ENABLE_AUTO_MODE` | Enable auto mode on Bedrock/Vertex/Foundry (=1) |
 
 ## Skills &amp; Agents
 
@@ -322,7 +323,7 @@
 | Key / Command | Description |
 |---|---|
 | `Skill tool` | Discovers built-in slash commands (/init, /review, /security-review…) |
-| `/simplify` | Code review (3 parallel agents) |
+| `/code-review [effort]` | Code review; `--fix` flag applies findings to working tree |
 | `/batch` | Large parallel changes (5-30 worktrees) |
 | `/debug [desc]` | Troubleshoot from debug log |
 | `/loop [interval]` | Recurring scheduled task |
@@ -341,6 +342,7 @@
 |---|---|
 | `description` | Auto-invocation trigger |
 | `allowed-tools` | Skip permission prompts |
+| `disallowed-tools` | Block specific tools from skill |
 | `model` | Override model for skill |
 | `effort` | Override effort level |
 | `paths: [globs]` | Path-specific (YAML list) |
@@ -389,7 +391,7 @@
 | `claude agents` | List agents |
 | `claude mcp` | MCP config |
 | `claude plugin` | Plugin management |
-| `claude plugin prune` | Remove unused/orphaned plugins |
+| `claude plugin init <name>` | Scaffold new plugin |
 | `claude project purge [path]` | Delete all Claude Code project state |
 | `claude ultrareview [target]` | Non-interactive code review (PR / branch / path) |
 
@@ -465,6 +467,9 @@
 | `/dump-prompt` | Show the full system prompt |
 | `/distill` | Output-compaction stats + file parsers (see Distill Reference below for subcommands) |
 | `/budget <name> <amount>` (+ `switch`, `list`, `update`, `reset`, `delete`, `on`, `off`) | Per-task USD spend tracker rendered in fuelgauge status line |
+| `/stats` (+ `models`, `providers`, `sessions`, `forecast`, `reset`) | Persistent cross-session usage dashboard. Rolling 24h/7d/30d/all-time + per-model + per-provider + per-session breakdowns. `forecast` projects spend at the recent rate (likely + ×2 worst-case) |
+| `/pro` (+ `arm`, `disarm`, `status`, `reset`) | Arm pro-tier model for the next turn. Auto-disarms. Also auto-escalates after 3+ failure signals (storm/truncation/etc) this turn. `proModeProModel` setting overrides per-provider default (anthropic→opus-4-7, deepseek→v4-pro, zai→glm-4.7, /local→cloud frontier) |
+| `/index` (+ `build`, `status`, `rebuild`, `wipe`) | Semantic vector index manager. Auto-built on first SemanticSearch call. Requires Ollama (`ollama serve` + `ollama pull nomic-embed-text`) or OpenAI-compatible embeddings endpoint |
 | `/monitor <command>` | Spawn long-running shell as background task (Shift+Down to view) |
 | `/job [list\|new\|reply\|status]` | REPL dispatcher for the templates / jobs backend |
 | `/force-snip` | Manually truncate old messages (faster than `/compact`) |
@@ -477,26 +482,30 @@
 
 The active persona is injected at the END of the first user message (not in the system prompt). On DeepSeek-V4, a Chinese `【角色沉浸要求】` marker routes the model's thinking-mode into in-character monologue — see `personaImmersionMode` setting (`auto`/`immersion`/`analysis`/`off`).
 
-### Workflows
+### Dynamic Workflows
+
+Model-authored JS orchestration that runs as code (not a model turn), fans out tens–hundreds of isolated subagents in parallel, verifies their work, and returns one synthesized object. Replaces the old `.md` workflow runner.
 
 | Key / Command | Description |
 |---|---|
-| `/workflows` | List available workflows (built-in + global + project-local) |
+| `/workflows` | Live view: saved workflows + scheduled workflows + recent runs as a phase-grouped tree (auto-refreshes while a run is active; `r` refresh, esc/q close) |
+| `/effort ultracode` | xhigh effort + Claude proactively orchestrates dynamic workflows for large tasks (toggle; any normal effort level turns it off) |
 
-Workflows are `.md` files with optional YAML frontmatter at:
-- Built-in: `test-and-fix`, `lint-fix`
-- Global: `~/.claude/workflows/`
-- Project-local: `.claude/workflows/`
+Trigger by saying **"create a workflow"** (or whenever a task is too big for one pass — codebase-wide bug hunts, large migrations, audits). Default-on; the first workflow per session asks to confirm. Disable via `dynamicWorkflowsEnabled: false` (config) or `disableDynamicWorkflows: true` (managed settings) or `CLAUDE_CODE_DISABLE_WORKFLOWS=1`.
 
-```markdown
----
-name: my-workflow
-description: Brief one-liner
----
-# Body — instructions for the background agent
+Model-facing **`Workflow`** tool params: `script` (inline JS) | `scriptPath` | `name` (saved), plus `args`, `budget` (output-token ceiling), `resumeFromRunId`. Runs in the background → returns a runId; a task-notification arrives on completion.
+
+**Worktree isolation:** `agent(prompt, { isolation: 'worktree' })` runs that subagent in a fresh git worktree (changes stay isolated; reaped if untouched). **Scheduling:** schedule a saved workflow on a cron via CronCreate with a directive prompt (`scheduleWorkflowCron` builds it); scheduled workflows show in `/workflows`. When a scheduled workflow fires it runs **prompt-free** — the engine launches directly (zero model tokens for dispatch), reusing the session's last-turn context; if no turn has run yet it falls back to a prompt directive.
+
+Host API inside a script: `agent(prompt, {label,phase,schema,model,agentType,isolation,maxTurns})`, `parallel(thunks)` (barrier, errors→null), `pipeline(items, ...stages)` (no barrier), `phase(title)`, `log(msg)`, `workflow(nameOrRef, args)` (one level deep), `args`, `budget` ({total, spent(), remaining()}). Concurrency auto-capped (min(16, cpu-2)); 1000-agent backstop. `Date.now`/`Math.random`/argless `new Date()` are blocked (determinism). Saved scripts live at `.claude/workflows/<name>.js` (project) or `~/.claude/workflows/<name>.js` (global); bundled: `test-and-fix`, `lint-fix`. Run journals at `~/.claude/workflow-runs/<runId>/` enable `resumeFromRunId`.
+
+```javascript
+export const meta = { name: 'audit', description: 'Find + verify bugs', phases: [{title:'Find'},{title:'Verify'}] }
+phase('Find')
+const found = await agent('Find bugs in src/auth.ts', { schema: { type:'object' } })
+phase('Verify')
+return await parallel((found.bugs||[]).map(b => () => agent('Refute: ' + b.title, { schema: { type:'object' } })))
 ```
-
-Invoke via the `Workflow` tool (model-facing) with `{workflow: "name", args?: "..."}`; runs up to 50 turns with full tool access.
 
 ### Code Knowledge Graph
 
@@ -507,6 +516,20 @@ Invoke via the `Workflow` tool (model-facing) with `{workflow: "name", args?: ".
 | `/graph impact <file>` | Compute impact radius of changes to a file |
 | `/graph grammars` | List bundled tree-sitter grammars |
 | `/graph update` | Incremental update via git diff |
+
+CodeGraph tool gained `embed_graph` (was a stub) — embeds Function/Class/Method/Test node signatures via the same Ollama backend `/index` uses. `semantic_search_nodes` now accepts `rerank: true` to re-order FTS5 hits by vector similarity (falls back to FTS5 order with a note when no embeddings exist).
+
+### Semantic Vector Index
+
+| Key / Command | Description |
+|---|---|
+| `SemanticSearch` (model tool) | Find code by intent / behavior, not by symbol name. Auto-builds index on first call. Returns top-K hits with file:start-end citations |
+| `/index status` (default) | Show index location, Ollama health, entry count |
+| `/index build` | Incremental build (skip unchanged files via mtime) |
+| `/index rebuild` | Wipe + full rebuild |
+| `/index wipe` | Delete the index without rebuilding |
+
+Index stored at `<cwd>/.openclaude/semantic-index/` (override via `OPENCLAUDE_INDEX_DIR`). Embeddings via Ollama (`nomic-embed-text` default; override via `OPENCLAUDE_EMBED_MODEL`) or OpenAI-compatible endpoint.
 
 ### Companion (Buddy)
 
@@ -529,6 +552,18 @@ Invoke via the `Workflow` tool (model-facing) with `{workflow: "name", args?: ".
 | `/auto-fix` | Configure `.claude/settings.json` `autoFix` — auto-runs lint/test after Edit/Write and feeds errors back via `<auto_fix_feedback>` |
 | `/fork <directive>` | Spawn a background fork agent with current context |
 
+### Supply-Chain Hardening (Shai-Hulud guard)
+
+Master toggle: `securityHardening` boolean in /config (default **off**). When **on**, three protections activate together — bypass-immune (still prompt under `bypassPermissions` / `--dangerously-skip-permissions`).
+
+| Toggle / Command | Description |
+|---|---|
+| `securityHardening` in /config | Master on/off. When on: (A) project-source `.claude/settings.json` hooks must be approved via `/trust-hooks` per-project before they fire; (B) Read/Bash/WebFetch prompt for credential-path access (`~/.aws/credentials`, `~/.npmrc`, `~/.ssh/id_*`, `~/.kube/config`, `~/.docker/config.json`, `~/.vault-token`, `~/.netrc`, gh CLI tokens, `/var/run/secrets/**`) and cloud metadata IPs (169.254.169.254, 169.254.170.2); (C) Write/Edit prompts for `.claude/{settings.json,setup.mjs,index.js}` / `.vscode/{tasks.json,setup.mjs}` / `.codex/*` targets OUTSIDE the current project (lateral-write detector for the Vo class lateral-spread pattern). |
+| `/trust-hooks` (alias `/trust-hooks status`) | Show whether the current project has hooks declared, whether they're trusted, the combined SHA-256 hash, and when they were trusted. |
+| `/trust-hooks show` | Print the full body of every hook command from `.claude/settings.json` + `.claude/settings.local.json` for review before approving. |
+| `/trust-hooks approve` | Trust the current hooks for this project. Writes `~/.claude/trusted-hooks/<projectId>.json`. PreToolUse/PostToolUse/Stop hooks become live immediately; SessionStart hooks need a session restart to fire. |
+| `/trust-hooks revoke` | Drop the trust record for this project — next session strips the hooks again. |
+
 ### Autonomy & Skill Learning
 
 | Key / Command | Description |
@@ -550,7 +585,6 @@ Invoke via the `Workflow` tool (model-facing) with `{workflow: "name", args?: ".
 |---|---|---|
 | `/browser-automation` | F | 50+ Zendriver browser tools — scrape, click, fill, screenshot, audit, network monitor |
 | `/ghidra-re` | F | 158+ Ghidra MCP tools — decompile, document, structs, call-graphs, malware analysis |
-| `/sbox-live` | F | s&box (Facepunch Source 2) live editor — components, Razor panels, scenes |
 | `/voice-gen` | F | VoxCPM2 TTS — voice design, controllable cloning, ultimate cloning, ASR |
 | `/claude-design` | F | Anthropic Labs Claude Design — decks, slides, landing pages, 113 workflows + 27 brand systems + 36 deck themes |
 | `/bug-hunter` | F | Adversarial 4-agent pipeline (recon → hunter → skeptic → referee → fixer) |
@@ -632,7 +666,7 @@ Invoke via the `Workflow` tool (model-facing) with `{workflow: "name", args?: ".
 | `claude matrix setup` / `start` / `stop` / `status` / `reset` | Native Matrix bot bridge (E2EE) |
 | `claude matrix allow <userId>` / `deny` / `own` / `list` | Matrix allowlist controls |
 | `claude ultrareview [target]` | Headless parallel multi-agent code review (correctness / security / architecture + synthesis) |
-| `claude agents [--cwd <path>]` | Open cross-session agents dashboard (upstream 2.1.139 port) |
+| `claude agents [--cwd <path>] [--json]` | Open cross-session agents dashboard (upstream 2.1.139 port). `--json` prints the live-session list to stdout and exits (upstream 2.1.145 port) — for tmux-resurrect, status bars, session pickers |
 | `claude subagents` (alias `claude agents-definitions`) | List configured subagent definitions |
 | `claude mcp doctor [name]` | Diagnose MCP config, precedence, disabled/pending state, health (`--scope` `--config-only` `--json`) |
 
@@ -664,7 +698,6 @@ TUI-only commands like `/identity`, `/config`, `/help`, `/model` (the REPL ones)
 | `browser` | 50+ | Zendriver Chromium automation — scrape, click, fill, screenshot, audit, network monitor |
 | `ghidra` | 158+ (`mcp__ghidra__*`) | Reverse engineering — decompile, document functions, struct creation, call graphs, malware analysis |
 | `computer-use` | 1 (`computer`) | Desktop control via keyboard/mouse — domdomegg/computer-use-mcp |
-| `sbox` | dynamic (`mcp__sbox__*`) | s&box editor introspection + scene mutation via the in-editor MCP host |
 | `voxcpm` | 5 | VoxCPM2 TTS bridge (`generate`, `run_asr`, `toggle_ultimate_cloning`, `list_voice_presets`, `ping`) |
 | `cheatengine` | 175+ (`mcp__cheatengine__*`) | Cheat Engine HTTP bridge — memory r/w, AOB scan, breakpoints, code injection, DBVM ring -1 ops |
 
@@ -805,9 +838,6 @@ Tools the LLM picks from its tool list — distinct from slash commands the user
 | `VOXCPM_FORCE` | Register VoxCPM MCP even when backend probe fails |
 | `CE_HTTP_URL` | Cheat Engine HTTP bridge URL (default `http://host.docker.internal:6789`) |
 | `CE_HTTP_FORCE` | Register CE MCP even when the plugin isn't reachable |
-| `SBOX_MCP_URL` | Full URL of s&box editor's MCP host (overrides host) |
-| `SBOX_MCP_HOST` | `host:port` for s&box editor (default `host.docker.internal:6790`) |
-| `SBOX_MCP_TIMEOUT_MS` | s&box stdio↔HTTP bridge timeout (default 15000) |
 | `GHIDRA_HOME` / `GHIDRA_MCP_DIR` / `GHIDRA_MCP_PORT` | Ghidra install / plugin / port overrides |
 
 ### Feature Gates
@@ -822,6 +852,10 @@ Tools the LLM picks from its tool list — distinct from slash commands the user
 | `CLAUDE_CODE_ENABLE_AWAY_SUMMARY=0\|1` | Force away-summary on/off (default on) |
 | `OPENCLAUDE_DEFAULT_BYPASS_DISABLED` | Keep default-mode `'default'` instead of `bypassPermissions` |
 | `OPENCLAUDE_BYPASS_REQUIRE_NO_INTERNET` | Re-enable upstream's no-internet strictness for sandbox check |
+| `DEEPSEEK_PREFIX_GUARD=0` | Disable DeepSeek prefix-cache stability observability |
+| `OPENCLAUDE_EMBED_MODEL` | Semantic-index embedding model (default `nomic-embed-text`) |
+| `OLLAMA_URL` | Ollama endpoint for semantic index (default `http://localhost:11434`) |
+| `OPENCLAUDE_INDEX_DIR` | Override semantic-index on-disk location |
 
 ### Observability, Team, Voice
 
@@ -1043,3 +1077,44 @@ claude agents                   # dashboard
   }
 }
 ```
+
+### Local LLM picker, launcher, and per-role router
+
+```bash
+# Inside REPL:
+/local                                    # open Models/Server/Routes/Help panel
+/local recommend                          # inline ranking table
+/local plan llama3-70b                    # required-GPU breakdown
+/local run llama3-8b                      # spawn server + auto-route 11 safe roles
+/local ask "summarize this file"          # one-shot query, parent untouched
+/local route smallFast local/llama3-1b    # pin one role manually
+/local route preset safe-savings          # apply curated bundle (11 roles)
+/local route preset off                   # clear auto-applied routes (manual pins preserved)
+/local route list / help                  # inspect current routing + role taxonomy
+/local status                             # server state + mode A indicator
+/local stop                               # SIGTERM server + revert env
+
+# Forge reliability layer (native TS port of antoinezambelli/forge):
+/local forge                              # show status (enabled / rescue / respond / retries / budget mode)
+/local forge on                           # enable forge guardrails for /local
+/local forge off                          # disable
+/local forge rescue on|off                # toggle rescue parser (multi-dialect tool-call extraction)
+/local forge respond on|off               # toggle synthetic respond-tool injection
+/local forge retries 3                    # set max consecutive retry budget
+```
+
+Routable roles in v1 (safe-fit only): `smallFast`, `buddyObserver`,
+`sessionSummary`, `awaySummary`, `changelogSummary`, `permissionExplainer`,
+`yoloClassifier`, `findRelevantMemories`, `webFetchBridge`, `agent:explore`,
+`agent:claude-code-guide`. Risky roles (autoCompact / extractMemories /
+autoDream / BugHunter / etc.) intentionally hidden in v1.
+
+Settings (in `~/.claude/config.json` or via `/config`):
+- `whichLLMEnabled` — master gate (default `true`)
+- `localLLMAutoRoute` — apply `safe-savings` preset on `/local run` (default `true`)
+- `localLLMForgeEnabled` — Forge reliability layer (default `true` for `local_llm` — set `false` to disable)
+- `localLLMForgeMaxRetries` — retry budget for validator (default 3)
+- `localLLMForgeRescueEnabled` — multi-dialect rescue parser (default `true`)
+- `localLLMForgeRespondInjection` — synthetic respond-tool (default `true`)
+- `localLLMForgeBudgetMode` — `fast` | `full` | `manual` | `backend` (default `fast`)
+- `localLLMDefaultPreset` — `safe-savings` / `summaries-only` / `companion-only` / `classifiers` / `subagents`
