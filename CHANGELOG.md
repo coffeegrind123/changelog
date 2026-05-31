@@ -4,7 +4,8 @@
 
 ## 31.05.2026
 
-- `e4e8adc` Added **argument autocomplete for `/plugin`** — typing `/plugin ` now suggests its subcommands (install, enable, disable, uninstall, manage, validate, marketplace, help); `/plugin enable `/`disable `/`uninstall ` suggest your installed plugin names; `/plugin marketplace ` suggests add/remove/update/list. Built on a new general per-command argument-completion mechanism, so other commands can opt in via `getArgumentSuggestions`. Backlog 2.1.157 (upstream).
+- `66b193d` Improved **auto/super-mode security review** — the action classifier now applies four additional evaluation rules from upstream 2.1.157: persistent-configuration changes (mail forwarding/filters, sharing grants, webhooks, recovery contacts) are treated as high-severity unless you asked for that exact change; outbound sends (emails, messages, form submits, posted comments — including browser-driven ones) require intent that covers the specific recipient and content; writes toward a destination that first appears only in page/tool content or the agent's own inference are blocked as unverifiable; and low-information actions (bare clicks/keystrokes) are judged by the agent's own stated intent right before them. Tightens what autonomous mode will do on your behalf. Backlog 2.1.157 (upstream).
+- `66b193d` Improved **EnterWorktree** tool guidance and the bundled **Claude API skill** to match upstream 2.1.157: EnterWorktree's description now documents switching between worktrees mid-session (the behavior shipped earlier in `3eca27b`), and the Claude API skill picks up Opus 4.8's prescriptive-tool-description guidance (state *when* to call a tool, and put trigger conditions in each tool's own description — 4.8 reaches for tools more conservatively). Backlog 2.1.157 (upstream).
 
 ## 30.05.2026
 
