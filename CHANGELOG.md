@@ -2,6 +2,10 @@
 
 
 
+## 31.05.2026
+
+- `e4e8adc` Added **argument autocomplete for `/plugin`** — typing `/plugin ` now suggests its subcommands (install, enable, disable, uninstall, manage, validate, marketplace, help); `/plugin enable `/`disable `/`uninstall ` suggest your installed plugin names; `/plugin marketplace ` suggests add/remove/update/list. Built on a new general per-command argument-completion mechanism, so other commands can opt in via `getArgumentSuggestions`. Backlog 2.1.157 (upstream).
+
 ## 30.05.2026
 
 - `110d9d1` Fixed the `--resume` session picker leaving its contents on screen after you exit a session in fullscreen mode — selecting a session now clears the picker before the conversation takes over the alt screen, so it's no longer restored as stale residue when you later exit. Only affects fullscreen (`CLAUDE_CODE_NO_FLICKER=1`). Backlog 2.1.157 (upstream).
