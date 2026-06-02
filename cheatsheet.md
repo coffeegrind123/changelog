@@ -1,6 +1,6 @@
 # Claude Code Cheat Sheet
 
-> **2.1.158** — May 30, 2026
+> **2.1.159** — June 1, 2026
 >
 > Source: <https://cc.storyfox.cz/>
 >
@@ -564,6 +564,19 @@ Master toggle: `securityHardening` boolean in /config (default **off**). When **
 | `/trust-hooks approve` | Trust the current hooks for this project. Writes `~/.claude/trusted-hooks/<projectId>.json`. PreToolUse/PostToolUse/Stop hooks become live immediately; SessionStart hooks need a session restart to fire. |
 | `/trust-hooks revoke` | Drop the trust record for this project — next session strips the hooks again. |
 
+### ToolGuard — MCP / tool-call firewall (opt-in)
+
+Master toggle: `toolGuardEnabled` boolean in /config (default **off**). The agent-era complement to the always-on MemoryGuard: MemoryGuard guards what's written to memory, ToolGuard guards tool calls. Default posture is **detect + annotate + log** (zero breakage); `toolGuardStrict` escalates to drop/block. All decisions logged to `~/.claude/toolguard-events.jsonl`.
+
+| Toggle / Setting | Description |
+|---|---|
+| `toolGuardEnabled` in /config | Master on/off. When on: (1) **MCP 3-stage scan** — tool definitions, call arguments, and tool responses screened against a 24-rule poisoning corpus (`<IMPORTANT>` injection, cross-tool/namespace shadowing, confused-deputy credential abuse, IMDS SSRF, OAuth-endpoint RCE CVE-2025-6514, Function-Hijacking mandates); (2) **rug-pull pin** — SHA-256 per tool definition at `~/.claude/toolguard-pins.json` flags a tool that turned malicious AFTER you approved it; (3) **input scan** — Bash commands / WebFetch URLs / Edit-Write bodies scanned (with base64/hex/Unicode-Tag-block decode-and-rescan) for pipe-to-shell, reverse shells, IMDS, credential reads; (4) **CaMeL taint gate** — a control-flow tool (Bash/Task/MCP) driven by recently-ingested suspicious external content is flagged; (5) **boundary spotlighting** — MCP tool-result text is wrapped in unforgeable `[UD-<id>]…[/UD-<id>]` markers + a system-prompt instruction tells the model to treat marked content as untrusted DATA, never instructions (StackOne defender port — catches novel indirect injections the pattern scanner misses); (6) **selection-bias detector** — MCP tool definitions are scored for preference-manipulation / ToolTweak hijacking (forcing imperatives, superlatives, rival-tool dismissal, hidden role tokens, keyword stuffing) so a description engineered to make the model always pick THIS tool is annotated (Aigis `detect_selection_bias` port — catches subtle bias the static rules miss). |
+| `toolGuardStrict` in /config | Enforcement mode (needs ToolGuard on). Drops a poisoned/rug-pulled MCP tool from the set, blocks a critical-scoring invocation, withholds a poisoned response, blocks a control-flow call driven by untrusted data. Default off = warn-only. |
+| `toolGuardSpotlight` in /config | Boundary spotlighting of tool output (default **true** when ToolGuard on). Set false (or env off-ramp) to stop wrapping tool results in `[UD-*]` markers — e.g. if a tool returns structured text the model must parse verbatim. |
+| `toolGuardSelectionBias` in /config | Selection-bias detector (default **true** when ToolGuard on). Scores MCP tool definitions for preference-manipulation hijacking; annotates at score ≥30, strict mode drops at ≥60. Set false (or env off-ramp) to disable. |
+| `OPENCLAUDE_TOOLGUARD=1` env | Force ToolGuard on regardless of settings. `OPENCLAUDE_TOOLGUARD_STRICT=1` for strict. |
+| `OPENCLAUDE_TOOLGUARD_TAINT=0` / `OPENCLAUDE_TOOLGUARD_INPUT_SCAN=0` / `OPENCLAUDE_TOOLGUARD_SPOTLIGHT=0` / `OPENCLAUDE_TOOLGUARD_SELECTION_BIAS=0` env | Disable just the CaMeL taint gate / the input scan / boundary spotlighting / selection-bias detector (leaves the MCP firewall + pinning active). |
+
 ### Autonomy & Skill Learning
 
 | Key / Command | Description |
@@ -1116,5 +1129,6 @@ Settings (in `~/.claude/config.json` or via `/config`):
 - `localLLMForgeMaxRetries` — retry budget for validator (default 3)
 - `localLLMForgeRescueEnabled` — multi-dialect rescue parser (default `true`)
 - `localLLMForgeRespondInjection` — synthetic respond-tool (default `true`)
+- `localLLMForgeRecommendedSampling` — apply each model's HF-card recommended sampling (temp/top_p/top_k/min_p) when forge runs it, filling only params the caller didn't set (default `true`; env off-ramp `FORGE_NO_RECOMMENDED_SAMPLING=1`)
 - `localLLMForgeBudgetMode` — `fast` | `full` | `manual` | `backend` (default `fast`)
 - `localLLMDefaultPreset` — `safe-savings` / `summaries-only` / `companion-only` / `classifiers` / `subagents`
