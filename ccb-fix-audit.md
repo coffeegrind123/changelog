@@ -9,6 +9,44 @@ Systematic audit of all 647 commits from [claude-code-best/claude-code](https://
 
 ---
 
+## Incremental Refresh — 2026-06-02
+
+Resumed the commit-by-commit audit from where the 2026-05-11 pass stopped. CCB `main` grew **648 → 707 commits** (58 new, `d11b35e0` 2026-05-11 → `b2b1981d` 2026-06-01). All 58 classified via 2 parallel Explore agents + a direct source-verification pass against `openclaude/src`.
+
+**Method note:** every GAP claim was re-checked by reading our actual source (protocol step 6). ~40% of the agents' GAP flags dissolved on verification — recorded below so a later reader doesn't re-chase them.
+
+### CONFIRMED GAPs (verified missing/weaker in ours)
+
+| CCB sha | Fix | Priority | Our file | Notes |
+|---|---|---|---|---|
+| `ed619327` | OpenAI-compat stream adapter must subtract `cached_tokens` from `input_tokens` (OpenAI `prompt_tokens` includes cache reads; Anthropic `input_tokens` excludes them) | MEDIUM | `src/services/api/openaiBridge/responseTranslator.ts:117-120`, `streamTranslator.ts:345-431` | Our bridge reports `input_tokens = prompt_tokens` AND `cache_read_input_tokens = cached` → double-counts. Affects NIM (and any OpenAI-compat bridge) cache-hit-rate + cost accuracy. |
+| `835dd2d8` | Cap the `existingSessionFiles` Map (CCB: `MAX_CACHED_SESSION_FILES`, evict oldest) | MEDIUM | `src/utils/sessionStorage.ts:1396` | Map at :1396 has `.set` with no eviction; unbounded growth in coordinator/swarm/daemon runs that mint unique sessionIds. |
+| `efc218d8` | `searchSkills` must validate index identity before reusing cached IDF (`cachedIndex === index && cachedIdf`) | LOW | `src/services/skillSearch/localSearch.ts:383` | Ours is `cachedIdf ?? computeIdf(index)` — reuses IDF even when called with a different `index`. Intermittent stale-rank bug. |
+
+### CANDIDATES (agent-flagged, NOT yet source-verified — verify before any backport)
+
+| CCB sha | Fix | Pri | Our file |
+|---|---|---|---|
+| `b67e9f9d` | Plan-mode paste threshold (≥3 chars, non-bracketed terminals) + clear-context `setNeedsPlanModeExitAttachment(true)` | MED | `src/hooks/usePasteHandler.ts`, `ExitPlanModePermissionRequest.tsx` |
+| `27b334ac`/`a05242ce` | Deadloop-prevention guidance in ToolSearch/ExecuteExtraTool prompt (ours = ToolSearchTool) | LOW/MED | `src/constants/prompts.ts`, ToolSearchTool prompt |
+| `d4a60147` | BriefTool circular-dep → lazy `getBriefToolModule()` | LOW | `src/constants/prompts.ts` |
+| `6dd378bf` | Terminal residual dialog content on startup-dialog exit (`pendingExitCode` defer-render) | LOW | `TrustDialog.tsx`/`BypassPermissionsModeDialog.tsx` (auto-trust reduces relevance for us) |
+
+### DISSOLVED on verification → ALREADY_HAVE
+
+- `48a19b8a` **isUsing3PServices provider coverage** — ours already returns true for every provider we run via the `ANTHROPIC_AUTH_TOKEN` + non-first-party-base-URL checks (`src/utils/auth.ts`). CCB's added OpenAI/Gemini/Grok env-var checks are providers we don't run.
+- `c499bfb4` **VoiceProvider noop context** — already fixed via the localized `require('bundle').feature('VOICE_MODE')` runtime check (CLAUDE.md REPL-render-errors case 2).
+- `b1c4f40f` **ensureToolResultPairing consecutive-user 400** — our `messages.ts:5573` already strips orphan tool_results + guards `result.at(-1)?.type !== 'assistant'` with placeholder fallback. Likely already covers CCB's ACP scenario; DEFER-verify-against-ACP-repro, not a clean gap.
+
+### DIVERGENCE / SKIP
+
+- `7b52054f`/`03598d3f`/`897c186f` **Remove max/xhigh effort model whitelist** — INTENTIONAL DIVERGENCE. Our `effort.ts:190-192` downgrade (`max`→`xhigh`→`high`) is protective for z.ai/GLM + DeepSeek which 400 on unsupported effort; CCB's "let the API reject" is worse for our multi-provider default. Keep ours.
+- `a91653a0` **Remove FileEditTool quote/tab normalization** — touches "Don't Touch: tool-specific prompts (FileEdit)"; behavior-removal of debatable value. SKIP.
+- `e33b17bd` **sideQuery OpenAI/Grok/Gemini routing** — N/A; we route non-Anthropic through `openaiBridge`, not provider-specific sideQuery adapters.
+- ~30 commits NOT_APPLICABLE: provider integrations we don't ship (Gemini/Grok/MiMo adapters), `ExecuteExtraTool`/`SearchExtraTools` (CCB rename of ToolSearch internals), Vite/Bun build-split experiments + reverts, version bumps, contributor/doc updates, CI publish workflow.
+
+---
+
 ## Audit Progress
 
 | Batch | Commit range | Status | GAPs | ALREADY_HAVE | NOT_APPLICABLE |

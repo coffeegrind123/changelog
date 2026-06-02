@@ -12,6 +12,52 @@ Per-batch research files (`gitlawb-gap-batch1.md` … `gitlawb-gap-batch8.md`) w
 
 ---
 
+## Incremental Refresh — 2026-06-02
+
+Resumed the commit-by-commit audit from where the 2026-05-11 pass stopped. Gitlawb `main` grew **587 → 713 commits** (122 new, `e12432e` 2026-05-11 → `2146b90` 2026-06-01). All 122 classified via 3 parallel Explore agents (batches C/D/E) + a direct source-verification pass against `openclaude/src`.
+
+**Method note:** every GAP claim re-checked against our actual source (protocol step 6). The batch-E agent operated under a wrong premise (assumed our fork is "SDK-based" rather than a full Claude Code fork), so its NOT_APPLICABLE rationales were discounted and its GAP flags split into CONFIRMED vs CANDIDATE below. Gitlawb has also diverged hard into a provider-catalog architecture (OpenGateway / gRPC / vendor model descriptors / Codex+xAI+MiMo+MiniMax OAuth) we don't share — the bulk of its 122 commits are that infra and are correctly N/A.
+
+### CONFIRMED GAPs (verified missing/weaker in ours)
+
+| Gitlawb sha | Fix | Priority | Our file | Notes |
+|---|---|---|---|---|
+| `4a98a4a` | `ENV_VAR_PATTERN` array-subscript must exclude expansion chars (`[^\]$`​`{(]*`) | **HIGH (security)** | `src/tools/BashTool/bashPermissions.ts:767` | Our subscript group `(?:\[[^\]]*\])?` matches `FOO[$(cmd)]=val`, so the env-var stripper consumes it and the `$(cmd)` is hidden from the deny/ask-rule matcher → rule-evasion. Real bypass; backport the regex tightening. |
+| `03f8791` | `escapeXml` must guard null/undefined (return `''`) | MEDIUM | `src/utils/xml.ts` | `escapeXml(s: string)` calls `s.replace(...)` with no guard → throws if a caller passes null (e.g. null bash stderr). Stdout/stderr already string-normalized upstream (Gitlawb gap #16, `e2b8864`), so cheap defense-in-depth. |
+| `23254c2` | Add a watchdog timeout (5 min) to QueryGuard, force-end on expiry | MEDIUM | `src/utils/QueryGuard.ts` | Our QueryGuard has `forceEnd()` but no auto-timeout; a hung/failed state-transition leaves the guard running → stuck spinner + unbounded memory in long sessions. |
+| `f111eaa` | MCP_SKILLS: discover `skill://` resources from MCP servers, parse frontmatter, build skill commands | MEDIUM (feature) | `src/skills/mcpSkills.ts` | Ours is a 12-line stub (`fetchMcpSkillsForClient` returns `[]`). Genuine unimplemented feature behind the MCP_SKILLS flag. |
+
+### CANDIDATES (agent-flagged, NOT yet source-verified — verify before any backport)
+
+| Gitlawb sha | Fix | Pri | Our file |
+|---|---|---|---|
+| `bfb0667` | Skill/markdown loader: batch ≤32 concurrent reads + skip files >256KB (unblock startup freeze when large vaults symlinked into agents dir) | MED | `src/skills/loadSkillsDir.ts` (unbounded `Promise.all`) |
+| `cf305cc` | Tool-failure loop guard: don't reset failure count on unrelated successes in mixed batches | MED | no dedicated guard found in `src/query` |
+| `eca9dba` | Treat blank `Read.pages` as omitted (don't send empty value on the wire) | LOW | Read tool / `toolExecution.ts` |
+| `07d9b4f` | `--json-schema` top-level non-object roots (array/string) → wrap as `{result: <orig>}` and unwrap output | LOW | `src/tools/SyntheticOutputTool/` |
+| `d02c10b` | Env-configurable retry backoff (`OPENCLAUDE_MAX_RETRIES`, `OPENCLAUDE_RETRY_DELAY_MS`) | LOW | `src/services/api/withRetry.ts` (currently per-call-site constants) |
+| `2146b90` | "No, provide reason" reasoned-denial option on more permission prompts (file-edit, IDE-diff, Bash, PowerShell) | LOW (PARTIAL) | we already have "No, and tell Claude…" on Sandbox + WebFetch prompts; extend to the rest |
+| `a8632b4` | Route configured per-agent model overrides to the correct provider | MED | `src/services/api/` agent routing |
+| `11f0e02` | `/doctor`: warn local-model users about large context contributors | LOW | `src/screens/Doctor.tsx` |
+| `c5ca847` | Bound onboarding preflight connectivity probe (timeout + recover) | LOW | `src/utils/preflightChecks.tsx` |
+| `ad3e208` | Keep bash-mode `!` out of the controlled PromptInput mirror | LOW | `src/components/PromptInput/useTextInput.ts` |
+| `f6d7a58` | `process.title = 'openclaude'` for `pgrep`/`ps` visibility | LOW (trivial) | `src/entrypoints/cli.tsx` |
+
+### DISSOLVED on verification → ALREADY_HAVE
+
+- `877b4dc` **combinedAbortSignal reason+cleanup** — ours already uses `setTimeout`+`clearTimeout` (not `AbortSignal.timeout`) for the exact Bun lazy-timer leak (`src/utils/combinedAbortSignal.ts`, comment + clearTimeout at :29/:41). Only a minor reason-propagation delta remains.
+- `a9f8642` **Preserve split UTF-8 keypresses** — `src/ink/parse-keypress.ts` already carries an `incomplete` byte buffer across stdin reads (state field at :188).
+- `90360d3` **rawModeEnabledCount guard** — negative-count guard already present (`src/ink/components/App.tsx:282-286`).
+- `dda5ea3` **3P-provider metrics/refusal gating** — already in `src/services/api/{metricsOptOut,errors}.ts`.
+
+### DIVERGENCE / NOT_APPLICABLE (bulk)
+
+- **Gitlawb provider-catalog architecture (~50 commits):** OpenGateway auth + UI presets, gRPC entrypoint, vendor model descriptors (Gemini 3.1 Flash, MiniMax M3, Mistral, NVIDIA-NIM dynamic discovery, Groq discovery, OpenCode Zen), Codex/xAI/MiMo/MiniMax OAuth + routing, openaiShim/codexShim error surfacing, launcher heap/Node-path routing, `.openclaude` config-home migration, attribution opt-in, profile-model precedence. We use `whichllm` + `openaiBridge` + generic `services/oauth`; none map.
+- **Gitlawb-divergent features:** `353e306` conversation cache + encrypted session persistence, `4a4f379` full-access permission mode (+commit-msg helper), `cfbce38` provider-fallback-chain auto-switch on 429 — large architecture-specific subsystems; revisit only if we want the specific UX. `db6017a` strip-ansi→`util.stripVTControlCharacters` is moot (we already use `Bun.stripANSI`).
+- Release automation, CI (CodeQL, intent checks), test-isolation hardening, docs (Vertex/MiMo/Ollama/Arch-AUR) — chore.
+
+---
+
 ## Implementation Status
 
 Per-gap status with landed-commit SHAs (in `coffeegrind123/openclaude` on `main`).
