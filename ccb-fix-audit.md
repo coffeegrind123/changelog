@@ -23,6 +23,8 @@ Resumed the commit-by-commit audit from where the 2026-05-11 pass stopped. CCB `
 | `835dd2d8` | Cap the `existingSessionFiles` Map (CCB: `MAX_CACHED_SESSION_FILES`, evict oldest) | MEDIUM | `src/utils/sessionStorage.ts:1396` | Map at :1396 has `.set` with no eviction; unbounded growth in coordinator/swarm/daemon runs that mint unique sessionIds. |
 | `efc218d8` | `searchSkills` must validate index identity before reusing cached IDF (`cachedIndex === index && cachedIdf`) | LOW | `src/services/skillSearch/localSearch.ts:383` | Ours is `cachedIdf ?? computeIdf(index)` — reuses IDF even when called with a different `index`. Intermittent stale-rank bug. |
 
+**Status — all 3 CONFIRMED CCB GAPs LANDED `312a4eb` (openclaude `main`, 2026-06-02):** `ed619327` (openaiBridge subtracts cached_tokens from input_tokens — both translators + test updated), `835dd2d8` (sessionStorage `existingSessionFiles` cap 200 + evict + reset-clear), `efc218d8` (`cachedIndex === index && cachedIdf` guard).
+
 ### CANDIDATES (agent-flagged, NOT yet source-verified — verify before any backport)
 
 | CCB sha | Fix | Pri | Our file |
