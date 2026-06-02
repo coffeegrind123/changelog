@@ -27,7 +27,7 @@ Resumed the commit-by-commit audit from where the 2026-05-11 pass stopped. Gitla
 | `23254c2` | Add a watchdog timeout (5 min) to QueryGuard, force-end on expiry | MEDIUM | `src/utils/QueryGuard.ts` | Our QueryGuard has `forceEnd()` but no auto-timeout; a hung/failed state-transition leaves the guard running → stuck spinner + unbounded memory in long sessions. |
 | `f111eaa` | MCP_SKILLS: discover `skill://` resources from MCP servers, parse frontmatter, build skill commands | MEDIUM (feature) | `src/skills/mcpSkills.ts` | Ours is a 12-line stub (`fetchMcpSkillsForClient` returns `[]`). Genuine unimplemented feature behind the MCP_SKILLS flag. |
 
-**Status (2026-06-02):** 3 of 4 CONFIRMED Gitlawb GAPs LANDED `312a4eb` (openclaude `main`): `4a98a4a` (ENV_VAR_PATTERN array-subscript tightened to `[^\]$`​`{(]*` + 6 regression tests), `03f8791` (`escapeXml`/`escapeXmlAttr` null-tolerant), `23254c2` (QueryGuard 5-min watchdog + 7 tests). `f111eaa` (MCP_SKILLS `skill://` discovery) **DEFERRED** — larger feature port of a deliberate stub, scoped separately.
+**Status (2026-06-02):** all 4 CONFIRMED Gitlawb GAPs LANDED. `312a4eb` (openclaude `main`): `4a98a4a` (ENV_VAR_PATTERN array-subscript tightened to `[^\]$`​`{(]*` + 6 regression tests), `03f8791` (`escapeXml`/`escapeXmlAttr` null-tolerant), `23254c2` (QueryGuard 5-min watchdog + 7 tests). `d4ef067`: `f111eaa` (MCP_SKILLS `skill://` discovery) — implemented the stubbed `mcpSkills.ts` + flipped the DCE'd `feature('MCP_SKILLS')` gates on (client.ts→`bundle` import; useManageMCPConnections.ts/commands.ts localized const), with the hooks/allowed-tools hardening + 5 helper tests.
 
 ### CANDIDATES (agent-flagged, NOT yet source-verified — verify before any backport)
 
