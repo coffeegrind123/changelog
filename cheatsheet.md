@@ -1,6 +1,6 @@
 # Claude Code Cheat Sheet
 
-> **2.1.159** — June 1, 2026
+> **2.1.161** — June 3, 2026
 >
 > Source: <https://cc.storyfox.cz/>
 >
@@ -8,10 +8,11 @@
 
 ## Recent Changes
 
-- Auto mode available on Bedrock, Vertex, and Foundry for Opus 4.7 & 4.8 — opt in with `CLAUDE_CODE_ENABLE_AUTO_MODE=1` (v2.1.158)
-- Plugins auto-load from `.claude/skills` directories — no marketplace required (v2.1.157)
-- `claude plugin init <name>` scaffolds new plugins (v2.1.157)
-- `EnterWorktree` can now switch between Claude-managed worktrees mid-session (v2.1.157)
+- Fixed `claude mcp` printing secrets; `${VAR}` references no longer expanded in MCP server config (v2.1.161)
+- `claude agents` peek now shows done/total progress and longest-running item (v2.1.161)
+- Failed Bash commands in parallel tool calls no longer cancel sibling calls (v2.1.161)
+- Security prompts before writing to shell startup files (`.zshenv`, `.bash_login`) and build-tool configs (`.npmrc`, `.yarnrc`) (v2.1.160)
+- Background sessions now preserve full chat history when reconnected (v2.1.160)
 
 ## Keyboard Shortcuts
 
@@ -491,7 +492,7 @@ Model-authored JS orchestration that runs as code (not a model turn), fans out t
 | `/workflows` | Live view: saved workflows + scheduled workflows + recent runs as a phase-grouped tree (auto-refreshes while a run is active; `r` refresh, esc/q close) |
 | `/effort ultracode` | xhigh effort + Claude proactively orchestrates dynamic workflows for large tasks (toggle; any normal effort level turns it off) |
 
-Trigger by saying **"create a workflow"** (or whenever a task is too big for one pass — codebase-wide bug hunts, large migrations, audits). Default-on; the first workflow per session asks to confirm. Disable via `dynamicWorkflowsEnabled: false` (config) or `disableDynamicWorkflows: true` (managed settings) or `CLAUDE_CODE_DISABLE_WORKFLOWS=1`.
+Trigger by including the keyword **"ultracode"** in your prompt (it highlights in **violet** in the prompt input), or by asking in your own words whenever a task is too big for one pass — codebase-wide bug hunts, large migrations, audits. The bare word "workflow" on its own is no longer a trigger. Default-on; the first workflow per session asks to confirm. Disable via `dynamicWorkflowsEnabled: false` (config) or `disableDynamicWorkflows: true` (managed settings) or `CLAUDE_CODE_DISABLE_WORKFLOWS=1`.
 
 Model-facing **`Workflow`** tool params: `script` (inline JS) | `scriptPath` | `name` (saved), plus `args`, `budget` (output-token ceiling), `resumeFromRunId`. Runs in the background → returns a runId; a task-notification arrives on completion.
 
@@ -655,6 +656,7 @@ Master toggle: `toolGuardEnabled` boolean in /config (default **off**). The agen
 | `claude server` | Start session server (`--port` `--host` `--auth-token` `--unix` `--workspace` `--idle-timeout` `--max-sessions`) |
 | `claude assistant [sessionId]` | Attach REPL as client to a running bridge session |
 | `claude --bg` | Spawn a tmux background session (auto-bypasses permissions) |
+| `claude --bg --exec '<command>'` | Run a raw shell command as a tracked background tmux session (`kind: exec`) — attach/logs/kill/`claude agents` all work against it; output captured to a log. Add `--name <label>` to name it. Also via the agents-view `!` input. |
 
 ### Daemon & Background Sessions
 
