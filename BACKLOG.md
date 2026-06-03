@@ -6,6 +6,61 @@ Source: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 Only entries after v2.1.87 (our fork base). Refresh by fetching:
 `curl -fsSL https://raw.githubusercontent.com/anthropics/claude-code/refs/heads/main/CHANGELOG.md`
 
+## 2.1.161
+
+- [-] `OTEL_RESOURCE_ATTRIBUTES values are now included as labels on metric datapoints, so you can slice usage metrics by custom dimensions like team or repo` — SKIP (telemetry neutralized in this fork)
+- [ ] `claude agents rows now show done/total before the detail when work is fanned out; peek shows the longest-running item` — TODO (agents-view dashboard exists; assess `done/total` + longest-running peek)
+- [-] `/mcp now collapses claude.ai connectors you've never signed in to behind a "Show unused connectors" row` — SKIP (claude.ai connector-specific; we don't surface claude.ai OAuth connectors)
+- [ ] `Parallel tool calls: a failed Bash command no longer cancels other calls in the same batch — each tool returns its own result independently` — TODO (general fix; applies to our parallel tool execution)
+- [ ] `Fullscreen mode: clipboard now uses wl-copy/xclip/xsel on Linux when available, copies to both the clipboard and PRIMARY selection for middle-click paste, and the "hold {key} for native selection" hint now shows the correct key per terminal` — TODO (Linux clipboard; applies)
+- [ ] `Fixed the /effort dialog, workflow animations, and prompt keyword shimmer not honoring the "Reduce motion" setting` — TODO (we have /effort + workflow animations + keyword shimmer)
+- [-] `Fixed forceLoginOrgUUID/forceLoginMethod managed-settings policies blocking third-party provider sessions (Bedrock, Vertex, Foundry, Mantle) alongside the org pin (regression in 2.1.146)` — SKIP (managed-settings login-policy + provider-specific; not our flow, post-base regression)
+- [ ] `Fixed background subagent output corrupting claude -p stdout when using --output-format text or json` — TODO (we run -p with background subagents)
+- [-] `Fixed /usage-credits starting a re-login for Team and Enterprise admins instead of pointing to the organization's usage settings page` — SKIP (claude.ai Team/Enterprise admin + /usage-credits, not our flow)
+- [ ] `Fixed /autofix-pr reporting "cannot run on the default branch" when the session is inside a git worktree or another repository` — TODO (assess whether /autofix-pr exists in our fork before fixing)
+- [ ] `Fixed --resume picker not showing sessions from the current directory when it isn't a git worktree (e.g., jj workspaces)` — TODO (we have --resume picker)
+- [-] `Fixed Windows hooks that invoke bash explicitly (e.g., /usr/bin/bash script.sh) failing with "command not found" or "cannot execute binary file"` — SKIP (Windows-specific)
+- [-] `Fixed OpenTelemetry log events (user_prompt, api_request, tool_result, tool_decision) being silently dropped when emitted before telemetry initialization completed` — SKIP (telemetry neutralized in this fork)
+- [ ] `Fixed claude mcp list/get/add printing secrets to the terminal: ${VAR} references are no longer expanded, and credential headers and URL secrets are redacted` — TODO (security; we have claude mcp list/get/add)
+- [ ] `Fixed Workflow agents spawned with isolation: "worktree" in background sessions being blocked from editing files inside their own worktree` — TODO (we have dynamic workflows + worktree isolation in bg sessions)
+- [ ] `Fixed background sessions dispatched from claude agents booting on a stale model from the daemon's environment instead of the model in settings.json` — TODO (we have bg sessions + agents dispatch)
+- [ ] `Fixed a potential crash when rendering Write tool results after resuming a session` — TODO (general render crash on resume)
+- [ ] `Fixed completed subagents getting stuck showing as running when an error occurs while finalizing their result` — TODO (we have subagent finalization)
+- [ ] `Fixed EADDRINUSE errors from tools that bind Unix sockets under $TMPDIR when CLAUDE_CODE_TMPDIR is set to a deep path` — TODO (we have UDS pipes/sockets)
+- [-] `Improved terminal rendering performance by stabilizing the layout engine's JIT compilation profile` — SKIP (Ink layout-engine perf internals; "Don't Touch" rendering area, no source diff)
+- [ ] `Improved rendering performance for large file writes` — TODO (assess; render path for large Write results)
+- [-] `[VSCode] Added a tip suggesting disabling terminal GPU acceleration (or running /terminal-setup) to fix garbled glyphs` — SKIP (VSCode extension-specific)
+
+## 2.1.160
+
+- [ ] `Added a prompt before writing to shell startup files (.zshenv, .zlogin, .bash_login) and ~/.config/git/, which could otherwise lead to unintended command execution` — TODO (security; write-permission prompt for shell-rc/git-config paths)
+- [ ] `acceptEdits mode now prompts before writing build-tool config files that grant code execution (.npmrc, .yarnrc*, bunfig.toml, .bazelrc, .pre-commit-config.yaml, .devcontainer/, etc.)` — TODO (security; acceptEdits build-config prompt)
+- [ ] `Edit no longer requires a separate Read after viewing a file with grep: single-file grep/egrep/fgrep commands now satisfy the read-before-edit check` — TODO (read-before-edit relaxation for grep-viewed files)
+- [-] `Fixed copy-on-select not writing to the Windows clipboard on WSL — now uses PowerShell interop instead of OSC 52, which terminals like MobaXterm don't support` — SKIP (copy-on-select clipboard path; Windows/WSL-specific, our agents-view has no copy-on-select)
+- [ ] `Fixed restoring a completed session from claude agents dropping chat history and re-running the original prompt` — TODO (we have agents-view session restore)
+- [ ] `Fixed background sessions re-attached after overnight retire losing their conversation and re-running the original prompt` — TODO (we have bg session re-attach)
+- [ ] `Fixed claude --bg occasionally failing with "socket missing" when the background daemon was cold-starting on a loaded machine` — TODO (we have --bg + background daemon)
+- [-] `Fixed an issue on Windows where the directory a background session was started in could not be deleted after claude rm until the background daemon exited` — SKIP (Windows-specific)
+- [ ] `Fixed background agents that resumed work being shown under Completed in the agents list` — TODO (we have agents-view status grouping)
+- [ ] `Fixed claude agents freezing for several seconds when returning to the session list due to the auto-updater re-checking on every exit` — TODO (assess; auto-updater is gated off in source mode but ships in binary)
+- [-] `Fixed Esc, arrow keys, and typing becoming unresponsive on Windows when attached to a background session or in the agent view while the host is under heavy CPU load` — SKIP (Windows-specific)
+- [ ] `Fixed background agents emitting terminal sync-output markers to terminals that don't support them (Apple Terminal, tmux), causing render artifacts when entering a running agent` — TODO (we have bg agents + tmux)
+- [ ] `Fixed mouse wheel scrolling prompt history instead of the transcript right after opening a session from the agents list` — TODO (we have agents-view + mouse scroll)
+- [ ] `Fixed CJK IME composition appearing at the bottom-left of the screen instead of at the input caret in the claude agents view` — TODO (we have agents-view + IME input)
+- [-] `Fixed valid file:///C:/... links being rewritten to a broken path on Windows terminals with hyperlink support` — SKIP (Windows-specific path rewriting)
+- [ ] `Fixed voice mode failing to connect when the project directory or branch name contains non-ASCII or special characters` — TODO (we have voice mode)
+- [-] `Fixed the auto mode unavailability message on third-party providers (Bedrock/Vertex/Foundry) to point to the CLAUDE_CODE_ENABLE_AUTO_MODE opt-in instead of incorrectly blaming the model` — SKIP (provider-specific auto-mode messaging)
+- [ ] `Fixed /effort ultracode incorrectly blaming the dynamic workflows setting when the model cannot run xhigh; ultracode is no longer offered on models that do not support it` — TODO (we have /effort ultracode + dynamic workflows)
+- [ ] `Fixed model-not-found errors suggesting --model when running via the SDK or other hosts where the CLI flag doesn't apply` — TODO (assess; SDK/host model-not-found messaging)
+- [ ] `Fixed Claude's past replies disappearing from scrollback when resuming a brief mode session with brief mode turned off` — TODO (we have brief mode + resume)
+- [ ] `Fixed vim mode p pasting on the line below instead of at the cursor when the register was yanked with v$` — TODO (we have vim mode)
+- [ ] `Improved performance of opening recently-inactive background agent sessions in claude agents` — TODO (assess; agents-view open perf)
+- [-] `Improved auto mode classifier latency by reducing reasoning on routine actions, lowering the chance of "could not evaluate this action" blocks` — SKIP (auto mode classifier; Anthropic-gated feature not in our flow)
+- [ ] `Improved background-session teardown (claude rm/stop, idle reap) to send SIGTERM to running shell subprocesses before SIGKILL, so cleanup handlers run` — TODO (we have bg teardown + idle reap)
+- [-] `Removed CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE; the environment variable is now a no-op` — SKIP (env-var removal; Anthropic-internal fast-mode override)
+- [-] `Removed the JetBrains plugin install suggestion from startup` — SKIP (JetBrains-specific)
+- [ ] `Renamed the dynamic-workflow trigger keyword from workflow to ultracode. The word "workflow" no longer triggers a run; asking for one in your own words still works. The trigger keyword is highlighted in violet in the prompt input` — TODO (we have dynamic workflows; assess keyword rename + violet highlight — note we already use "ultracode" for /effort ultracode)
+
 ## 2.1.159
 
 - [-] `Internal infrastructure improvements (no user-facing changes)` — SKIP (Anthropic-internal infra; no user-facing change to backport)
