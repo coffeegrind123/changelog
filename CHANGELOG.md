@@ -4,6 +4,9 @@
 
 ## 06.06.2026
 
+- `4fc94a1` Fixed **emoji near a truncation boundary causing an API 400 `no low surrogate in string`** — surrogate-safe truncation now backs off a split emoji at the cut point. Applied to MCP server descriptions / instructions / tool output, the BUDDY companion's classifier query, and the channel tool-input preview. Upstream 2.1.162.
+- `4fc94a1` `/effort` now **confirms when your chosen level is saved as the default for new sessions** (vs. applied this session only). Upstream 2.1.162.
+- `4fc94a1` `claude plugin list` gained **`--enabled` / `--disabled` filters** to list only enabled or only disabled plugins. Upstream 2.1.163.
 - `a7f7aff` Fixed the **LSP tool's `workspaceSymbol` returning no results** — it now accepts a `query` parameter and passes it to the language server's `workspace/symbol` request instead of a hardcoded empty string (most language servers return nothing for an empty query). Upstream 2.1.162.
 - `a7f7aff` Added **`\$` escape syntax in slash-command / skill bodies** — write `\$1` (or `\$ARGUMENTS`, `\$name`) to emit a literal `$1` instead of substituting the argument. Bodies containing only escaped `\$` still get `ARGUMENTS:` appended. Upstream 2.1.163.
 - `a7f7aff` Added **`additionalContext` support for Stop and SubagentStop hooks** — a Stop/SubagentStop hook returning `hookSpecificOutput.additionalContext` now feeds that text back to Claude and keeps the turn going, without being labeled a blocking hook error (loop-safe: rides the same capped-continuation path as blocking errors). Upstream 2.1.163.
