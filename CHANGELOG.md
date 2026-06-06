@@ -4,6 +4,7 @@
 
 ## 06.06.2026
 
+- `7b2dd95` Fixed a **stray `(no content)` line left in the transcript after closing a panel dialog** like `/mcp`, `/plugins`, or `/config` with no output. The `❯ /command` line already shows what ran. Upstream 2.1.163.
 - `0bdd177` Fixed **bash commands under bazel and EDR-protected Go workflows failing** because `$TMPDIR` was being overridden to a per-session sandbox temp dir for *every* command. The override now applies only to sandboxed commands; unsandboxed commands keep the real inherited `$TMPDIR`. Upstream 2.1.163.
 - `4fc94a1` Fixed **emoji near a truncation boundary causing an API 400 `no low surrogate in string`** — surrogate-safe truncation now backs off a split emoji at the cut point. Applied to MCP server descriptions / instructions / tool output, the BUDDY companion's classifier query, and the channel tool-input preview. Upstream 2.1.162.
 - `4fc94a1` `/effort` now **confirms when your chosen level is saved as the default for new sessions** (vs. applied this session only). Upstream 2.1.162.
