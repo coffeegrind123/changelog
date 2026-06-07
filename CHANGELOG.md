@@ -2,6 +2,12 @@
 
 
 
+## 07.06.2026
+
+- `996d23d` Added the **Sandbox tool** — a model-facing capability to create and drive secure, isolated sandboxes (`create` / `exec` / `write_file` / `read_file` / `list` / `stop` / `start` / `destroy`). The backend is auto-selected per host: a hardened Docker container (all capabilities dropped, no-new-privileges, read-only rootfs with a scoped `/workspace` volume, memory/PID ceilings; file I/O via `docker cp`/`exec` so it works under Docker-in-Docker) or a Docker-microVM. Every sandbox object is labelled `openclaude.sandbox=true` so foreign containers are never touched. Off by default behind `sandboxToolEnabled`.
+- `996d23d` Hardened the **Shai-Hulud supply-chain guard with protection D (auto-run-trigger guard)** — catches an in-workspace `.vscode/tasks.json` task set to run on folder-open (the editor analog of a malicious SessionStart hook) that the existing location-based lateral-write guard and project-scoped hook-trust baseline didn't cover. Rides the same `securityHardening` toggle as A/B/C.
+- `996d23d` Improved **AI theme generation for pride / identity-flag themes** — inherently multi-color concepts (trans, bi, lesbian, pan, nonbinary, rainbow/pride flags, or any request naming "flag"/"gradient"/two-plus colors) now reliably produce the flag's canonical colors across the UI instead of occasionally flattening to a single flat color.
+
 ## 06.06.2026
 
 - `7b2dd95` Fixed a **stray `(no content)` line left in the transcript after closing a panel dialog** like `/mcp`, `/plugins`, or `/config` with no output. The `❯ /command` line already shows what ran. Upstream 2.1.163.
