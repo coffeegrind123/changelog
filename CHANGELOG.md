@@ -2,6 +2,10 @@
 
 
 
+## 08.06.2026
+
+- `f71587b` Made **a failed turn that's auto-retrying show a compact one-line warning instead of a multi-line red error block** — during an API retry the UI now renders a single line, `⚠ Retrying in Ns (attempt X/Y · rate limit resets at T) · <error…> (ctrl+o to expand)`, with the live countdown and attempt/rate-limit detail kept at the front so they stay visible even when the error text is long; the full error is still one Ctrl+O away. Verbose mode (Ctrl+O) shows the complete multi-line error as before, and `-p`/stream-json output is unchanged.
+
 ## 07.06.2026
 
 - `cb3e770` Fixed **the CLI hanging instead of exiting when stdin closed without a clean EOF in stream-json mode** — when the input pipe was reset (writer killed, socket dropped) rather than ended cleanly, the async iterator over stdin threw a "premature close" error that skipped the input loop's teardown, so the output stream was never closed and the process hung. The input loop now treats a premature close as end-of-input and runs the normal teardown (and the inner reader cleans up its pending requests via a `finally`), so the CLI exits. The clean-EOF path is unchanged.
