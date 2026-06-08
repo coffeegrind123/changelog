@@ -4,6 +4,7 @@
 
 ## 08.06.2026
 
+- `ed28aa2` Added the **`MessageDisplay` hook event** — a hook can now rewrite or hide what an assistant message looks like *on screen* (return `hookSpecificOutput.displayContent`) without changing the saved transcript or what the model itself sees. Useful for redacting secrets from the visible output, prettifying, or localizing. Display-only and interactive-only; fires once per assistant message and is a no-op unless you configure such a hook.
 - `a2b500f` Fixed **the "launched with a pre-filled prompt / deep link" warning scrolling away instead of staying put** — it's now pinned just above the prompt input (alongside the pre-filled text) while you review it, and clears the moment you submit your first turn, instead of being dropped into the transcript where the first redraw pushed it out of view. (In passing this also makes the warning actually appear — it had been silently compiled out of the fork's source build.)
 - `f71587b` Made **a failed turn that's auto-retrying show a compact one-line warning instead of a multi-line red error block** — during an API retry the UI now renders a single line, `⚠ Retrying in Ns (attempt X/Y · rate limit resets at T) · <error…> (ctrl+o to expand)`, with the live countdown and attempt/rate-limit detail kept at the front so they stay visible even when the error text is long; the full error is still one Ctrl+O away. Verbose mode (Ctrl+O) shows the complete multi-line error as before, and `-p`/stream-json output is unchanged.
 
