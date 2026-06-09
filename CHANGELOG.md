@@ -5,6 +5,7 @@
 ## 10.06.2026
 
 - `eef688e` Fixed **MCPB plugin bundles needlessly re-extracting on every launch on Windows network drives**. The extraction cache checked freshness by comparing the bundle file's modification time against the wall-clock time it was cached — on mapped-network / UNC / 9p drives the filesystem timestamp and the system clock disagree, so an unchanged bundle looked "newer" than its own cache record every time and got re-extracted. The cache now records the bundle's modification time and re-validates by exact match, so an unchanged bundle is never re-extracted. Local drives, macOS, and Linux were already fine and are unchanged. (Backport of upstream 2.1.x.)
+- `98499b0` Fixed the **auto-updater re-downloading and re-failing every 30 minutes on Windows when claude.exe is held by another process**. If a running claude session held the executable, each background update check would download the new binary and fail the in-place swap, then try again on the next tick for the whole session. It now stops retrying for the rest of the session after the first lock failure (the file stays held until the holding process exits); a normal update still happens on the next launch. (Backport of upstream 2.1.x.)
 
 ## 09.06.2026
 
