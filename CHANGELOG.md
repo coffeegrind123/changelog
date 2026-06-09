@@ -4,6 +4,7 @@
 
 ## 09.06.2026
 
+- `af0d936` Made the **"Large CLAUDE.md" performance warning threshold scale with your model's context window** (in `/doctor`, `/status`, and the memory-tools size view). The old fixed 40k-character threshold was tuned for a 200k-token window, so it warned needlessly on large-context models (Opus 1M, DeepSeek-V4) where a 40k file is a tiny fraction of the window. The threshold now scales up with the context window — 200k→40k, 500k→100k, 1M→200k — and is floored at 40k, so smaller-context models keep the exact same threshold as before (no new warnings). (Backport of upstream 2.1.169.)
 - `f4c5747` Fixed **assistant messages rendering blank when a stale view preference left brief-only mode on**. A persisted `defaultView: 'chat'` could keep brief-only message filtering active in a session whose live tool set has no Brief tool — and since that filter shows only Brief tool calls and drops all other assistant text, the model (never offered the Brief tool) produced text that was entirely filtered out, leaving the conversation looking empty. Brief filtering is now only applied when the Brief tool is actually present in the live tool set; otherwise messages render unfiltered. No effect on legitimate brief-mode sessions. (Backport of upstream 2.1.155.)
 
 
