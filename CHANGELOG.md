@@ -2,6 +2,11 @@
 
 
 
+## 09.06.2026
+
+- `f4c5747` Fixed **assistant messages rendering blank when a stale view preference left brief-only mode on**. A persisted `defaultView: 'chat'` could keep brief-only message filtering active in a session whose live tool set has no Brief tool — and since that filter shows only Brief tool calls and drops all other assistant text, the model (never offered the Brief tool) produced text that was entirely filtered out, leaving the conversation looking empty. Brief filtering is now only applied when the Brief tool is actually present in the live tool set; otherwise messages render unfiltered. No effect on legitimate brief-mode sessions. (Backport of upstream 2.1.155.)
+
+
 ## 08.06.2026
 
 - `77b3cca` Extended the **supply-chain hardening toggle** (off by default, in `/config`) with a new **cross-session message guard**: when enabled, a prompt relayed into your session from another Claude session (via SendMessage over a LAN pipe) no longer carries your authority — it can read/observe, but it can't ride your bypass/accept-edits/auto mode to run privileged tools (writes, bash, etc.) and any permission request it triggers is refused. Tools you've explicitly allow-listed by rule still work. Closes a lateral-movement path where a remote session could drive privileged actions through yours. No effect unless you turn the hardening toggle on.
