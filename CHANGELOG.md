@@ -2,6 +2,10 @@
 
 
 
+## 10.06.2026
+
+- `eef688e` Fixed **MCPB plugin bundles needlessly re-extracting on every launch on Windows network drives**. The extraction cache checked freshness by comparing the bundle file's modification time against the wall-clock time it was cached — on mapped-network / UNC / 9p drives the filesystem timestamp and the system clock disagree, so an unchanged bundle looked "newer" than its own cache record every time and got re-extracted. The cache now records the bundle's modification time and re-validates by exact match, so an unchanged bundle is never re-extracted. Local drives, macOS, and Linux were already fine and are unchanged. (Backport of upstream 2.1.x.)
+
 ## 09.06.2026
 
 - `5564d02` Fixed **managed MCP allow/deny policies not being re-enforced when an MCP server reconnects** — a server permitted at first connect kept reconnecting even after a managed-policy change should have blocked it. Reconnect now re-applies the same allow/deny filter the initial connect uses. No effect unless an `allowedMcpServers`/`deniedMcpServers` policy is configured. (Partial backport of upstream 2.1.169.)
