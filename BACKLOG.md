@@ -24,6 +24,11 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 > VS Code / JetBrains extensions, Bedrock/Vertex/Foundry routing, Anthropic's hosted
 > headless-browser shim, claude.ai OAuth connectors, managed-settings remote-sync.
 
+## 2.1.170
+
+- [-] `Introducing Claude Fable 5: a Mythos-class model that we've made safe for general use. Update to version 2.1.170 for access.` — SKIP (Anthropic model announcement / marketing — no fork action; our model is provider-configured via ANTHROPIC_MODEL).
+- [ ] `Fixed sessions not saving transcripts (and not appearing in --resume) when launched from the VS Code integrated terminal or any shell that inherited Claude Code environment variables`
+
 ## 2.1.169
 
 - [x] `Added --safe-mode flag (and CLAUDE_CODE_SAFE_MODE) to start Claude Code with all customizations (CLAUDE.md, plugins, skills, hooks, MCP servers) disabled for troubleshooting` — DONE `4ed03de`. New `--safe-mode` flag + `CLAUDE_CODE_SAFE_MODE` env, read via `isSafeModeEnabled()` (`utils/envUtils.ts`, env + argv like `isBareMode`). Distinct from `--bare` (minimal mode: also skips UI/attribution/keychain + forces API-key-only auth) — safe-mode keeps normal UI/auth/background intact and isolates ONLY the customization layer. Five chokepoints gated: `getMemoryFiles()`→`[]` (CLAUDE.md, `claudemd.ts`), `assemblePluginLoadResult()`→empty (the shared `loadAllPlugins`/`loadAllPluginsCacheOnly` body, so plugin MCP/skill/agent sources also empty — `pluginLoader.ts`), `isBundledSkillsDisabled()`→true (`bundledSkills.ts`), `getSkillDirCommands` skipped in `getSkills` (`commands.ts`), `getHooksFromAllowedSources()`→`{}` (load-time, `hooksConfigSnapshot.ts`), `getClaudeCodeMcpConfigs()`→no servers (`mcp/config.ts`). Set early in `cli.tsx` (so gates fire during module eval) + the main.tsx action handler. 8 unit tests (`safeMode.test.ts`); build clean; container verified `--help` shows it, boots + completes a turn, gates fire (safeMode=true / bundledDisabled=true / memoryFiles=0), off-path loads normally. Cheatsheet updated.
