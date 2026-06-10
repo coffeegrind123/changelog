@@ -4,6 +4,8 @@
 
 ## 10.06.2026
 
+- `6d1aaca` **`claude mcp list` and `claude mcp get` now show unapproved project `.mcp.json` servers as `⏸ Pending approval` instead of connecting to them, when their output is piped.** Previously, piping the output of these diagnostic commands (e.g. `claude mcp list | cat`) flagged the session as non-interactive, which auto-approved any unapproved project-scoped MCP server and then actually launched/connected to it just to print its config — surprising for a read-only listing. They now report the server as pending approval without connecting. Behavior in an interactive terminal is unchanged (the approval dialog still governs).
+
 - `6a3d6fa` **`claude plugin marketplace add` now auto-installs missing plugin dependencies.** If an installed plugin declares a dependency whose marketplace you hadn't added yet, adding that marketplace now resolves and installs the dependency automatically (reported as "✔ Auto-installed N missing plugin dependency: …"). This also fixes a latent bug where the missing-dependency auto-installer crashed internally on every run (it read the wrong field of the plugin-load result), which had silently disabled the same auto-install behavior during plugin auto-update and `/reload-plugins` too — those now work as intended.
 
 - `585cd1a` Fixed the **footer hints in the Monitor task detail view** (`/monitor` → background tasks → a monitor task) rendering as `" to  to  to "` instead of "space to close · ← to back · x to stop". The dialog passed mismatched prop names to the shortcut-hint component, so the key and the action label both came through empty.
