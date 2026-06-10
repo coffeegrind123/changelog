@@ -4,6 +4,8 @@
 
 ## 10.06.2026
 
+- `6a3d6fa` **`claude plugin marketplace add` now auto-installs missing plugin dependencies.** If an installed plugin declares a dependency whose marketplace you hadn't added yet, adding that marketplace now resolves and installs the dependency automatically (reported as "✔ Auto-installed N missing plugin dependency: …"). This also fixes a latent bug where the missing-dependency auto-installer crashed internally on every run (it read the wrong field of the plugin-load result), which had silently disabled the same auto-install behavior during plugin auto-update and `/reload-plugins` too — those now work as intended.
+
 - `585cd1a` Fixed the **footer hints in the Monitor task detail view** (`/monitor` → background tasks → a monitor task) rendering as `" to  to  to "` instead of "space to close · ← to back · x to stop". The dialog passed mismatched prop names to the shortcut-hint component, so the key and the action label both came through empty.
 
 - `65f90c3` Improved the **"your organization has been disabled" error** (Anthropic API key auth) to give guidance based on where your active API key comes from. Previously only a key set via the `ANTHROPIC_API_KEY` environment variable got actionable advice; a key supplied by an `apiKeyHelper` command, or your `/login`-managed account itself, fell through to a raw generic error. Now an apiKeyHelper key tells you to update or remove the helper, and a `/login`-managed account tells you to run `/login` to switch accounts (or contact your org admin). (Backport of upstream changelog item.)
