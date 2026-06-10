@@ -1,6 +1,6 @@
 # Claude Code Cheat Sheet
 
-> **2.1.161** — June 3, 2026
+> **2.1.170** — June 9, 2026
 >
 > Source: <https://cc.storyfox.cz/>
 >
@@ -8,11 +8,10 @@
 
 ## Recent Changes
 
-- Fixed `claude mcp` printing secrets; `${VAR}` references no longer expanded in MCP server config (v2.1.161)
-- `claude agents` peek now shows done/total progress and longest-running item (v2.1.161)
-- Failed Bash commands in parallel tool calls no longer cancel sibling calls (v2.1.161)
-- Security prompts before writing to shell startup files (`.zshenv`, `.bash_login`) and build-tool configs (`.npmrc`, `.yarnrc`) (v2.1.160)
-- Background sessions now preserve full chat history when reconnected (v2.1.160)
+- Claude Fable 5 (`claude-fable-5`) now available — Mythos-class model selectable via `/model` or `ANTHROPIC_MODEL` (v2.1.170)
+- `--safe-mode` flag — disable all customizations (CLAUDE.md, plugins, skills, hooks, MCP) for troubleshooting (v2.1.169)
+- `/cd` command — move sessions to a new working directory without breaking prompt cache (v2.1.169)
+- `disableBundledSkills` setting — hide built-in skills and slash commands from the model (v2.1.169)
 
 ## Keyboard Shortcuts
 
@@ -289,7 +288,7 @@
 | `hooks: "defer"` | Pause headless → resume later |
 | `type: "mcp_tool"` | Hook step invokes an MCP tool directly |
 | `continueOnBlock` | Hook config: keep running after a blocked tool call |
-| `disableSkillShellExec` | Block !`cmd` |
+| `fallbackModel` | Up to 3 fallback models on failure |
 | `refreshInterval` | Re-run custom status line every N sec |
 
 ### Key Env Vars
@@ -306,7 +305,6 @@
 | `CLAUDE_CODE_ENABLE_AWAY_SUMMARY` | Force recap when telemetry disabled |
 | `CLAUDECODE` | Detect CC shell (=1) |
 | `CLAUDE_CODE_DISABLE_CRON` | Disable scheduled tasks |
-| `CLAUDE_CODE_FORK_SUBAGENT` | Enable forked subagents on external builds (=1) |
 | `DISABLE_UPDATES` | Block all update paths |
 | `API_TIMEOUT_MS` | API timeout (default: 600000ms) |
 | `MCP_TIMEOUT` | MCP server startup timeout (ms) |
@@ -408,7 +406,6 @@
 | `--agent` | Use agent |
 | `--allowedTools` | Pre-approve tools |
 | `--disallowedTools` | Remove tools |
-| `--allow-danger…` | Add bypassPerms to ⇧Tab cycle |
 | `--output-format` | text/json/stream-json |
 | `--max-budget-usd` | Cost cap |
 | `--remote` | Web session on claude.ai |
@@ -416,8 +413,10 @@
 | `--permission-mode` | default/acceptEdits/plan/auto/dontAsk/bypassPermissions |
 | `--dangerously-skip-permissions` | Skip all prompts ⚠️ |
 | `--debug [filter]` | Debug logging |
+| `--safe-mode` | Disable all customizations for troubleshooting (CLAUDE.md, plugins, hooks, MCP) |
 | `--settings <file>` | Load settings JSON |
 | `--from-pr` | Load PR context (GitHub / GitLab / Bitbucket / GHE) |
+| `--fallback-model` | Set fallback model for interactive sessions |
 
 ## Reference
 
@@ -466,7 +465,9 @@
 | Key / Command | Description |
 |---|---|
 | `/dump-prompt` | Show the full system prompt |
+| `/cd <path>` | Move the session to a new working directory mid-session without breaking the prompt cache (the `<env>` cwd block is a frozen/memoized section). Tools follow the new cwd immediately. Upstream 2.1.169 backport |
 | `/distill` | Output-compaction stats + file parsers (see Distill Reference below for subcommands) |
+| `/theme` | Theme menu: Apply / **Generate from a description (AI)** / Create / Edit / Duplicate / Delete / Export / Import. **AI generate** — type a vibe ("sunset over the ocean", "muted forest", "vaporwave") and the model produces the palette; live preview, regenerate, fine-tune in the editor, or save. Interactive editor — set ~13 anchors (brand/accent/semantic/neutral) or derive a full palette from one brand hue, with live REPL preview + WCAG contrast checks. Custom themes saved to `~/.claude/themes/<name>.json` (editable `$spec` embedded). Editing a built-in saves a copy. **Default theme is `openclaude-dark` (ocean blue).** Built-ins: `openclaude-dark`/`openclaude-light` (ocean) + `dark`/`light` (original Claude orange, preserved) + daltonized/ansi variants. |
 | `/budget <name> <amount>` (+ `switch`, `list`, `update`, `reset`, `delete`, `on`, `off`) | Per-task USD spend tracker rendered in fuelgauge status line |
 | `/stats` (+ `models`, `providers`, `sessions`, `forecast`, `reset`) | Persistent cross-session usage dashboard. Rolling 24h/7d/30d/all-time + per-model + per-provider + per-session breakdowns. `forecast` projects spend at the recent rate (likely + ×2 worst-case) |
 | `/pro` (+ `arm`, `disarm`, `status`, `reset`) | Arm pro-tier model for the next turn. Auto-disarms. Also auto-escalates after 3+ failure signals (storm/truncation/etc) this turn. `proModeProModel` setting overrides per-provider default (anthropic→opus-4-7, deepseek→v4-pro, zai→glm-4.7, /local→cloud frontier) |
@@ -637,7 +638,7 @@ Master toggle: `toolGuardEnabled` boolean in /config (default **off**). The agen
 
 | Key / Command | Description |
 |---|---|
-| `claude ccr-server start` | Start local CCR coordinator server on :3456 |
+| `claude ccr-server start` | Start local CCR coordinator server on :3456. Set env `CCR_SERVER_DIR` to relocate the data tree (config/sessions/events/tokens) off `~/.claude/ccr-server` |
 | `claude ccr-server stop` | Show CCR stop instructions |
 | `claude ccr-server status` | Show server + env + work status |
 | `claude submit "<task>"` | Submit a task to the CCR server |
@@ -681,7 +682,7 @@ Master toggle: `toolGuardEnabled` boolean in /config (default **off**). The agen
 | `claude matrix setup` / `start` / `stop` / `status` / `reset` | Native Matrix bot bridge (E2EE) |
 | `claude matrix allow <userId>` / `deny` / `own` / `list` | Matrix allowlist controls |
 | `claude ultrareview [target]` | Headless parallel multi-agent code review (correctness / security / architecture + synthesis) |
-| `claude agents [--cwd <path>] [--json]` | Open cross-session agents dashboard (upstream 2.1.139 port). `--json` prints the live-session list to stdout and exits (upstream 2.1.145 port) — for tmux-resurrect, status bars, session pickers |
+| `claude agents [--cwd <path>] [--json] [--all]` | Open cross-session agents dashboard (upstream 2.1.139 port). `--json` prints the live-session list to stdout and exits (upstream 2.1.145 port) — for tmux-resurrect, status bars, session pickers; includes just-dispatched sessions and each row carries `id`+`state` (upstream 2.1.169). `--all` also includes completed (terminal-status) sessions |
 | `claude subagents` (alias `claude agents-definitions`) | List configured subagent definitions |
 | `claude mcp doctor [name]` | Diagnose MCP config, precedence, disabled/pending state, health (`--scope` `--config-only` `--json`) |
 
@@ -864,6 +865,8 @@ Tools the LLM picks from its tool list — distinct from slash commands the user
 | `SKILL_SEARCH_ENABLED` | Toggle automatic skill matching |
 | `CLAUDE_CODE_ENABLE_HOOK_CHAINS` | Enable declarative hook-chain recovery (off by default) |
 | `CLAUDE_CODE_DISABLE_SESSION_SUMMARY` | Disable the end-of-session `session_*.md` summary |
+| `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` | Hide bundled skills + bundled workflows from the model and slash menu (also `disableBundledSkills` setting) |
+| `CLAUDE_CODE_SAFE_MODE` (or `--safe-mode`) | Troubleshooting mode: disable ALL customizations — CLAUDE.md, plugins, bundled + dir skills, hooks, MCP servers. Unlike `--bare`, keeps normal UI/auth/background intact (isolates only the customization layer) |
 | `CLAUDE_CODE_ENABLE_AWAY_SUMMARY=0\|1` | Force away-summary on/off (default on) |
 | `OPENCLAUDE_DEFAULT_BYPASS_DISABLED` | Keep default-mode `'default'` instead of `bypassPermissions` |
 | `OPENCLAUDE_BYPASS_REQUIRE_NO_INTERNET` | Re-enable upstream's no-internet strictness for sandbox check |
@@ -871,6 +874,7 @@ Tools the LLM picks from its tool list — distinct from slash commands the user
 | `OPENCLAUDE_EMBED_MODEL` | Semantic-index embedding model (default `nomic-embed-text`) |
 | `OLLAMA_URL` | Ollama endpoint for semantic index (default `http://localhost:11434`) |
 | `OPENCLAUDE_INDEX_DIR` | Override semantic-index on-disk location |
+| `CLAUDE_CODE_SESSION_BACKEND=tmux\|detached` | Background-session backend (`--bg`/`ps`/`logs`/`kill`/daemon). Default: `detached` on native Windows (no tmux), `tmux` on POSIX; `=detached` dogfoods the cross-platform path on POSIX, `=tmux` forces legacy |
 
 ### Observability, Team, Voice
 
