@@ -644,7 +644,7 @@ Master toggle: `toolGuardEnabled` boolean in /config (default **off**). The agen
 | `claude submit --file <file>` | Submit task from a file |
 | `claude submit --session <id> "<msg>"` | Send to existing session |
 | `claude environment-runner --server-url <url> --token <token>` | BYOC poll-based runner (CCR v1) |
-| `claude self-hosted-runner --server-url <url> --session-id <id>` | CCR v2 direct session runner via SSE |
+| `claude self-hosted-runner --server-url <url> --session-id <id>` | CCR v2 direct session runner via SSE. `--kill-timeout <ms>` (env `CCR_KILL_TIMEOUT_MS`, default 5000) sets the SIGTERM→SIGKILL grace window on shutdown; `--post-session-hook <cmd>` (env `CCR_POST_SESSION_HOOK`) runs a shell command after the session ends (sees `CCR_SESSION_ID`/`CCR_SESSION_STATUS`/`CCR_SESSION_DIR`) to snapshot/export before teardown |
 
 ### ACP, SSH & Server Modes
 
