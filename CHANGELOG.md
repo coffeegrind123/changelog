@@ -2,6 +2,12 @@
 
 
 
+## 11.06.2026
+
+- `5f8557d` **Fixed model IDs getting a doubled 1M-context suffix (`[1M][1m]`) when a default-model env override already includes one (backlog 2.1.172).** The `ANTHROPIC_DEFAULT_OPUS_MODEL`/`_SONNET_`/`_HAIKU_` overrides flow straight through `getDefault*Model()`, then six call sites appended `[1m]` unconditionally — so an env value of `claude-opus-4-8[1m]` became `claude-opus-4-8[1m][1m]`. Added an `append1mSuffix()` guard (case-insensitive trailing-suffix test, so `[1M]` is caught too, and a pure string check so it still de-dupes when 1M context is disabled) applied at all six append sites. 7 new unit tests.
+- `5f8557d` **Sub-agents can now spawn their own sub-agents up to 5 levels deep, with a hard nesting cap (backlog 2.1.172).** The fork already permitted nested subagents (`USER_TYPE=ant` keeps the Agent tool in subagent tool pools) but had no depth limit — unbounded subagent-of-subagent recursion was possible. Added a dedicated `subagentDepth` counter (incremented once per spawn, kept separate from the query-loop `queryTracking.depth`) and a `MAX_SUBAGENT_NESTING_DEPTH=5` refusal in the Agent tool: a spawn at depth ≥ 5 now tells the agent to finish the task with its own tools instead. 4 new unit tests.
+- `5f8557d` **Workflow scripts that merely mention `Date.now()`/`Math.random()` in a prompt string or comment are no longer at risk of rejection (backlog 2.1.172, verified N/A).** Upstream's bug was a static source-scan; our dynamic-workflows sandbox enforces determinism by runtime shadowing (the shadows only throw when those APIs are actually *called*), so a workflow that references them in an `agent()` prompt or a comment runs fine. Added a regression test that locks this behavior.
+
 ## 10.06.2026
 
 - `27f6a56` **Fixed the release build gate that was silently blocking compiled-binary releases.** Six `fallbackModels` tests threw `ANTHROPIC_API_KEY ... required` in the CI test step (no auth in a bare runner), which fails the gate and skips the multi-platform build — several recent version tags produced no binaries as a result. The tests now mirror the fork's runtime invariant (`USER_TYPE=ant`, set at the entrypoint but not under `bun test`), so the default-model resolver no longer hits the auth-gated path. Test-only change, no runtime behavior affected.
