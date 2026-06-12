@@ -24,6 +24,26 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 > VS Code / JetBrains extensions, Bedrock/Vertex/Foundry routing, Anthropic's hosted
 > headless-browser shim, claude.ai OAuth connectors, managed-settings remote-sync.
 
+## 2.1.175
+
+- [ ] `Added enforceAvailableModels managed setting — when enabled, the availableModels allowlist also constrains the Default model (a Default that would resolve to a disallowed model now falls back to the first allowed model), and user or project settings can no longer widen a managed availableModels list`
+
+## 2.1.174
+
+- [ ] `Added wheelScrollAccelerationEnabled setting to disable mouse-wheel scroll acceleration in fullscreen mode`
+- [ ] `Fixed the /model picker hiding the model family that Default resolves to — Opus now appears as its own row on Max/Team Premium/Enterprise plans, Sonnet on Pro/Team plans, and Opus on pay-as-you-go API accounts`
+- [ ] `Fixed /model picker showing a hardcoded Sonnet version label when ANTHROPIC_DEFAULT_SONNET_MODEL pins a different Sonnet`
+- [ ] `Fixed the "Fable 5 is now consuming usage credits" banner incorrectly showing for enterprise accounts with usage-based billing`
+- [ ] `Fixed Bedrock GovCloud regions (us-gov-*) deriving the wrong inference profile prefix (global instead of us-gov), causing 400 errors on derived model IDs`
+- [ ] `Fixed background sessions inheriting another session's ANTHROPIC_* provider env (gateway URL, custom headers, /model aliases) from the shell that started the background daemon`
+- [ ] `Fixed a 1-2 second pause when exiting Claude Code shortly after a shell command was interrupted or killed on macOS and Linux`
+- [ ] `Fixed git commit co-author attribution showing an incorrect model name for some models`
+- [ ] `Fixed the /advisor dialog pre-selecting a saved advisor model that is blocked by the availableModels allowlist`
+- [ ] `Fixed skill hot-reload re-sending the entire skill listing when a single skill changed; only changed skills are now re-announced`
+- [ ] `Fixed Workflow tool agent() subagents missing per-agent attribution headers`
+- [ ] `[VSCode] Added usage attribution to the Account & usage dialog (/usage) showing cache misses, long context, subagents, and per-skill/agent/plugin/MCP breakdowns over the last 24h or 7d`
+- [ ] `Fixed pre-warmed background workers failing with "Could not resolve authentication method" when claimed after sitting idle`
+
 ## 2.1.173
 
 - [x] `Fixed Fable 5 model names with a [1m] suffix not being normalized — Fable 5 includes 1M context by default, so the suffix is now stripped automatically` — DONE (`7aaeb98`). Our fork's analog: Opus 4.7 is GA-native default-1M (`modelHasNativeGA1M` in `context.ts`), so a `[1m]` suffix on it is redundant. Added `isDefault1mContextModel(model)` (`src/utils/model/model.ts`, pure canonical check `opus-4-7`, NOT gated on `is1mContextDisabled` — a redundant suffix is inert when 1M is off and still worth removing) and made `append1mSuffix()` STRIP a redundant `[1m]` from default-1M models instead of appending/keeping one (was: append to any model lacking it). No-op for our current default `opus-4-8[1m]` (4.8 is NOT default-1M → genuinely needs the suffix); kicks in only for `opus-4-7`. Verified safe: `getContextWindowForModel` falls back to `modelHasNativeGA1M` before 200K (so opus-4-7 sans-suffix still resolves 1M), and the beta-header (`betas.ts`) + extra-usage (`extraUsage.ts`) consumers correctly treat bare opus-4-7 as GA-1M (no beta, no entitlement). Defined locally in model.ts (not imported from context.ts) to avoid an import cycle; `@[MODEL LAUNCH]` comment keeps it in lockstep with `modelHasNativeGA1M`. +6 `append1mSuffix` tests + 2 `isDefault1mContextModel` tests in `oneMSuffix.test.ts` (14 pass).
