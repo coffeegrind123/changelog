@@ -24,6 +24,31 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 > VS Code / JetBrains extensions, Bedrock/Vertex/Foundry routing, Anthropic's hosted
 > headless-browser shim, claude.ai OAuth connectors, managed-settings remote-sync.
 
+## 2.1.176
+
+- [ ] `Session titles are now generated in the language of your conversation (set the language setting to pin a specific language)`
+- [ ] `Added footerLinksRegexes setting for regex-matched link badges in the footer row, configurable via user or managed settings`
+- [ ] `Improved Bedrock credential caching: credentials from awsCredentialExport are now cached until their Expiration instead of a fixed 1 hour`
+- [ ] `Fixed availableModels enforcement: alias model picks can no longer be redirected to a blocked model via ANTHROPIC_DEFAULT_*_MODEL environment variables, and /fast now refuses to toggle when it would switch to a model outside the allowlist`
+- [ ] `Fixed auto mode failing on Fable 5 for organizations without Opus 4.8 enabled — the classifier now falls back to the best available Opus model`
+- [ ] `Fixed hook if conditions for Read/Edit/Write tool paths: documented patterns like Edit(src/**), Read(~/.ssh/**), and Read(.env) now match correctly`
+- [ ] `Fixed Linux sandbox failing to start when .claude/settings.json is a symlink with an absolute target`
+- [ ] `Fixed /copy and mouse-selection copy not reaching the system clipboard inside tmux over SSH, and tmux paste buffer not loading on versions older than 3.2`
+- [ ] `Fixed Remote Control connecting from web/mobile silently switching the session's model`
+- [ ] `Fixed Remote Control disconnect notifications showing a bare numeric code instead of a human-readable reason, and connection failures adding a duplicate line to the conversation transcript`
+- [ ] `Fixed Remote Control sessions not disconnecting when you sign in to a different account`
+- [ ] `Fixed /cd and worktree moves leaving the session reporting the previous directory's git branch`
+- [ ] `Fixed claude agents: pressing back in one window no longer detaches other windows attached to the same session`
+- [ ] `Fixed backgrounded sessions showing "Working" forever when /bg mid-turn had nothing left to continue`
+- [ ] `Fixed background agent search by PR URL: PRs opened during scheduled wakeups or while a job was blocked now appear in claude agents search`
+- [ ] `Fixed the agents view input showing no text cursor on Windows`
+- [ ] `Fixed claude --bg -cn <name> not seeding the session name`
+- [ ] `Fixed background sessions to neutralize Windows network paths in persisted state before respawn`
+- [ ] `Fixed background-session respawn rejecting malformed resume IDs from corrupted state files`
+- [ ] `Fixed the Windows background-service daemon not starting when ~/.claude/daemon has the ReadOnly attribute set`
+- [ ] `Fixed cloud sessions failing with "Could not resolve authentication method" when idle for too long before being claimed`
+- [ ] `Background sessions now show clearer guidance when a window left open across an auto-update can't submit a reply, and claude daemon status explains version-skew behavior`
+
 ## 2.1.175
 
 - [x] `Added enforceAvailableModels managed setting — when enabled, the availableModels allowlist also constrains the Default model (a Default that would resolve to a disallowed model now falls back to the first allowed model), and user or project settings can no longer widen a managed availableModels list` — DONE `7718234` (2026-06-12). Implemented all three pieces. **(schema)** Added `enforceAvailableModels?: boolean` to `settings/types.ts` (default false → prior behavior preserved: allowlist filters the picker but never moves the Default, and lower-priority sources concatenate into the list). **(b) Default-resolution guard** — `getDefaultMainLoopModel()` (`model.ts`) now runs the resolved Default through `enforceDefaultModel()` (lazy `require('./modelAllowlist.js')` to break the model.ts ⇄ modelAllowlist.ts static cycle): when enforcement is on and the Default isn't in the effective allowlist, it falls back to the first allowlist entry (alias-resolved via `parseUserSpecifiedModel`); no-op when enforcement is off or the allowlist is unset/empty, so a normal session never moves its Default. **(c) widening clamp** — routed `isModelAllowed()` through a new `getEffectiveAvailableModels()`: the fork merges settings with `settingsMergeCustomizer` which CONCATENATES+dedupes arrays (so `availableModels` is the union across user/project/local/flag/policy — exactly the "widening" hole), and the clamp returns the **policy-source** `availableModels` verbatim when `enforceAvailableModels` is on and the policy pins a non-empty list, so user/project entries outside the managed list are ignored. Because every consumer (`claude.ts` request gate, `/model` + `/advisor` pickers via `filterModelOptionsByAllowlist`, acp) reads `isModelAllowed()`, they all respect the clamp for free. Enforcement scalar reads the merged settings, so a managed (policy) `true` wins over user/project (policy is the highest-priority scalar source). Both behaviors split into settings-free pure cores (`clampAvailableModels`/`enforceDefaultModelBy`, mirroring the existing `isModelAllowed`/`isModelAllowedBy` pattern) → +10 unit tests in `modelAllowlist.test.ts` (18 pass), no leaky process-global mock. Build clean. **No new harness needed** — the managed-settings precedence + array-merge behavior is already covered by the existing settings tests, and the enforcement is pure-logic-testable; the surveyed "managed-settings/model-resolution conformance harness" was NOT justified (a boot-with-policy-settings integration arm would only re-assert what the pure cores + the existing merge tests already prove).
