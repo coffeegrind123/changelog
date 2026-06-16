@@ -679,7 +679,7 @@ Master toggle: `toolGuardEnabled` boolean in /config (default **off**). The agen
 |---|---|
 | `claude telegram setup` / `start` / `stop` / `status` / `reset` | Native Telegram bot bridge — chat with openclaude from Telegram |
 | `claude telegram allow <chatId>` / `deny` / `own` / `list` | Telegram allowlist controls |
-| `claude matrix setup` / `start` / `stop` / `status` / `reset` | Native Matrix bot bridge (real E2EE — fake-indexeddb crypto store + cross-signing + SAS auto-accept). Per-thread conversations, **image/vision** (lean one-shot call to a vision model; auto-batches multiple images), ⏳/✅/❌ reactions, fuelgauge-style turn footer. Flags: `--thread-mode <thread\|room>`, `--vision-model <name>` (z.ai default `glm-4.6v`), `--no-image-input`, `--no-reactions`, `--tool-verbosity <0\|1\|2>`. Env: `MATRIX_IMAGE_RESIZE=1` (downscale images; off by default since vision models tokenize natively), `MATRIX_RESET_CROSS_SIGNING=1`, `MATRIX_ANNOUNCE_ROOM=<id>`. Tip: run with `--cwd <clean dir>` so text turns don't load a big project `CLAUDE.md`. |
+| `claude matrix setup` / `start` / `stop` / `status` / `reset` | Native Matrix bot bridge (real E2EE — fake-indexeddb crypto store + cross-signing + SAS auto-accept). Per-thread conversations, **image/vision** (lean one-shot call to a vision model; auto-batches multiple images), ⏳/✅/❌ reactions, fuelgauge-style turn footer. Also: **file transfer** (send a file → saved to cwd + agent processes it; `/get <path>` uploads one back, encrypted in E2EE rooms), **voice messages** (`m.audio` → ffmpeg+faster-whisper transcription → run as text; degrades cleanly if ffmpeg/STT venv absent), **conversation persistence** (threads survive a restart), **proactive push** (`echo >> ~/.claude/matrix/outbox.jsonl` → forwarded to the owner DM), **completion ping** (>90 s turn → owner DM). Flags: `--thread-mode <thread\|room>`, `--vision-model <name>` (z.ai default `glm-4.6v`), `--no-image-input`, `--no-file-input`, `--no-voice-input`, `--no-persist`, `--no-reactions`, `--tool-verbosity <0\|1\|2>`. Env: `MATRIX_IMAGE_RESIZE=1` (downscale images; off by default since vision models tokenize natively), `MATRIX_NOTIFY_ROOM=<id>` (proactive-push target), `MATRIX_RESET_CROSS_SIGNING=1`, `MATRIX_ANNOUNCE_ROOM=<id>`, `MATRIX_STORE_PASSPHRASE`, `MATRIX_PASSWORD`, `--allow-unencrypted`/`MATRIX_ALLOW_UNENCRYPTED=1`. Tip: run with `--cwd <clean dir>` so text turns don't load a big project `CLAUDE.md`. |
 | `claude matrix allow <userId>` / `deny` / `own` / `list` | Matrix allowlist controls |
 | `claude ultrareview [target]` | Headless parallel multi-agent code review (correctness / security / architecture + synthesis) |
 | `claude agents [--cwd <path>] [--json] [--all]` | Open cross-session agents dashboard (upstream 2.1.139 port). `--json` prints the live-session list to stdout and exits (upstream 2.1.145 port) — for tmux-resurrect, status bars, session pickers; includes just-dispatched sessions and each row carries `id`+`state` (upstream 2.1.169). `--all` also includes completed (terminal-status) sessions |
@@ -698,6 +698,8 @@ Commands you type into Telegram / Matrix once a bot is running. Any text NOT sta
 | `/stop` | Interrupt the currently running turn |
 | `/clear` | Destroy this chat/room/thread's session — next message starts fresh |
 | `/cwd <path>` | Change working directory (resets session) |
+| `/get <path>` | (Matrix) Upload a file from the working dir back to the chat (encrypted in E2EE rooms) |
+| `/usage` | (Matrix) Usage + cost: 24h/7d/30d/all-time + top model/provider |
 | `/model <name>` | Change model for this chat/room (resets session) |
 | `/threads on\|off` | (Matrix) Per-thread conversations vs one shared per room |
 | `/verbose 0\|1\|2` | (Matrix) Tool-activity detail: 0 hide cards, 1 names, 2 names+detail |
@@ -707,7 +709,7 @@ Commands you type into Telegram / Matrix once a bot is running. Any text NOT sta
 | `/admins` | (owner only) Show owner + allowed users/chats |
 | `/refresh` | Re-scan openclaude commands (Telegram: also re-registers the menu) |
 
-Matrix extras: send a normal message to open a **thread**; reply in-thread to continue that conversation (each thread is its own QueryEngine). Attach a **screenshot** (or reply to an image with a prompt) for **vision** input. The bot reacts ⏳ while working, ✅/❌ when done.
+Matrix extras: send a normal message to open a **thread**; reply in-thread to continue that conversation (each thread is its own QueryEngine, persisted across restarts). Attach a **screenshot** (or reply to an image with a prompt) for **vision** input. Send any **file** to drop it in the working dir for the agent to process, or a **voice message** to have it transcribed and run. The bot reacts ⏳ while working, ✅/❌ when done, and DMs you ✅ when a >90 s task finishes. Scripts/cron can `echo >> ~/.claude/matrix/outbox.jsonl` to push you a Matrix message.
 
 TUI-only commands like `/identity`, `/config`, `/help`, `/model` (the REPL ones) are rejected by the bot bridge with a message pointing back at the REPL.
 
