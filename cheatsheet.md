@@ -679,7 +679,7 @@ Master toggle: `toolGuardEnabled` boolean in /config (default **off**). The agen
 |---|---|
 | `claude telegram setup` / `start` / `stop` / `status` / `reset` | Native Telegram bot bridge — chat with openclaude from Telegram |
 | `claude telegram allow <chatId>` / `deny` / `own` / `list` | Telegram allowlist controls |
-| `claude matrix setup` / `start` / `stop` / `status` / `reset` | Native Matrix bot bridge (E2EE) |
+| `claude matrix setup` / `start` / `stop` / `status` / `reset` | Native Matrix bot bridge (real E2EE — fake-indexeddb crypto store + cross-signing + SAS auto-accept). Per-thread conversations, **image/vision** (lean one-shot call to a vision model; auto-batches multiple images), ⏳/✅/❌ reactions, fuelgauge-style turn footer. Flags: `--thread-mode <thread\|room>`, `--vision-model <name>` (z.ai default `glm-4.6v`), `--no-image-input`, `--no-reactions`, `--tool-verbosity <0\|1\|2>`. Env: `MATRIX_IMAGE_RESIZE=1` (downscale images; off by default since vision models tokenize natively), `MATRIX_RESET_CROSS_SIGNING=1`, `MATRIX_ANNOUNCE_ROOM=<id>`. Tip: run with `--cwd <clean dir>` so text turns don't load a big project `CLAUDE.md`. |
 | `claude matrix allow <userId>` / `deny` / `own` / `list` | Matrix allowlist controls |
 | `claude ultrareview [target]` | Headless parallel multi-agent code review (correctness / security / architecture + synthesis) |
 | `claude agents [--cwd <path>] [--json] [--all]` | Open cross-session agents dashboard (upstream 2.1.139 port). `--json` prints the live-session list to stdout and exits (upstream 2.1.145 port) — for tmux-resurrect, status bars, session pickers; includes just-dispatched sessions and each row carries `id`+`state` (upstream 2.1.169). `--all` also includes completed (terminal-status) sessions |
@@ -696,14 +696,18 @@ Commands you type into Telegram / Matrix once a bot is running. Any text NOT sta
 | `/help` | List bot commands + available openclaude slash commands |
 | `/status` | Show cwd, session state, model, permission mode, run status |
 | `/stop` | Interrupt the currently running turn |
-| `/clear` | Destroy this chat/room's session — next message starts fresh |
+| `/clear` | Destroy this chat/room/thread's session — next message starts fresh |
 | `/cwd <path>` | Change working directory (resets session) |
 | `/model <name>` | Change model for this chat/room (resets session) |
-| `/sessions` | (owner only) List active chats/rooms with model + idle time + run status |
+| `/threads on\|off` | (Matrix) Per-thread conversations vs one shared per room |
+| `/verbose 0\|1\|2` | (Matrix) Tool-activity detail: 0 hide cards, 1 names, 2 names+detail |
+| `/sessions` | (owner only) List active chats/rooms/threads with model + idle time + run status |
 | `/allow <chatId\|@user:homeserver>` | (owner only) Add to allowlist |
 | `/deny <chatId\|@user:homeserver>` | (owner only) Remove from allowlist |
 | `/admins` | (owner only) Show owner + allowed users/chats |
-| `/refresh` | (Telegram only) Re-scan openclaude commands; re-register menu |
+| `/refresh` | Re-scan openclaude commands (Telegram: also re-registers the menu) |
+
+Matrix extras: send a normal message to open a **thread**; reply in-thread to continue that conversation (each thread is its own QueryEngine). Attach a **screenshot** (or reply to an image with a prompt) for **vision** input. The bot reacts ⏳ while working, ✅/❌ when done.
 
 TUI-only commands like `/identity`, `/config`, `/help`, `/model` (the REPL ones) are rejected by the bot bridge with a message pointing back at the REPL.
 
@@ -913,6 +917,7 @@ Tools the LLM picks from its tool list — distinct from slash commands the user
 | Key | Type | Description |
 |---|---|---|
 | `fuelgaugeEnabled` | `boolean` | Native status line with ctx/5h/7d bars (default true) |
+| `footerLinksRegexes` | `{pattern,url,label?,source?,flags?}[]` | Clickable footer link badges (upstream 2.1.176). Each rule matches `pattern` against `source` (`branch` default / `folder` / `cwd`); on a match a badge linking to `url` renders. `$0-$9` capture groups + `{branch}/{folder}/{cwd}` substitute into url/label. Empty default = no badges. |
 | `distillEnabled` | `boolean` | Tool-output compaction pipeline (default true) |
 | `distillArgInject` | `boolean` | Inject `--tb=short` etc. on pytest/jest/tsc (default true) |
 | `distillUserFiltersPath` | `string` | Path to user TOML distill filters |
