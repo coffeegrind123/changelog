@@ -2,6 +2,13 @@
 
 
 
+## 16.06.2026
+
+- `29735f6` **Fixed Matrix bot E2EE — encrypted chats now actually work.** Replaced the broken hand-written IndexedDB crypto store (its cursor + key-ordering bugs silently corrupted Olm/megolm session storage, so no encrypted message ever decrypted in either direction while device-key management still appeared fine) with `fake-indexeddb` + a persistent JSON snapshot. Adds cross-signing bootstrap, owner-gated SAS verification, an Olm-deadlock breaker, and decrypt-after-arrival handling (`m.room.encrypted` events decrypt asynchronously). The bot's Olm identity now survives restarts.
+- `29735f6` **Added Matrix image/vision input.** Send a screenshot — or several at once (they're auto-batched) — to the bot and it analyzes them via a vision model (`glm-4.6v` on z.ai, `--vision-model` to override). Image turns use a lean one-shot call so the agent's large baseline context can't push the image past the model's window; also supports text-replies-to-an-image and encrypted-attachment decryption.
+- `29735f6` **Added Matrix per-thread conversations + UX.** A normal message starts a thread; reply in-thread to continue with independent context per thread. New ⏳/✅/❌ turn-progress reactions, `/threads` `/verbose` `/refresh` in-chat commands, and a fuelgauge-style turn footer (context % · in/out tokens · cost · 5h rate window · session cost).
+- `29735f6` **Improved Matrix bot security.** Device (SAS) verification and config commands (`/cwd` `/model` `/threads` `/verbose`) are now owner-only; the bot refuses to run without end-to-end encryption unless `--allow-unencrypted`; added encryption-at-rest (`MATRIX_STORE_PASSPHRASE`), `MATRIX_PASSWORD` env (keeps the password out of the process list), and a concurrent-session cap with LRU eviction.
+
 ## 15.06.2026
 
 - `d886372` **Added `footerLinksRegexes` — regex-matched clickable link badges in the footer (upstream 2.1.176).** A new array setting (user or managed settings): each rule matches `pattern` against a `source` string — `branch` (git branch, the default — e.g. a `feature/JIRA-123` branch → ticket link), `folder` (cwd basename), or `cwd` (full path) — and on a match renders a clickable footer badge linking to `url`. `$0`–`$9` regex capture groups and `{branch}`/`{folder}`/`{cwd}` placeholders substitute into both `url` and `label` (`$$` is a literal `$`); `label` defaults to the full match. Empty/unset (the default) renders nothing, so existing sessions are unchanged. Badges emit a real OSC 8 terminal hyperlink (plain-text fallback where hyperlinks aren't supported). 14 unit tests + a settings-seeded ui-driver scenario verifying the live footer render.
