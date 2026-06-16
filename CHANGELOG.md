@@ -2,6 +2,10 @@
 
 
 
+## 17.06.2026
+
+- `33538af` **Added Matrix bot remote-control extensions — drive your dev box from your phone.** Five new always-on features on the Matrix bridge: **file transfer** (send the bot any file → it saves it to the working directory and processes it; `/get <path>` sends a workdir file back, encrypted in E2EE rooms), **voice messages** (record a voice note → transcribed via ffmpeg + faster-whisper → run as a normal request, with the transcript echoed back; degrades cleanly to "send text" when ffmpeg/STT aren't installed), **conversation persistence** (threads survive a bot restart), **proactive push** (any script or cron job can `echo >> ~/.claude/matrix/outbox.jsonl` to ping you on Matrix), **completion ping** (a task running longer than 90s DMs you when it finishes), and **`/usage`** (in-chat 24h/7d/30d/all-time usage + cost + top model/provider). New flags `--no-file-input` / `--no-voice-input` / `--no-persist` and env `MATRIX_NOTIFY_ROOM`. Also fixed three bugs caught in review: `/usage` referenced the wrong aggregate field, `/get` referenced an un-imported helper (would have crashed), and a file-upload type fix.
+
 ## 16.06.2026
 
 - `29735f6` **Fixed Matrix bot E2EE — encrypted chats now actually work.** Replaced the broken hand-written IndexedDB crypto store (its cursor + key-ordering bugs silently corrupted Olm/megolm session storage, so no encrypted message ever decrypted in either direction while device-key management still appeared fine) with `fake-indexeddb` + a persistent JSON snapshot. Adds cross-signing bootstrap, owner-gated SAS verification, an Olm-deadlock breaker, and decrypt-after-arrival handling (`m.room.encrypted` events decrypt asynchronously). The bot's Olm identity now survives restarts.
