@@ -2,6 +2,10 @@
 
 
 
+## 19.06.2026
+
+- `dde5abe` **Matrix bot: personas, a quieter chat, and slash commands that actually run.** Big upgrade to the Matrix bridge: **`/randompersona`** adopts a random character from chub.ai and the bot's **display name + avatar then follow that persona**; if the card has multiple characters the bot **asks you right in the chat** (reply with a number) and continues. The bot now defaults to a **clean, human-like conversation** — no tool-call lines, no usage/cost footer, no ⏳/✅/❌ reactions (just the reply); `/verbose 1` or `2` brings the detail back. It runs in **low-context mode by default** (leaner prompt that still fully keeps the active persona), toggle with **`/lowcontext`**. **`/stop`** now works like Esc — it interrupts whatever's running. And a real fix: **openclaude slash commands (`/super`, `/graph`, `/randompersona`, …) were being sent to the model as plain text instead of running** — that's fixed, so they all work in the bot now.
+
 ## 17.06.2026
 
 - `8a21a45` **The Matrix bot now actually browses the web, and the chat is quieter.** The browser tools were connected but hidden from the model (deferred behind tool-search), so it kept falling back to the provider's flaky built-in web search; they're now surfaced directly plus a nudge to use them — so "search the web for news" drives a real browser (navigate + read the page). Also: the noisy internal `mcp__browser__*` tool-call lines are no longer posted to chat, and the "✅ task finished" ping is now opt-in (off by default — it was just noise while you're watching the thread; `--completion-ping` re-enables it).
