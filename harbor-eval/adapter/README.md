@@ -51,13 +51,13 @@ with the same env vars the fork uses.
 
 **z.ai (GLM) — the primary target:**
 ```bash
-export ANTHROPIC_BASE_URL="https://api.z.ai/anthropic"   # note: /anthropic, not /api/anthropic
-export ANTHROPIC_AUTH_TOKEN="<your z.ai token>"           # Bearer; never commit it
+export ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"   # the /api/anthropic path (the bare /anthropic path 404s)
+export ANTHROPIC_AUTH_TOKEN="<your z.ai token>"              # Bearer; never commit it
 harbor run --agent openclaude --model zai/glm-5.2 --dataset terminal-bench ...
 ```
-The `zai/` prefix is stripped, so `glm-5.2` is sent to z.ai. (z.ai exposes both
-`https://api.z.ai/anthropic` and `https://api.z.ai/api/anthropic` — use whichever
-your account/plan is provisioned for; the adapter forwards it verbatim.)
+The `zai/` prefix is stripped, so `glm-5.2` is sent to z.ai. The adapter forwards
+`ANTHROPIC_BASE_URL` verbatim — use the `/api/anthropic` path (the bare
+`https://api.z.ai/anthropic` returns nginx 404).
 
 **DeepSeek:**
 ```bash

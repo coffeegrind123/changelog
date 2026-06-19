@@ -45,7 +45,7 @@ on:
       base_url:
         description: "ANTHROPIC_BASE_URL for the agent"
         type: string
-        default: "https://api.z.ai/anthropic"
+        default: "https://api.z.ai/api/anthropic"
       harbor_ref:
         description: "harbor-framework/harbor git ref"
         type: string

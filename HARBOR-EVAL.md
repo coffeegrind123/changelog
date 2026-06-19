@@ -13,7 +13,7 @@ Add this in **Settings → Secrets and variables → Actions** of this repo:
 | Kind | Name | Value |
 |---|---|---|
 | Secret | `ZAI_AUTH_TOKEN` | your z.ai Bearer token (becomes `ANTHROPIC_AUTH_TOKEN`) |
-| Variable *(optional)* | `ZAI_BASE_URL` | overrides the default base URL `https://api.z.ai/anthropic` |
+| Variable *(optional)* | `ZAI_BASE_URL` | overrides the default base URL `https://api.z.ai/api/anthropic` |
 
 > The adapter is **vendored** from `coffeegrind123/openclaude:contrib/harbor-adapter`
 > into `harbor-eval/adapter/` so this public repo's workflow needs no access to
@@ -31,7 +31,7 @@ Add this in **Settings → Secrets and variables → Actions** of this repo:
 | `n_concurrent` | `3` | parallel trials |
 | `n_attempts` | `1` | pass@k attempts per task |
 | `include_task` | _(empty)_ | glob to run only matching task names |
-| `base_url` | `https://api.z.ai/anthropic` | agent endpoint |
+| `base_url` | `https://api.z.ai/api/anthropic` | agent endpoint |
 | `harbor_ref` | `main` | pin the Harbor git ref |
 | `timeout_minutes` | `120` | job timeout |
 
