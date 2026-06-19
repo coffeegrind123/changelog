@@ -1,0 +1,174 @@
+name: Harbor eval (openclaude)
+
+# Manually-triggered Harbor evaluation of openclaude (the Claude Code fork).
+# Clones Harbor, installs the vendored openclaude harbor-adapter
+# (harbor-eval/adapter/ in this repo), registers the agent, and runs
+# `harbor run` against a benchmark with the fork pointed at z.ai (or any
+# Anthropic-compatible provider). Results are uploaded as an artifact and
+# summarized in the run's job summary.
+#
+# Required repo secret:
+#   ZAI_AUTH_TOKEN    - the provider Bearer token  -> ANTHROPIC_AUTH_TOKEN
+# Optional repo variable:
+#   ZAI_BASE_URL      - overrides the default base URL if set as a repo variable.
+#
+# The adapter is vendored from coffeegrind123/openclaude:contrib/harbor-adapter
+# into harbor-eval/adapter/ here. Keep the two in sync when the adapter changes.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dataset:
+        description: "Harbor dataset@version"
+        type: string
+        default: "terminal-bench@2.0"
+      model:
+        description: "Model (provider/model; zai/ prefix is stripped to the GLM id)"
+        type: string
+        default: "zai/glm-5.2"
+      n_tasks:
+        description: "Max tasks to run (cost bound; empty = whole dataset)"
+        type: string
+        default: "5"
+      n_concurrent:
+        description: "Concurrent trials"
+        type: string
+        default: "3"
+      n_attempts:
+        description: "Attempts per task (pass@k)"
+        type: string
+        default: "1"
+      include_task:
+        description: "Only run task names matching this glob (optional)"
+        type: string
+        default: ""
+      base_url:
+        description: "ANTHROPIC_BASE_URL for the agent"
+        type: string
+        default: "https://api.z.ai/anthropic"
+      harbor_ref:
+        description: "harbor-framework/harbor git ref"
+        type: string
+        default: "main"
+      timeout_minutes:
+        description: "Job timeout (minutes)"
+        type: string
+        default: "120"
+
+concurrency:
+  group: harbor-eval-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJSON(inputs.timeout_minutes) }}
+    steps:
+      - name: Show run parameters
+        run: |
+          echo "dataset      = ${{ inputs.dataset }}"
+          echo "model        = ${{ inputs.model }}"
+          echo "n_tasks      = ${{ inputs.n_tasks }}"
+          echo "n_concurrent = ${{ inputs.n_concurrent }}"
+          echo "n_attempts   = ${{ inputs.n_attempts }}"
+          echo "include_task = ${{ inputs.include_task }}"
+          echo "base_url     = ${{ inputs.base_url }}"
+          echo "harbor_ref   = ${{ inputs.harbor_ref }}"
+
+      - name: Preflight - required secret
+        env:
+          ZAI_AUTH_TOKEN: ${{ secrets.ZAI_AUTH_TOKEN }}
+        run: |
+          if [ -z "${ZAI_AUTH_TOKEN}" ]; then
+            echo "::error::Secret ZAI_AUTH_TOKEN is not set in this repo." >&2
+            exit 1
+          fi
+
+      - name: Checkout this repo (vendored adapter)
+        uses: actions/checkout@v4
+        with:
+          path: changelog
+
+      - name: Checkout Harbor
+        uses: actions/checkout@v4
+        with:
+          repository: harbor-framework/harbor
+          ref: ${{ inputs.harbor_ref }}
+          path: harbor
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install adapter into Harbor
+        run: |
+          set -euo pipefail
+          chmod +x changelog/harbor-eval/adapter/install-into-harbor.sh
+          changelog/harbor-eval/adapter/install-into-harbor.sh "${GITHUB_WORKSPACE}/harbor"
+          # Sanity: the factory must resolve the new agent.
+          cd harbor
+          uv sync --quiet
+          uv run python -c "from harbor.agents.factory import AgentFactory; from harbor.models.agent.name import AgentName; print('resolved', AgentFactory.get_agent_class(AgentName.OPENCLAUDE).__name__)"
+
+      - name: Run Harbor eval
+        working-directory: harbor
+        env:
+          ANTHROPIC_BASE_URL: ${{ vars.ZAI_BASE_URL != '' && vars.ZAI_BASE_URL || inputs.base_url }}
+          ANTHROPIC_AUTH_TOKEN: ${{ secrets.ZAI_AUTH_TOKEN }}
+        run: |
+          set -euo pipefail
+          ARGS=(run
+            --dataset "${{ inputs.dataset }}"
+            --agent openclaude
+            --model "${{ inputs.model }}"
+            --n-concurrent "${{ inputs.n_concurrent }}"
+            --n-attempts "${{ inputs.n_attempts }}"
+            --jobs-dir "${GITHUB_WORKSPACE}/harbor/jobs"
+          )
+          if [ -n "${{ inputs.n_tasks }}" ]; then
+            ARGS+=(--n-tasks "${{ inputs.n_tasks }}")
+          fi
+          if [ -n "${{ inputs.include_task }}" ]; then
+            ARGS+=(--include-task-name "${{ inputs.include_task }}")
+          fi
+          echo "+ uv run harbor ${ARGS[*]}"
+          uv run harbor "${ARGS[@]}"
+
+      - name: Summarize results
+        if: always()
+        working-directory: harbor
+        run: |
+          set -uo pipefail
+          echo "## Harbor eval — openclaude" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- dataset: \`${{ inputs.dataset }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- model: \`${{ inputs.model }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- n_tasks: \`${{ inputs.n_tasks }}\` · n_concurrent: \`${{ inputs.n_concurrent }}\` · n_attempts: \`${{ inputs.n_attempts }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          latest="$(ls -1dt jobs/*/ 2>/dev/null | head -1 || true)"
+          if [ -z "$latest" ]; then
+            echo "_No job directory was produced._" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          echo "Job dir: \`$latest\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          # Harbor writes a results.json / job_result.json with stats; print whatever is there.
+          summary_json="$(ls -1 "$latest"results*.json "$latest"job*.json 2>/dev/null | head -1 || true)"
+          if [ -n "$summary_json" ]; then
+            echo '```json' >> "$GITHUB_STEP_SUMMARY"
+            python3 -c "import json,sys; d=json.load(open('$summary_json')); print(json.dumps(d.get('stats', d), indent=2)[:4000])" >> "$GITHUB_STEP_SUMMARY" 2>/dev/null \
+              || head -c 4000 "$summary_json" >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "_No results JSON found; see the uploaded artifact._" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload job artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: harbor-jobs-${{ github.run_id }}
+          path: harbor/jobs/**
+          if-no-files-found: warn
+          retention-days: 14
