@@ -106,11 +106,16 @@ class OpenClaude(ClaudeCode):
             self._get_env("OPENCLAUDE_UPDATE_ENDPOINT")
             or "https://cs16.net/openclaude"
         ).rstrip("/")
+        # Resilient fetch: fail fast on a stalled connect and retry, so a
+        # transient blip reaching the installer host doesn't burn the whole
+        # agent-setup timeout on one hung connection.
         await self.exec_as_agent(
             environment,
             command=(
                 "set -euo pipefail; "
-                f"curl -fsSL {shlex.quote(endpoint + '/install.sh')} | bash && "
+                f"curl -fsSL --connect-timeout 30 --max-time 300 "
+                f"--retry 5 --retry-delay 5 --retry-connrefused "
+                f"{shlex.quote(endpoint + '/install.sh')} | bash && "
                 "echo 'export PATH=\"/usr/local/bin:$HOME/.local/bin:$PATH\"' >> ~/.bashrc && "
                 'export PATH="/usr/local/bin:$HOME/.local/bin:$PATH" && '
                 "claude --version"
