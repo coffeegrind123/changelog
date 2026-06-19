@@ -38,6 +38,10 @@ on:
         description: "Attempts per task (pass@k)"
         type: string
         default: "1"
+      timeout_multiplier:
+        description: "Agent-execution timeout multiplier (>1 gives slower models more time)"
+        type: string
+        default: "2.0"
       include_task:
         description: "Only run task names matching this glob (optional)"
         type: string
@@ -71,6 +75,7 @@ jobs:
           echo "n_tasks      = ${{ inputs.n_tasks }}"
           echo "n_concurrent = ${{ inputs.n_concurrent }}"
           echo "n_attempts   = ${{ inputs.n_attempts }}"
+          echo "timeout_mult = ${{ inputs.timeout_multiplier }}"
           echo "include_task = ${{ inputs.include_task }}"
           echo "base_url     = ${{ inputs.base_url }}"
           echo "harbor_ref   = ${{ inputs.harbor_ref }}"
@@ -124,6 +129,7 @@ jobs:
             --model "${{ inputs.model }}"
             --n-concurrent "${{ inputs.n_concurrent }}"
             --n-attempts "${{ inputs.n_attempts }}"
+            --agent-timeout-multiplier "${{ inputs.timeout_multiplier }}"
             --jobs-dir "${GITHUB_WORKSPACE}/harbor/jobs"
           )
           if [ -n "${{ inputs.n_tasks }}" ]; then
@@ -144,7 +150,7 @@ jobs:
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "- dataset: \`${{ inputs.dataset }}\`" >> "$GITHUB_STEP_SUMMARY"
           echo "- model: \`${{ inputs.model }}\`" >> "$GITHUB_STEP_SUMMARY"
-          echo "- n_tasks: \`${{ inputs.n_tasks }}\` · n_concurrent: \`${{ inputs.n_concurrent }}\` · n_attempts: \`${{ inputs.n_attempts }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- n_tasks: \`${{ inputs.n_tasks }}\` · n_concurrent: \`${{ inputs.n_concurrent }}\` · n_attempts: \`${{ inputs.n_attempts }}\` · agent_timeout_x: \`${{ inputs.timeout_multiplier }}\`" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           latest="$(ls -1dt jobs/*/ 2>/dev/null | head -1 || true)"
           if [ -z "$latest" ]; then

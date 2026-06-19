@@ -30,6 +30,7 @@ Add this in **Settings → Secrets and variables → Actions** of this repo:
 | `n_tasks` | `5` | **cost bound** — max tasks; empty = whole dataset |
 | `n_concurrent` | `3` | parallel trials |
 | `n_attempts` | `1` | pass@k attempts per task |
+| `timeout_multiplier` | `2.0` | multiplies the agent-execution timeout (slower models like GLM need >1) |
 | `include_task` | _(empty)_ | glob to run only matching task names |
 | `base_url` | `https://api.z.ai/api/anthropic` | agent endpoint |
 | `harbor_ref` | `main` | pin the Harbor git ref |
