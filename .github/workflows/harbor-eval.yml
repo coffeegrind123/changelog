@@ -31,9 +31,9 @@ on:
         type: string
         default: "5"
       n_concurrent:
-        description: "Concurrent trials"
+        description: "Concurrent trials (keep low for z.ai RPM headroom)"
         type: string
-        default: "3"
+        default: "2"
       n_attempts:
         description: "Attempts per task (pass@k)"
         type: string
@@ -42,6 +42,10 @@ on:
         description: "Agent-execution timeout multiplier (>1 gives slower models more time)"
         type: string
         default: "2.0"
+      max_retries:
+        description: "Retry trials that fail with ApiRateLimitError (429), up to N times"
+        type: string
+        default: "3"
       include_task:
         description: "Only run task names matching this glob (optional)"
         type: string
@@ -76,6 +80,7 @@ jobs:
           echo "n_concurrent = ${{ inputs.n_concurrent }}"
           echo "n_attempts   = ${{ inputs.n_attempts }}"
           echo "timeout_mult = ${{ inputs.timeout_multiplier }}"
+          echo "max_retries  = ${{ inputs.max_retries }} (ApiRateLimitError)"
           echo "include_task = ${{ inputs.include_task }}"
           echo "base_url     = ${{ inputs.base_url }}"
           echo "harbor_ref   = ${{ inputs.harbor_ref }}"
@@ -132,6 +137,9 @@ jobs:
             --agent-timeout-multiplier "${{ inputs.timeout_multiplier }}"
             --jobs-dir "${GITHUB_WORKSPACE}/harbor/jobs"
           )
+          if [ "${{ inputs.max_retries }}" != "0" ] && [ -n "${{ inputs.max_retries }}" ]; then
+            ARGS+=(--max-retries "${{ inputs.max_retries }}" --retry-include ApiRateLimitError)
+          fi
           if [ -n "${{ inputs.n_tasks }}" ]; then
             ARGS+=(--n-tasks "${{ inputs.n_tasks }}")
           fi
