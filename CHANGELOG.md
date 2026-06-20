@@ -2,6 +2,11 @@
 
 
 
+## 21.06.2026
+
+- `02a6f77` **AskUserQuestion preview content now word-wraps instead of being cut off at the dialog edge.** Long lines in the preview pane (the box shown next to a question's options) used to be hard-sliced at the right edge, losing whatever didn't fit. They now wrap onto additional lines at the pane's width, with code indentation preserved and over-long tokens (URLs, long identifiers) broken so nothing overflows.
+- `02a6f77` **Write/Edit no longer produce 0-byte or truncated files on network drives and cloud-synced folders.** On SMB/CIFS shares and OneDrive/Dropbox/Google Drive folders, the sync client or antivirus briefly locks the destination, so the atomic save's rename failed — dropping into a non-atomic overwrite that, if interrupted, left the file empty or half-written. The save now retries the rename through the transient lock (with a short backoff, ~0.5s worst case) before falling back, so the original is never destroyed by a momentary lock. Local/POSIX writes are unchanged.
+
 ## 20.06.2026
 
 - `aaaea5b` **A broad sandbox `denyRead`/`allowRead` rule no longer bloats the session into uselessness.** When a read/write sandbox rule used a glob over a large directory tree, the resolved path list (which can be thousands of entries) was dumped in full into the Bash tool's description — making it enormous and the session unusable, especially on Linux. The description now shows at most 50 paths per list with an "…and N more" note; the sandbox still enforces the complete list at runtime.
