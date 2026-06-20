@@ -4,6 +4,7 @@
 
 ## 21.06.2026
 
+- `f3c236d` **Vim mode undo now steps through commands one at a time.** Pressing `u` after running several NORMAL/VISUAL-mode commands in quick succession (e.g. a few `x` or `dd` in a row) used to undo all of them at once, because rapid edits were being merged into a single undo step. Each vim command is now its own undo step; INSERT-mode typing still collapses rapid keystrokes into one step as before.
 - `02a6f77` **AskUserQuestion preview content now word-wraps instead of being cut off at the dialog edge.** Long lines in the preview pane (the box shown next to a question's options) used to be hard-sliced at the right edge, losing whatever didn't fit. They now wrap onto additional lines at the pane's width, with code indentation preserved and over-long tokens (URLs, long identifiers) broken so nothing overflows.
 - `02a6f77` **Write/Edit no longer produce 0-byte or truncated files on network drives and cloud-synced folders.** On SMB/CIFS shares and OneDrive/Dropbox/Google Drive folders, the sync client or antivirus briefly locks the destination, so the atomic save's rename failed — dropping into a non-atomic overwrite that, if interrupted, left the file empty or half-written. The save now retries the rename through the transient lock (with a short backoff, ~0.5s worst case) before falling back, so the original is never destroyed by a momentary lock. Local/POSIX writes are unchanged.
 
