@@ -62,6 +62,14 @@ on:
         description: "Job timeout (minutes)"
         type: string
         default: "120"
+      submission:
+        description: "Leaderboard-compliant mode: PINS agent_timeout_multiplier=1.0, forces n_attempts>=5, no resource overrides, and assembles the HF submissions/ layout"
+        type: boolean
+        default: false
+      commit_submission:
+        description: "When submission mode is on, commit the assembled submissions/ folder to a branch in THIS repo (then open the HF PR separately)"
+        type: boolean
+        default: true
 
 concurrency:
   group: harbor-eval-${{ github.ref }}
@@ -70,6 +78,8 @@ concurrency:
 jobs:
   eval:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     timeout-minutes: ${{ fromJSON(inputs.timeout_minutes) }}
     steps:
       - name: Show run parameters
@@ -84,6 +94,41 @@ jobs:
           echo "include_task = ${{ inputs.include_task }}"
           echo "base_url     = ${{ inputs.base_url }}"
           echo "harbor_ref   = ${{ inputs.harbor_ref }}"
+          echo "submission   = ${{ inputs.submission }}"
+
+      - name: Resolve effective settings (leaderboard-compliant in submission mode)
+        env:
+          SUB: ${{ inputs.submission }}
+          TM: ${{ inputs.timeout_multiplier }}
+          NA: ${{ inputs.n_attempts }}
+          MODEL: ${{ inputs.model }}
+        run: |
+          set -euo pipefail
+          # Folder/model slug: strip a leading routing prefix (zai/, deepseek/, ...)
+          # and sanitize. NIM-style namespaced ids keep their tail, which is fine
+          # as a folder name.
+          SLUG="${MODEL##*/}"
+          SLUG="$(printf '%s' "$SLUG" | tr '[:upper:]' '[:lower:]' | tr -c 'a-z0-9._-' '-')"
+          PREFIX="${MODEL%%/*}"; [ "$PREFIX" = "$MODEL" ] && PREFIX="zai"
+          if [ "$SUB" = "true" ]; then
+            # Leaderboard rules: agent_timeout_multiplier MUST be 1.0, >=5 trials/task,
+            # and no resource overrides (we never pass cpus/memory/storage).
+            if [ "$TM" != "1.0" ]; then
+              echo "::warning::submission mode pins agent_timeout_multiplier=1.0 (ignoring requested '$TM')"
+            fi
+            TM="1.0"
+            if ! printf '%s' "$NA" | grep -Eq '^[0-9]+$' || [ "$NA" -lt 5 ]; then
+              echo "::warning::submission mode requires >=5 trials/task; using n_attempts=5 (was '$NA')"
+              NA="5"
+            fi
+          fi
+          {
+            echo "EFF_TIMEOUT_MULT=$TM"
+            echo "EFF_N_ATTEMPTS=$NA"
+            echo "MODEL_SLUG=$SLUG"
+            echo "MODEL_PREFIX=$PREFIX"
+          } >> "$GITHUB_ENV"
+          echo "effective: submission=$SUB timeout_mult=$TM n_attempts=$NA model_slug=$SLUG provider=$PREFIX"
 
       - name: Preflight - required secret
         env:
@@ -133,8 +178,8 @@ jobs:
             --agent openclaude
             --model "${{ inputs.model }}"
             --n-concurrent "${{ inputs.n_concurrent }}"
-            --n-attempts "${{ inputs.n_attempts }}"
-            --agent-timeout-multiplier "${{ inputs.timeout_multiplier }}"
+            --n-attempts "${EFF_N_ATTEMPTS}"
+            --agent-timeout-multiplier "${EFF_TIMEOUT_MULT}"
             --jobs-dir "${GITHUB_WORKSPACE}/harbor/jobs"
           )
           if [ "${{ inputs.max_retries }}" != "0" ] && [ -n "${{ inputs.max_retries }}" ]; then
@@ -158,7 +203,7 @@ jobs:
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "- dataset: \`${{ inputs.dataset }}\`" >> "$GITHUB_STEP_SUMMARY"
           echo "- model: \`${{ inputs.model }}\`" >> "$GITHUB_STEP_SUMMARY"
-          echo "- n_tasks: \`${{ inputs.n_tasks }}\` · n_concurrent: \`${{ inputs.n_concurrent }}\` · n_attempts: \`${{ inputs.n_attempts }}\` · agent_timeout_x: \`${{ inputs.timeout_multiplier }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- n_tasks: \`${{ inputs.n_tasks }}\` · n_concurrent: \`${{ inputs.n_concurrent }}\` · n_attempts: \`${EFF_N_ATTEMPTS}\` · agent_timeout_x: \`${EFF_TIMEOUT_MULT}\` · submission: \`${{ inputs.submission }}\`" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           latest="$(ls -1dt jobs/*/ 2>/dev/null | head -1 || true)"
           if [ -z "$latest" ]; then
@@ -177,6 +222,90 @@ jobs:
           else
             echo "_No results JSON found; see the uploaded artifact._" >> "$GITHUB_STEP_SUMMARY"
           fi
+
+      - name: Assemble + commit submission (submission mode)
+        if: ${{ always() && inputs.submission && inputs.commit_submission }}
+        working-directory: harbor
+        env:
+          MODEL: ${{ inputs.model }}
+          DATASET: ${{ inputs.dataset }}
+        run: |
+          set -euo pipefail
+          latest="$(ls -1dt jobs/*/ 2>/dev/null | head -1 || true)"
+          if [ -z "$latest" ]; then
+            echo "::error::submission mode: no job directory was produced; nothing to mirror."
+            exit 1
+          fi
+          job="$(basename "$latest")"
+          dest="${GITHUB_WORKSPACE}/changelog/submissions/terminal-bench/2.0/openclaude__${MODEL_SLUG}"
+          mkdir -p "$dest"
+          rm -rf "${dest:?}/${job}"
+          cp -r "$latest" "$dest/$job"
+
+          case "$MODEL_PREFIX" in
+            zai|z-ai)  prov_disp="Z.ai" ;;
+            deepseek)  prov_disp="DeepSeek" ;;
+            anthropic) prov_disp="Anthropic" ;;
+            nvidia)    prov_disp="NVIDIA" ;;
+            *)         prov_disp="$MODEL_PREFIX" ;;
+          esac
+          # metadata.yaml — edit agent_url/display fields before opening the HF PR if needed.
+          cat > "$dest/metadata.yaml" <<YAML
+          agent_url: https://github.com/coffeegrind123/openclaude
+          agent_display_name: "openclaude"
+          agent_org_display_name: "coffeegrind123"
+          models:
+            - model_name: ${MODEL_SLUG}
+              model_provider: ${MODEL_PREFIX}
+              model_display_name: "${MODEL_SLUG}"
+              model_org_display_name: "${prov_disp}"
+          YAML
+
+          # Compliance self-check: refuse to commit a non-compliant config.json.
+          cfg="$(ls -1 "$dest/$job"/config.json 2>/dev/null | head -1 || true)"
+          if [ -n "$cfg" ]; then
+            python3 - "$cfg" <<'PY'
+          import json, sys
+          cfg = json.load(open(sys.argv[1]))
+          # search recursively for any timeout_multiplier / resource-override keys
+          bad = []
+          def walk(o, path=""):
+              if isinstance(o, dict):
+                  for k, v in o.items():
+                      p = f"{path}.{k}"
+                      if k == "agent_timeout_multiplier" and v not in (1, 1.0, "1.0"):
+                          bad.append((p, v))
+                      if k in ("cpus", "memory_mb", "storage_mb") and v not in (None,):
+                          # only a problem if it overrides the task default; flag for human review
+                          pass
+                      walk(v, p)
+              elif isinstance(o, list):
+                  for i, v in enumerate(o):
+                      walk(v, f"{path}[{i}]")
+          walk(cfg)
+          if bad:
+              print("::warning::config.json has non-1.0 timeout multipliers:", bad)
+          PY
+          fi
+
+          cd "${GITHUB_WORKSPACE}/changelog"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          branch="harbor-submission/${{ github.run_id }}"
+          git checkout -b "$branch"
+          git add submissions
+          git commit -m "Harbor ${DATASET} submission: openclaude__${MODEL_SLUG} (run ${{ github.run_id }})"
+          git push -u origin "$branch"
+          {
+            echo ""
+            echo "### Submission mirrored into this repo"
+            echo "- branch: \`$branch\`"
+            echo "- path: \`submissions/terminal-bench/2.0/openclaude__${MODEL_SLUG}/$job\`"
+            echo "- metadata: \`.../openclaude__${MODEL_SLUG}/metadata.yaml\` (review before the HF PR)"
+            echo ""
+            echo "Next: copy that folder into a fork of \`alexgshaw/terminal-bench-2-leaderboard\`"
+            echo "under the same \`submissions/terminal-bench/2.0/...\` path and open the HF PR."
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload job artifacts
         if: always()

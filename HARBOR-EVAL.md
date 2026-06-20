@@ -44,3 +44,57 @@ the run's **Summary** tab.
 
 Terminal-Bench tasks use programmatic verifiers (no LLM-judge key needed), so
 only the agent's provider token is required.
+
+## Leaderboard submission mode
+
+Set the **`submission`** input to `true` to produce a run that is valid for the
+official [terminal-bench@2.0 leaderboard](https://www.tbench.ai/leaderboard/terminal-bench/2.0).
+The leaderboard is a PR to the HuggingFace dataset
+[`alexgshaw/terminal-bench-2-leaderboard`](https://huggingface.co/datasets/alexgshaw/terminal-bench-2-leaderboard);
+its validator bot enforces:
+
+- `agent_timeout_multiplier == 1.0` — **no timeout overrides**
+- no resource overrides (`cpus` / `memory_mb` / `storage_mb`)
+- **≥ 5 trials per task** (`n_attempts >= 5`, i.e. the leaderboard's `-k 5`)
+- every trial has a valid `result.json`; no reward hacking (no accessing the
+  tbench site / GitHub — the adapter already runs lean with
+  `OPENCLAUDE_SKIP_MCP_INSTALL=1`)
+
+When `submission: true`, the workflow **pins the compliant settings itself** —
+it forces `timeout_multiplier=1.0` and bumps `n_attempts` to at least 5
+(ignoring/raising whatever you passed, with a warning), and never passes
+resource overrides. So the *only* knobs you tune for a submission are
+`n_concurrent`, `max_retries`, `n_tasks`/`include_task` (for chunking), and
+`timeout_minutes`. Leave `n_tasks` empty for the whole dataset.
+
+With `commit_submission: true` (default), after the run the workflow assembles
+the exact HF layout and **commits it to a branch in this repo** so the data is
+mirrored here:
+
+```
+submissions/terminal-bench/2.0/openclaude__<model-slug>/
+├── metadata.yaml          # generated; review agent/model display fields
+└── <job-folder>/
+    ├── config.json        # validator reads timeout_multiplier + resources here
+    └── <trial>/result.json   (>=5 trials/task)
+```
+
+The branch is `harbor-submission/<run_id>` and its path is printed in the run
+Summary. **To submit:** copy that folder into a fork of
+`alexgshaw/terminal-bench-2-leaderboard` under the same
+`submissions/terminal-bench/2.0/...` path and open the HF PR (a separate,
+manual step — we keep the data here, the PR goes there).
+
+### Practical notes for a full sweep
+
+- A full sweep is ~89 tasks × 5 trials ≈ 445 trials that **all** must finish
+  with a valid `result.json` — a trial that dies on `ApiRateLimitError` (429)
+  has no result and fails validation. Keep `max_retries` on (retrying a
+  rate-limited trial does **not** modify timeouts/resources, so it stays
+  compliant) and run during a fresh z.ai quota window at low concurrency.
+- A single GitHub job caps at 6 h, so chunk the dataset with `include_task`
+  globs across several submission runs, then merge the per-run job folders into
+  one `openclaude__<model-slug>/` directory before opening the HF PR.
+- At `timeout_multiplier=1.0` a slow model (GLM) will legitimately time out on
+  some long tasks — that is the honest score, not a bug to "fix" by raising the
+  multiplier (which would make the run non-submittable).
