@@ -2,6 +2,13 @@
 
 
 
+## 22.06.2026
+
+- `46f49a6` **Memory recall now learns from what's actually useful.** Memories reconfirmed across consolidation passes rank higher in recall, while ones that keep getting removed — or have broken `[[links]]`, or are very old — sink, and tentative "seedling" memories are gently down-ranked until they're confirmed across sessions. The `/dream` consolidation pass gets the same signal, so it prunes or supersedes stale memories instead of letting them linger, and re-authors a repeatedly-failed approach as an explicit "avoid this" memory rather than silently deleting the lesson.
+- `46f49a6` **When a tool call fails, Claude now pulls up relevant past lessons before retrying.** On a failed command/build/test it builds a search from the actual error text and surfaces matching memories and previously-failed experiments — even ones nobody tagged with a trigger — so a mistake you've hit before resurfaces its fix instead of being repeated.
+- `46f49a6` **Recalled memories now show their trust level inline** — e.g. `[seedling — tentative, verify]` or `[operator instruction — high authority]` — so reliability is clear at a glance instead of having to be inferred. Routine session-summary files are kept out of knowledge recall so they don't crowd out durable rules, and in low-context mode the recalled set is size-budgeted (top memories in full, the rest as one-line pointers you can expand).
+- `46f49a6` **New `/import` skill: pull external knowledge into memory.** Point it at a file, folder, a repo's docs, or a URL and it distills the source into individual typed memories (one per claim) tagged with where they came from and a content hash — so re-importing an unchanged source does nothing and a changed one updates cleanly. Imported content is treated as untrusted and screened accordingly.
+
 ## 21.06.2026
 
 - `046cd20` **Long paragraphs now stream in as they're written, instead of staying hidden until the end.** While a response streamed, the live preview only revealed text up to the last line break — so a long run-on sentence or paragraph with no line breaks showed nothing at all until it finished, leaving you watching a spinner. It now appears progressively, word by word (which reads as line-by-line once the terminal wraps it), while still holding back the final partial word so half-typed markdown (`**`, `` ` ``) doesn't flash as raw symbols. Matches upstream 2.1.181.
