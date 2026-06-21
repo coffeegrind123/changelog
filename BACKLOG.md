@@ -24,6 +24,10 @@ Only entries after v2.1.87 (our fork base). Refresh by fetching:
 > VS Code / JetBrains extensions, Bedrock/Vertex/Foundry routing, Anthropic's hosted
 > headless-browser shim, claude.ai OAuth connectors, managed-settings remote-sync.
 
+## 2.1.185
+
+- [ ] `The stream-stall hint now reads "Waiting for API response · will retry in …" instead of "No response from API · Retrying in …", and triggers after 20s of silence instead of 10s` — TODO. Copy + threshold change on the stream-stall hint. Find the existing "No response from API · Retrying in" / stall-timer string (likely in the streaming/query path) and bump the silence threshold 10s → 20s plus the reworded message.
+
 ## 2.1.183
 
 - [x] `Improved auto mode safety: destructive git commands (git reset --hard, git checkout -- ., git clean -fd, git stash drop) are now blocked when you didn't ask to discard local work, git commit --amend is blocked when the commit wasn't made by the agent this session, and terraform destroy/pulumi destroy/cdk destroy are blocked unless you asked for the specific stack` — DONE (`08380bd`). New securityHardening sub-guard **part F** (`src/services/securityHardening/destructiveCommandGuard.ts`, `checkDestructiveCommandIntent`), wired into `bashToolHasPermission` inside the `isSecurityHardeningEnabled()` block, gated on `mode==='bypassPermissions'` (our auto mode; `default` mode already prompts). Discard-class git / `commit --amend` (allowed if the agent made the commit this session, scanning assistant Bash tool_use) / IaC destroy are detect-and-ASK (bypass-immune `safetyCheck`, never a hard deny) unless the last 3 genuine human prompts expressed intent (tool_results + non-`human` origins excluded). Rides the existing securityHardening master toggle (OFF by default, per our security-feature rule); no new setting. 15 unit tests. Lettering: D/E already taken (auto-run guard / relayed authority) so this is F; `/config` label + gate/index headers updated A–E → A–F.
